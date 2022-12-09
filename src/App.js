@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 
-function App({btn}) {
+function App() {
   return (
     // <div className="App">
     //   <header className="App-header">
@@ -19,7 +19,7 @@ function App({btn}) {
     //     </a>
     //   </header>
     // </div>
-    <>{btn}</>
+    <></>
   );
 }
 
