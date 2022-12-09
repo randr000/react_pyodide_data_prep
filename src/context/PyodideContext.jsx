@@ -9,15 +9,14 @@ export const PyodideContextWrapper = ({children}) => {
 
     useEffect(() => {
 
-        async function load_python() {
+        (async function () {
 
             pyodideRef.current = await loadPyodide();
             await pyodideRef.current.loadPackage('pandas');
             setIsPyodideLoaded(true);
-            console.log(pyodideRef.current.runPythonAsync('1 + 1'));
-        }
-
-        load_python();
+            return pyodideRef.current.runPythonAsync('2 * 3');
+            
+        })().then(res => console.log(`Python result: ${res}`));
 
     }, [pyodideRef]);
     
