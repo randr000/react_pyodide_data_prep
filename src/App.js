@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import TestComponent from './component/TestComponent.jsx';
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
     //     </a>
     //   </header>
     // </div>
-    <></>
+    <>
+      <TestComponent b={5} />
+    </>
   );
 }
 
