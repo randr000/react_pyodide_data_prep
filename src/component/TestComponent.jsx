@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { PyodideContext } from '../context/PyodideContext.jsx';
+import test1 from '../python_code_js_modules/test1.js';
 
 const TestComponent = ({a = 1, b, isLastComponent = false}) => {
 
@@ -8,10 +9,11 @@ const TestComponent = ({a = 1, b, isLastComponent = false}) => {
 
     async function handleClick() {
         // pyodide.runPython('../python/test.py');
-        pyodide.runPython(`
-            def mult(a, b):
-                return a * b
-        `);
+        // pyodide.runPython(`
+        //     def mult(a, b):
+        //         return a * b
+        // `);
+        pyodide.runPython(test1);
         setResult(pyodide.globals.get('mult')(a, b));
     }
 
