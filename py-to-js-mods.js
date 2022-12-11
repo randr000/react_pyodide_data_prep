@@ -25,24 +25,14 @@ fs.readdir(pythonCodePath, (err, files) => {
     }
 
     files.forEach(file => {
+        
         const modName = file.substring(0, file.length - 3);
+
         fs.readFile(`${pythonCodePath}/${file}`, 'utf8', (err, data) => {
             if (err) {
                 console.log(err);
                 return;
             }
-
-            // const writeData = `
-            // const ${modName} = \`
-            // ${data}
-            // \`;
-            // export default ${modName};
-            // `
-
-            // const writeData = "const " + modName + " = `" + data + "`;\nexport default " + modName + ";";
-            // fs.writeFile(`${directoryPath}/${modName}.js`, writeData, err => {
-            //     if (err) console.log(err);
-            // });
 
             const logger = fs.createWriteStream(`${directoryPath}/${modName}.js`, {flags: 'a'});
             logger.write(`const ${modName} = \n`);
