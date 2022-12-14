@@ -2,8 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import { PyodideContext } from '../context/PyodideContext.jsx';
 import test1 from '../python_code_js_modules/test1.js';
 import create_df_from_json from '../python_code_js_modules/create_df_from_json.js';
+import Table from './Table.jsx';
 
-const TestComponent = ({a = 1, b, isLastComponent = false}) => {
+const TestComponent = () => {
 
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const [result, setResult] = useState(0);
@@ -27,15 +28,20 @@ const TestComponent = ({a = 1, b, isLastComponent = false}) => {
         setResult(pyodide.globals.get('create_df_from_json')(JSON.stringify(jsonStr)));
     }
 
-    useEffect(() => {
-        console.log(result);
-    }, [result]);
+    // handleClick();
+
+    // useEffect(() => {
+    //     handleClick();
+    //     console.log(result);
+    // }, [result]);
 
     return (
         <div>
-            <p>{`${a} * ${b} = ${result}`}</p>
+            {/* <p>{`${a} * ${b} = ${result}`}</p>
             <button className="btn btn-primary" onClick={handleClick}></button>
-            {isLastComponent ? null : <TestComponent a={result} b={3} isLastComponent={true} />}
+            {isLastComponent ? null : <TestComponent a={result} b={3} isLastComponent={true} />} */}
+            <button className="btn btn-primary" onClick={handleClick}></button>
+            {result && <Table tableData={result}/>}
         </div>
     );
 };
