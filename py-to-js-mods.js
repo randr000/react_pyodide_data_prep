@@ -25,7 +25,7 @@ fs.readdir(pythonCodePath, (err, files) => {
     }
 
     files.forEach(file => {
-        
+
         const modName = file.substring(0, file.length - 3);
 
         fs.readFile(`${pythonCodePath}/${file}`, 'utf8', (err, data) => {
@@ -35,8 +35,8 @@ fs.readdir(pythonCodePath, (err, files) => {
             }
 
             const logger = fs.createWriteStream(`${directoryPath}/${modName}.js`, {flags: 'a'});
-            logger.write(`const ${modName} = \n`);
-            logger.write(`\`${data}\`;\n`);
+            logger.write(`const ${modName} = \`\n\n`);
+            logger.write(`${data}\`;\n\n`);
             logger.write(`export default ${modName};`);
             logger.end();
         });
