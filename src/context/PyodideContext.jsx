@@ -24,10 +24,10 @@ export const PyodideContextWrapper = ({children}) => {
         <PyodideContext.Provider value={{pyodide: pyodideRef.current, isPyodideLoaded}}>
             {
                 isPyodideLoaded ?
-                <p>Pyodide has loaded.</p> :
-                <p>Pyodide is loading...</p>
+                children :
+                <p className="text-center fs-1 fw-bold">Pyodide is Loading <span className="spinner-border" role="status"></span></p>
             }
-            {children}
+            
         </PyodideContext.Provider>
     );
 };
