@@ -40,6 +40,7 @@ const TestComponent = () => {
             {/* <p>{`${a} * ${b} = ${result}`}</p>
             <button className="btn btn-primary" onClick={handleClick}></button>
             {isLastComponent ? null : <TestComponent a={result} b={3} isLastComponent={true} />} */}
+            <i className="bi bi-filetype-csv"></i>
             <button className="btn btn-primary" onClick={handleClick}></button>
             {result && <Table tableData={result}/>}
         </div>
