@@ -6,7 +6,7 @@ const ImportCSV = () => {
     return (
 
 
-        <Draggable>
+        <Draggable bounds="parent">
             <div className="card border border-primary border-3" style={{width: "12rem"}}>
                 <div className="card-body text-center">
                     <h5 className="card-title">Import CSV</h5>

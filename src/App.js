@@ -3,6 +3,7 @@ import './App.css';
 import TestComponent from './component/TestComponent.jsx';
 import NavBar from './component/NavBar.jsx';
 import ImportCSV from './component/ImportCSV.jsx';
+import ComponentContainer from './component/ComponentContainer.jsx';
 import { PyodideContextWrapper } from './context/PyodideContext.jsx';
 
 
@@ -12,7 +13,7 @@ function App() {
       <NavBar/>
       <PyodideContextWrapper>
         <TestComponent b={5} />
-        <ImportCSV/>
+        <ComponentContainer><ImportCSV/></ComponentContainer>
       </PyodideContextWrapper>
     </>
   );
