@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
+import CardSummary from './CardSummary';
 import FileUpload from './FileUpload';
 
 const ImportCSV = () => {
 
     const [file, setFile] = useState(null);
+    const cardTitle = 'Import CSV';
+    const fileExtension = 'csv';
+    const iconClassNames = 'bi bi-filetype-csv';
 
     return (
 
@@ -16,12 +20,9 @@ const ImportCSV = () => {
                         <i className="bi bi-arrow-down"></i>
                     </span>
 
-                    <h5 className="card-title mt-1">Import CSV</h5>
-                    <p className="card-text display-1" >
-                        <i className="bi bi-filetype-csv"></i>
-                    </p>
+                    <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
                     
-                    <FileUpload file={file} setFile={setFile} ext="csv" />
+                    <FileUpload file={file} setFile={setFile} ext={fileExtension} />
 
                     <span className="position-absolute top-100 start-50 translate-middle bg-white border border-primary rounded-pill fs-5">
                         <i className="bi bi-arrow-down"></i>
