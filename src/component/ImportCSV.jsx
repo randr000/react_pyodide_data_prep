@@ -66,8 +66,15 @@ const ImportCSV = () => {
         <Draggable bounds="parent">
             <div className="card border border-primary border-3" style={{width: "12rem"}}>
                 <div className="card-body text-center">
+                    <span className="position-absolute top-0 start-50 translate-middle bg-white border border-primary rounded-pill fs-5">
+                        <i class="bi bi-arrow-down"></i>
+                    </span>
+                    <h5 className="card-title">Import CSV</h5>
+                    <p className="card-text display-1" >
+                        <i className="bi bi-filetype-csv"></i>
+                    </p>
                     <div
-                        className="card"
+                        className="card mb-2"
                         style={uploadStyles}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
@@ -92,12 +99,10 @@ const ImportCSV = () => {
                             hidden
                             ref={inputRef}
                         />
-                        {/* <button className="btn btn-primary">Browse</button> */}
                     </div>
-                    <h5 className="card-title">Import CSV</h5>
-                    <p className="card-text display-1" >
-                        <i className="bi bi-filetype-csv"></i>
-                    </p>
+                    <span className="position-absolute top-100 start-50 translate-middle bg-white border border-primary rounded-pill fs-5">
+                        <i class="bi bi-arrow-down"></i>
+                    </span>
                 </div>
             </div>
         </Draggable>
