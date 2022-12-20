@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
+import DataFlowPill from './DataFlowPill';
 import CardSummary from './CardSummary';
 import FileUpload from './FileUpload';
 
@@ -16,17 +17,13 @@ const ImportCSV = () => {
             <div className="card border border-primary border-3" style={{width: "12rem"}}>
                 <div className="card-body text-center">
                     
-                    <span className="position-absolute top-0 start-50 translate-middle bg-white border border-primary rounded-pill fs-5">
-                        <i className="bi bi-arrow-down"></i>
-                    </span>
+                    <DataFlowPill isOnTop={true} />
 
                     <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
                     
                     <FileUpload file={file} setFile={setFile} ext={fileExtension} />
 
-                    <span className="position-absolute top-100 start-50 translate-middle bg-white border border-primary rounded-pill fs-5">
-                        <i className="bi bi-arrow-down"></i>
-                    </span>
+                    <DataFlowPill isOnTop={false} />
                 </div>
             </div>
         </Draggable>
