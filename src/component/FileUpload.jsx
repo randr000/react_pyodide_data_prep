@@ -4,12 +4,9 @@ import DataFlowPill from './DataFlowPill';
 import CardSummary from './CardSummary';
 import FileUploadDropZone from './FileUploadDropZone';
 
-const FileUpload = () => {
+const FileUpload = ({cardTitle, fileExtension, iconClassNames}) => {
 
     const [file, setFile] = useState(null);
-    const cardTitle = 'Import CSV';
-    const fileExtension = 'csv';
-    const iconClassNames = 'bi bi-filetype-csv';
 
     return (
 

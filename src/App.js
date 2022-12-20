@@ -13,7 +13,13 @@ function App() {
       <NavBar/>
       <PyodideContextWrapper>
         <TestComponent b={5} />
-        <ComponentContainer><FileUpload/></ComponentContainer>
+        <ComponentContainer>
+          <FileUpload
+            cardTitle={"Import CSV"}
+            fileExtension={"csv"}
+            iconClassNames={"bi bi-filetype-csv"}
+          />
+        </ComponentContainer>
       </PyodideContextWrapper>
     </>
   );
