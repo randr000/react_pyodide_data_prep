@@ -3,6 +3,7 @@ import Draggable from 'react-draggable';
 import DataFlowPill from './DataFlowPill';
 import CardSummary from './CardSummary';
 import FileUploadDropZone from './FileUploadDropZone';
+import { createObjectURL } from '../js/functions';
 
 import { PyodideContext } from '../context/PyodideContext';
 import Table from './Table';
@@ -32,16 +33,6 @@ const FileUpload = ({cardTitle, fileExtension, iconClassNames}) => {
         else setResult(null);
 
     }, [file]);
-
-    function createObjectURL ( file ) {
-        if ( window.webkitURL ) {
-            return window.webkitURL.createObjectURL( file );
-        } else if ( window.URL && window.URL.createObjectURL ) {
-            return window.URL.createObjectURL( file );
-        } else {
-            return null;
-        }
-    }
 
     return (
 
