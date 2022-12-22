@@ -29,8 +29,7 @@ const FileUpload = ({cardTitle, fileExtension, iconClassNames}) => {
         if (file) {
             const url = createObjectURL(file);
             readFileToDF(url);
-        }
-        else setResult(null);
+        } else setResult(null);
 
     }, [file]);
 
