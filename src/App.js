@@ -7,6 +7,7 @@ import FileUpload from './component/FileUpload';
 import Filter from './component/Filter';
 import ComponentContainer from './component/ComponentContainer.jsx';
 import { PyodideContextWrapper } from './context/PyodideContext.jsx';
+import { Xwrapper } from 'react-xarrows';
 
 
 function App() {
@@ -27,7 +28,9 @@ function App() {
             iconClassNames="bi bi-funnel"
           />
         </ComponentContainer> */}
-        <TestComponentWrapper />
+        <Xwrapper>
+          <TestComponentWrapper />
+        </Xwrapper>
       </PyodideContextWrapper>
     </>
   );

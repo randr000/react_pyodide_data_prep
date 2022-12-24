@@ -8,6 +8,8 @@ import { createObjectURL } from '../js/functions';
 import { PyodideContext } from '../context/PyodideContext';
 import Table from './Table';
 
+import { useXarrow } from 'react-xarrows';
+
 import create_df_from_csv from '../python_code_js_modules/create_df_from_csv';
 
 const FileUpload = ({cardTitle, fileExtension, iconClassNames, setUploadedFile}) => {
@@ -15,6 +17,7 @@ const FileUpload = ({cardTitle, fileExtension, iconClassNames, setUploadedFile})
     const [file, setFile] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const [result, setResult] = useState(null);
+    const updateXarrow = useXarrow();
 
     useEffect(() => {
 
@@ -42,7 +45,7 @@ const FileUpload = ({cardTitle, fileExtension, iconClassNames, setUploadedFile})
 
     return (
 
-        <Draggable bounds="">
+        <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
             <div>
                 <div className="card border border-primary border-3" style={{width: "12rem"}}>
                     <div className="card-body text-center">
@@ -51,7 +54,7 @@ const FileUpload = ({cardTitle, fileExtension, iconClassNames, setUploadedFile})
                         <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
                 
                         <FileUploadDropZone file={file} setFile={setFile} ext={fileExtension} />
-                        <DataFlowPill isOnTop={false} />
+                        <DataFlowPill isOnTop={false} id="fileupload" />
                     </div>
                 </div>
                 {result && <Table tableData={result}/>}

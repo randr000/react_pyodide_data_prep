@@ -6,6 +6,8 @@ import Table from './Table';
 import filter from '../python_code_js_modules/filter';
 import { PyodideContext } from '../context/PyodideContext';
 
+import { useXarrow } from 'react-xarrows';
+
 
 const Filter = ({jsonData, cardTitle, iconClassNames}) => {
 
@@ -13,6 +15,7 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
     // const [inputData, setInputData] = useState(null);
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
+    const updateXarrow = useXarrow();
 
     // if (jsonData) setInputData(jsonData);
 
@@ -35,12 +38,12 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
 
     return (
 
-        <Draggable bounds="">
+        <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
             <div>
                 <div className="card border border-primary border-3" style={{width: "12rem"}}>
                     <div className="card-body text-center">
                 
-                        <DataFlowPill isOnTop={true} />
+                        <DataFlowPill isOnTop={true} id="filter" />
                         <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
                         {/* <FileUploadDropZone file={file} setFile={setFile} ext={fileExtension} /> */}
                         <DataFlowPill isOnTop={false} />
