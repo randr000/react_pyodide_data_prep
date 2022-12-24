@@ -10,7 +10,7 @@ import Table from './Table';
 
 import create_df_from_csv from '../python_code_js_modules/create_df_from_csv';
 
-const FileUpload = ({cardTitle, fileExtension, iconClassNames}) => {
+const FileUpload = ({cardTitle, fileExtension, iconClassNames, setUploadedFile}) => {
 
     const [file, setFile] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
@@ -33,9 +33,16 @@ const FileUpload = ({cardTitle, fileExtension, iconClassNames}) => {
 
     }, [file]);
 
+    useEffect(() => {
+
+        if (result) setUploadedFile(result);
+        console.log(`result: ${result}`);
+
+    }, [result]);
+
     return (
 
-        <Draggable bounds="parent">
+        <Draggable bounds="">
             <div>
                 <div className="card border border-primary border-3" style={{width: "12rem"}}>
                     <div className="card-body text-center">
