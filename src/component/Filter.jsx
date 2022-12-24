@@ -22,7 +22,7 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
 
             if (isPyodideLoaded) {
                 pyodide.runPython(filter);
-                setOutputData(pyodide.globals.get('filter')(jsonStr));
+                setOutputData(pyodide.globals.get('filter')(jsonStr, ['state', 'state_population']));
             }
         }
 
