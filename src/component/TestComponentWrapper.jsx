@@ -6,11 +6,9 @@ import Filter from './Filter';
 const TestComponentWrapper = () => {
 
     const [uploadedFile, setUploadedFile] = useState(null);
-    // const [filterData, setFilterData] = useState();
 
     return (
         <div>
-            {/* <Xwrapper> */}
                 <FileUpload
                     cardTitle="Import CSV"
                     fileExtension="csv"
@@ -35,7 +33,6 @@ const TestComponentWrapper = () => {
                     endAnchor="top"
                     zIndex={-1}
                 />
-            {/* </Xwrapper> */}
         </div>
 
     );
