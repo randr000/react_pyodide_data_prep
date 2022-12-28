@@ -12,12 +12,9 @@ import { useXarrow } from 'react-xarrows';
 const Filter = ({jsonData, cardTitle, iconClassNames}) => {
 
     const [inputData, setInputData] = useState(jsonData);
-    // const [inputData, setInputData] = useState(null);
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const updateXarrow = useXarrow();
-
-    // if (jsonData) setInputData(jsonData);
 
     useEffect(() => {
 
@@ -45,7 +42,6 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
                 
                         <DataFlowPill isOnTop={true} id="filter" />
                         <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
-                        {/* <FileUploadDropZone file={file} setFile={setFile} ext={fileExtension} /> */}
                         <DataFlowPill isOnTop={false} />
                     </div>
                 </div>
