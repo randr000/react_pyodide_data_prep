@@ -19,7 +19,7 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
     const columns = JSON.parse(jsonData)['columns'];
     
     const [filteredCols, setFilteredCols] = useState(
-        columns.reduce((obj, key) => ({...obj, [key]: false}), {})
+        columns.reduce((obj, key) => ({...obj, [key]: true}), {})
     );
 
     function filterDF(jsonStr, cols) {
