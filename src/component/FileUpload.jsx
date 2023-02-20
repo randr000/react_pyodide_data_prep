@@ -46,7 +46,7 @@ const FileUpload = ({cardTitle, fileExtension, iconClassNames, setUploadedFile})
     return (
 
         <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
-            <div>
+            <div className="d-flex">
                 <div className="card border border-primary border-3" style={{width: "12rem"}}>
                     <div className="card-body text-center">
                 

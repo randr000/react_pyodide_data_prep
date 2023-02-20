@@ -8,7 +8,7 @@ const Table = ({tableData}) => {
 
     return (
           
-        <table className="table table-striped table-hover table-bordered table-sm">
+        <table className="table table-striped table-hover table-bordered table-sm table-responsive w-25 ms-5">
             <thead className="table-dark">
                 <tr>
                     {columns.map(col => <th key={col} scope="column">{col}</th>)}
