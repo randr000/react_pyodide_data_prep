@@ -12,21 +12,29 @@ import { useXarrow } from 'react-xarrows';
 
 const Filter = ({jsonData, cardTitle, iconClassNames}) => {
 
-    // const [inputData, setInputData] = useState(JSON.parse(jsonData));
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const updateXarrow = useXarrow();
 
+    const columns = JSON.parse(jsonData)['columns'];
+    
+    const [filteredCols, setFilteredCols] = useState(
+        columns.reduce((obj, key) => ({...obj, [key]: false}), {})
+    );
+
+    function filterDF(jsonStr, cols) {
+        if (isPyodideLoaded) {
+            pyodide.runPython(filter);
+            setOutputData(pyodide.globals.get('filter')(jsonStr, cols));
+        }
+    }
+    useEffect(() => {
+        console.log(filteredCols)
+    }, [filteredCols])
+
     useEffect(() => {
         
-        function filterDF(jsonStr) {
-            if (isPyodideLoaded) {
-                pyodide.runPython(filter);
-                setOutputData(pyodide.globals.get('filter')(jsonStr, ['population']));
-            }
-        }
-        
-        if (jsonData) filterDF(jsonData);
+        if (jsonData) filterDF(jsonData, columns);
         else setOutputData(null);
 
     }, [jsonData]);
@@ -40,6 +48,9 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
 
                         <DataFlowPill isOnTop={true} id="filter" />
                         <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
+                        {
+                            columns.map(l => <Checkbox key={l} label={l} checkedState={filteredCols[l]} />)
+                        }
                         <DataFlowPill isOnTop={false} />
 
                     </div>

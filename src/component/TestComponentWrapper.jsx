@@ -17,22 +17,25 @@ const TestComponentWrapper = () => {
                     
                 />
                 {
-                    // uploadedFile &&
-                    true &&
-                    <Filter
-                        jsonData={uploadedFile}
-                        cardTitle="Filter"
-                        iconClassNames="bi bi-funnel"
-                        
-                    />
+                    uploadedFile &&
+                    // true &&
+                    <>
+                        <Filter
+                            jsonData={uploadedFile}
+                            cardTitle="Filter"
+                            iconClassNames="bi bi-funnel"
+                            
+                        />
+                    
+                        <Xarrow
+                            start="fileupload"
+                            end="filter"
+                            startAnchor="bottom"
+                            endAnchor="top"
+                            zIndex={-1}
+                        />
+                    </>
                 }
-                <Xarrow
-                    start="fileupload"
-                    end="filter"
-                    startAnchor="bottom"
-                    endAnchor="top"
-                    zIndex={-1}
-                />
         </div>
 
     );
