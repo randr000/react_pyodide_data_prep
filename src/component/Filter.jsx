@@ -17,26 +17,29 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
     const updateXarrow = useXarrow();
 
     useEffect(() => {
-
+        // console.log(`inputData: ${jsonData}`)
         function filterDF(jsonStr) {
-
+            // console.log("running")
             if (isPyodideLoaded) {
                 pyodide.runPython(filter);
-                setOutputData(pyodide.globals.get('filter')(jsonStr, ['state', 'state_population']));
+                // console.log(`pyodide get ${pyodide.globals.get('filter')(jsonStr, ['city', 'population'])}`);
+                setOutputData(pyodide.globals.get('filter')(jsonStr, ['city']));
             }
         }
 
-        if (inputData) filterDF(inputData);
+        // if (inputData) filterDF(inputData);
+        if (jsonData) filterDF(jsonData);
         else setOutputData(null);
 
         console.log(`jsonData: ${jsonData}`);
+        // console.log(`outputData: ${outputData}`);
 
-    }, [inputData]);
+    }, []);
 
     return (
 
         <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
-            <div>
+            <div className="d-flex">
                 <div className="card border border-primary border-3" style={{width: "12rem"}}>
                     <div className="card-body text-center">
                 
