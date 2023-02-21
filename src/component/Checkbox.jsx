@@ -6,7 +6,7 @@ const Checkbox = ({label, checkedState, onChange}) => {
 
     function temp() {
         setIsChecked(!isChecked);
-        onChange(label);
+        onChange(label, !isChecked);
     }
     
     return (
