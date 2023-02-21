@@ -4,7 +4,7 @@ const Checkbox = ({label, checkedState, onChange}) => {
 
     const [isChecked, setIsChecked] = useState(checkedState);
 
-    function temp() {
+    function makeChanges() {
         setIsChecked(!isChecked);
         onChange(label, !isChecked);
     }
@@ -15,12 +15,11 @@ const Checkbox = ({label, checkedState, onChange}) => {
                 type="checkbox"
                 className="form-check-input"
                 value={label}
-                // onChange={() => onChange(label)}
-                onChange={temp}
+                onChange={makeChanges}
                 checked={isChecked}
             />
-            {/* <label htmlFor={label} className="form-check-label">{label}</label> */}
-            <label htmlFor={label} className="form-check-label">{`${label}: ${isChecked}`}</label>
+            <label htmlFor={label} className="form-check-label">{label}</label>
+            {/* <label htmlFor={label} className="form-check-label">{`${label}: ${isChecked}`}</label> */}
         </div>
     );
 }

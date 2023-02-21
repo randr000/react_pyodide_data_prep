@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Draggable from 'react-draggable';
 import DataFlowPill from './DataFlowPill';
 import CardSummary from './CardSummary';
-import Checkbox from './Checkbox';
 import Checkboxes from './Checkboxes';
 import Table from './Table';
 import filter from '../python_code_js_modules/filter';
@@ -15,7 +14,7 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const updateXarrow = useXarrow();
-    const count = useRef(0);
+    const [cbKey, setCbKey] = useState(0);
     const [columns, setColumns] = useState(JSON.parse(jsonData)['columns']);
 
     const [filteredCols, setFilteredCols] = useState(
@@ -34,10 +33,6 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
         setFilteredCols(prevState => prevState.map(col => col.label === colName ? ({label: colName, isChecked: isChecked}) : col));
     }
 
-    useEffect(() => {
-        count.current += 1;
-    });
-
 
     useEffect(() => {
         filterDF(jsonData, filteredCols.filter(col => col.isChecked).map(col => col.label));
@@ -52,15 +47,12 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
             setFilteredCols(JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true})));
             
             filterDF(jsonData, JSON.parse(jsonData)['columns']);
+
+            setCbKey(prevKey => prevKey + 1);
         }
         else setOutputData(null);
         console.log(`json data: ${JSON.stringify(filteredCols)}`);
     }, [jsonData]);
-
-    // useEffect(() => {
-    //     setFilteredCols(JSON.parse(jsonData)['columns'].reduce((obj, key) => ({...obj, [key]: true}), {}));
-    //     console.log('columns')
-    // }), [columns];
 
     return (
 
@@ -71,7 +63,7 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
 
                         <DataFlowPill isOnTop={true} id="filter" />
                         <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
-                        <Checkboxes checkboxes={filteredCols} onChange={filterCol} />
+                        <Checkboxes key={cbKey} checkboxes={filteredCols} onChange={filterCol} />
                         <DataFlowPill isOnTop={false} />
 
                     </div>
