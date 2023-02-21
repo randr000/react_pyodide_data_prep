@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import Xarrow from 'react-xarrows';
 import FileUpload from './FileUpload';
 import Filter from './Filter';
+import { useXarrow } from 'react-xarrows';
 
 const TestComponentWrapper = () => {
 
     const [uploadedFile, setUploadedFile] = useState(null);
+    const updateXarrow = useXarrow();
 
     return (
         <div>

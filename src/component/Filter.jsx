@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Draggable from 'react-draggable';
 import DataFlowPill from './DataFlowPill';
+import ToggleTablePill from './ToggleTablePill';
 import CardSummary from './CardSummary';
 import Checkboxes from './Checkboxes';
 import Table from './Table';
@@ -13,10 +14,12 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
 
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
-    const updateXarrow = useXarrow();
     const [cbKey, setCbKey] = useState(0);
     const [columns, setColumns] = useState(JSON.parse(jsonData)['columns']);
+    const [showTable, setShowTable] = useState(true);
 
+    const updateXarrow = useXarrow();
+    
     const [filteredCols, setFilteredCols] = useState(
         JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true}))
     );
@@ -36,7 +39,6 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
 
     useEffect(() => {
         filterDF(jsonData, filteredCols.filter(col => col.isChecked).map(col => col.label));
-        // console.log(`filtered cols: ${JSON.stringify(filteredCols)}`);
     }, [filteredCols]);
 
     useEffect(() => {
@@ -54,21 +56,26 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
         console.log(`json data: ${JSON.stringify(filteredCols)}`);
     }, [jsonData]);
 
+    useEffect(() => {
+        updateXarrow();
+    }, [showTable]);
+
     return (
 
         <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
-            <div className="d-flex">
+            <div className="d-flex align-items-start">
                 <div className="card border border-primary border-3" style={{width: "12rem"}}>
                     <div className="card-body text-center">
 
                         <DataFlowPill isOnTop={true} id="filter" />
+                        <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                         <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
                         <Checkboxes key={cbKey} checkboxes={filteredCols} onChange={filterCol} />
                         <DataFlowPill isOnTop={false} />
 
                     </div>
                 </div>
-                {outputData && <Table tableData={outputData}/>}
+                {outputData && <Table tableData={outputData} show={showTable} />}
             </div>
         </Draggable>
     );

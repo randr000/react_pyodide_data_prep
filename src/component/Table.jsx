@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-const Table = ({tableData}) => {
+const Table = ({tableData, show}) => {
 
     const tableDataJSON = JSON.parse(tableData);
-    const [tableState, setTableState] = useState(tableDataJSON);
     const {columns, data} = tableDataJSON;
 
     return (
           
-        <table className="table table-striped table-hover table-bordered table-sm table-responsive w-25 ms-5">
+        <table className={`table table-striped table-hover table-bordered table-sm table-responsive w-25 ms-5 ${!show && "visually-hidden"}` }>
             <thead className="table-dark">
                 <tr>
                     {columns.map(col => <th key={col} scope="column">{col}</th>)}
@@ -16,7 +15,7 @@ const Table = ({tableData}) => {
             </thead>
             <tbody>
                 {
-                    data.map((rowData, rowIdx) => {
+                    data.slice(0, 5).map((rowData, rowIdx) => {
                         return (
                             <tr key={`row-${rowIdx}`}>
                                 {
