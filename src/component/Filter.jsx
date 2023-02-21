@@ -16,10 +16,10 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const updateXarrow = useXarrow();
 
-    const columns = JSON.parse(jsonData)['columns'];
+    const [columns, setColumns] = useState(JSON.parse(jsonData)['columns']);
     
     const [filteredCols, setFilteredCols] = useState(
-        columns.reduce((obj, key) => ({...obj, [key]: true}), {})
+        JSON.parse(jsonData)['columns'].reduce((obj, key) => ({...obj, [key]: true}), {})
     );
 
     function filterDF(jsonStr, cols) {
@@ -28,16 +28,29 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
             setOutputData(pyodide.globals.get('filter')(jsonStr, cols));
         }
     }
+
+    function filterCol(colName) {
+        setFilteredCols(prevState => ({...prevState, [colName]: !prevState[colName]}));
+    }
+
     useEffect(() => {
+        filterDF(jsonData, Object.keys(filteredCols));
         console.log(filteredCols)
-    }, [filteredCols])
+    }, [filteredCols]);
 
     useEffect(() => {
         
-        if (jsonData) filterDF(jsonData, columns);
+        if (jsonData) {
+            setColumns(JSON.parse(jsonData)['columns']);
+            filterDF(jsonData, columns);
+        }
         else setOutputData(null);
 
     }, [jsonData]);
+
+    useEffect(() => {
+        setFilteredCols(JSON.parse(jsonData)['columns'].reduce((obj, key) => ({...obj, [key]: true}), {}));
+    }), [columns];
 
     return (
 
@@ -49,7 +62,7 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
                         <DataFlowPill isOnTop={true} id="filter" />
                         <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
                         {
-                            columns.map(l => <Checkbox key={l} label={l} checkedState={filteredCols[l]} />)
+                            columns.map(l => <Checkbox key={l} label={l} checkedState={filteredCols[l]} onChange={filterCol} />)
                         }
                         <DataFlowPill isOnTop={false} />
 

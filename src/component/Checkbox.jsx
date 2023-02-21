@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 
-const Checkbox = ({label, checkedState}) => {
+const Checkbox = ({label, checkedState, onChange}) => {
 
     const [isChecked, setIsChecked] = useState(checkedState);
+
+    function temp() {
+        setIsChecked(!isChecked);
+        onChange(label);
+    }
     
     return (
         <div className="form-check">
@@ -10,8 +15,9 @@ const Checkbox = ({label, checkedState}) => {
                 type="checkbox"
                 className="form-check-input"
                 value={label}
-                onChange={() => setIsChecked(!isChecked)}
-                checked
+                // onChange={() => onChange(label)}
+                onChange={temp}
+                checked={isChecked}
             />
             {/* <label htmlFor={label} className="form-check-label">{label}</label> */}
             <label htmlFor={label} className="form-check-label">{`${label}: ${isChecked}`}</label>
