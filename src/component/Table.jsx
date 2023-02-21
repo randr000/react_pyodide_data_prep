@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 const Table = ({tableData, show}) => {
 
@@ -7,7 +7,7 @@ const Table = ({tableData, show}) => {
 
     return (
           
-        <table className={`table table-striped table-hover table-bordered table-sm table-responsive w-25 ms-5 ${!show && "visually-hidden"}` }>
+        <table className={`table table-striped table-hover table-bordered table-sm table-responsive w-25 ms-5 ${!show && "d-none"}` }>
             <thead className="table-dark">
                 <tr>
                     {columns.map(col => <th key={col} scope="column">{col}</th>)}

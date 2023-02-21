@@ -15,7 +15,6 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const [cbKey, setCbKey] = useState(0);
-    const [columns, setColumns] = useState(JSON.parse(jsonData)['columns']);
     const [showTable, setShowTable] = useState(true);
 
     const updateXarrow = useXarrow();
@@ -44,7 +43,6 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
     useEffect(() => {
         
         if (jsonData) {
-            setColumns(JSON.parse(jsonData)['columns']);
 
             setFilteredCols(JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true})));
             

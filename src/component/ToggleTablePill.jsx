@@ -1,23 +1,10 @@
-import React, { useEffect } from 'react';
-import { useXarrow } from 'react-xarrows';
+import React from 'react';
 
 const ToggleTablePill = ({isOnTop, id, showTable, toggleTable}) => {
 
-    const updateXarrow = useXarrow();
-
-    function updateToggle() {
-        toggleTable(prev => !prev);
-        updateXarrow();
-    }
-
-    useEffect(() => {
-        updateXarrow();
-    }, [showTable])
-
     return (
         <span
-            // onClick={() => toggleTable(prev => !prev)}
-            onClick={updateToggle}
+            onClick={() => toggleTable(prev => !prev)}
             id={id}
             className={`
                 position-absolute
