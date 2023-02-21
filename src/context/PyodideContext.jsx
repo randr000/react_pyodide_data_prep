@@ -12,7 +12,7 @@ export const PyodideContextWrapper = ({children}) => {
 
         (async function () {
 
-            pyodideRef.current = await loadPyodide();
+            pyodideRef.current = await window.loadPyodide();
             await pyodideRef.current.loadPackage('pandas');
             setIsPyodideLoaded(true);
             return pyodideRef.current.runPythonAsync('2 * 3');
