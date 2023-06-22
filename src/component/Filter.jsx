@@ -60,22 +60,22 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
 
     return (
 
-        <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
-            <div className="d-flex align-items-start">
-                <div className="card border border-primary border-3" style={{width: "12rem"}}>
-                    <div className="card-body text-center">
-
-                        <DataFlowPill isOnTop={true} id="filter" />
-                        <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
-                        <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
-                        <Checkboxes key={cbKey} checkboxes={filteredCols} onChange={filterCol} />
-                        <DataFlowPill isOnTop={false} />
-
+        <div className="d-flex">
+            <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
+                <div className="d-flex align-items-start">
+                    <div className="card border border-primary border-3" style={{width: "12rem"}}>
+                        <div className="card-body text-center">
+                            <DataFlowPill isOnTop={true} id="filter" />
+                            <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
+                            <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
+                            <Checkboxes key={cbKey} checkboxes={filteredCols} onChange={filterCol} />
+                            <DataFlowPill isOnTop={false} />
+                        </div>
                     </div>
+                    {outputData && <Table tableData={outputData} show={showTable} />}
                 </div>
-                {outputData && <Table tableData={outputData} show={showTable} />}
-            </div>
-        </Draggable>
+            </Draggable>
+        </div>
     );
 };
 

@@ -14,7 +14,6 @@ const TestComponentWrapper = () => {
                     fileExtension="csv"
                     iconClassNames="bi bi-filetype-csv"
                     setUploadedFile={setUploadedFile}
-                    
                 />
                 {
                     uploadedFile &&

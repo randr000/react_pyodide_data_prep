@@ -47,22 +47,24 @@ const FileUpload = ({cardTitle, fileExtension, iconClassNames, setUploadedFile})
 
     return (
 
-        <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
-            <div className="d-flex align-items-start">
-                <div className="card border border-primary border-3" style={{width: "12rem"}}>
-                    <div className="card-body text-center">
-                
-                        <DataFlowPill isOnTop={true} />
-                        <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
-                        <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
-                
-                        <FileUploadDropZone file={file} setFile={setFile} ext={fileExtension} />
-                        <DataFlowPill isOnTop={false} id="fileupload" />
+        <div className="d-flex">
+            <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
+                <div className="d-flex align-items-start">
+                    <div className="card border border-primary border-3" style={{width: "12rem"}}>
+                        <div className="card-body text-center">
+            
+                            <DataFlowPill isOnTop={true} />
+                            <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
+                            <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
+            
+                            <FileUploadDropZone file={file} setFile={setFile} ext={fileExtension} />
+                            <DataFlowPill isOnTop={false} id="fileupload" />
+                        </div>
                     </div>
+                    {result && <Table tableData={result} show={showTable} />}
                 </div>
-                {result && <Table tableData={result} show={showTable} />}
-            </div>
-        </Draggable>
+            </Draggable>
+        </div>
     );
 };
 
