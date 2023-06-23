@@ -45,6 +45,10 @@ const FileUpload = ({cardTitle, fileExtension, iconClassNames, setUploadedFile})
 
     }, [result]);
 
+    useEffect(() => {
+        updateXarrow();
+    }, [showTable]);
+
     return (
 
         <div className="d-flex">
