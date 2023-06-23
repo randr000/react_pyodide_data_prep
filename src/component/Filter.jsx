@@ -10,7 +10,7 @@ import { PyodideContext } from '../context/PyodideContext';
 
 import { useXarrow } from 'react-xarrows';
 
-const Filter = ({jsonData, cardTitle, iconClassNames}) => {
+const Filter = ({jsonData, cardTitle, iconClassNames, setFilteredData}) => {
 
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
@@ -55,6 +55,10 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
     }, [jsonData]);
 
     useEffect(() => {
+        setFilteredData(outputData);
+    }, [outputData])
+
+    useEffect(() => {
         updateXarrow();
     }, [showTable]);
 
@@ -65,11 +69,11 @@ const Filter = ({jsonData, cardTitle, iconClassNames}) => {
                 <div className="d-flex align-items-start">
                     <div className="card border border-primary border-3" style={{width: "12rem"}}>
                         <div className="card-body text-center">
-                            <DataFlowPill isOnTop={true} id="filter" />
+                            <DataFlowPill isOnTop={true} id="filter-in" />
                             <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                             <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
                             <Checkboxes key={cbKey} checkboxes={filteredCols} onChange={filterCol} />
-                            <DataFlowPill isOnTop={false} />
+                            <DataFlowPill isOnTop={false} id="filter-out" />
                         </div>
                     </div>
                     {outputData && <Table tableData={outputData} show={showTable} />}

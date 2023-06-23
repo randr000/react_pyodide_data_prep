@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import Xarrow from 'react-xarrows';
 import FileUpload from './FileUpload';
 import Filter from './Filter';
+import FileDownload from './FileDownload';
 
 const TestComponentWrapper = () => {
 
     const [uploadedFile, setUploadedFile] = useState(null);
+    const [filteredData, setFilteredData] = useState(null);
 
     return (
         <div>
@@ -23,12 +25,27 @@ const TestComponentWrapper = () => {
                             jsonData={uploadedFile}
                             cardTitle="Filter"
                             iconClassNames="bi bi-funnel"
-                            
+                            setFilteredData={setFilteredData}
+                        />
+
+                        <FileDownload
+                            cardTitle="Export CSV"
+                            fileExtension="csv"
+                            iconClassNames="bi bi-filetype-csv"
+                            jsonData={filteredData}
                         />
                     
                         <Xarrow
                             start="fileupload"
-                            end="filter"
+                            end="filter-in"
+                            startAnchor="bottom"
+                            endAnchor="top"
+                            zIndex={-1}
+                        />
+
+                        <Xarrow
+                            start="filter-out"
+                            end="export-csv"
                             startAnchor="bottom"
                             endAnchor="top"
                             zIndex={-1}
