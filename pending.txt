@@ -1,0 +1,10 @@
+manage app state using redux
+export app state including component positions
+import app state including component positions
+implement testing for python code
+implement testing for react components
+implement adding components
+implement removing components
+implement downloading transformed data
+implement connecting components
+implement removing connections between components
