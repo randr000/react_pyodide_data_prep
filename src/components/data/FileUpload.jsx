@@ -1,17 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Draggable from 'react-draggable';
-import DataFlowPill from './DataFlowPill';
-import ToggleTablePill from './ToggleTablePill';
-import CardSummary from './CardSummary';
-import FileUploadDropZone from './FileUploadDropZone';
-import { createObjectURL } from '../js/functions';
+import DataFlowPill from '../utilities/DataFlowPill';
+import ToggleTablePill from '../utilities/ToggleTablePill';
+import CardSummary from '../utilities/CardSummary';
+import FileUploadDropZone from '../utilities/FileUploadDropZone';
+import { createObjectURL } from '../../js/functions';
 
-import { PyodideContext } from '../context/PyodideContext';
-import Table from './Table';
+import { PyodideContext } from '../../context/PyodideContext';
+import Table from '../utilities/Table';
 
 import { useXarrow } from 'react-xarrows';
 
-import create_df_from_csv from '../python_code_js_modules/create_df_from_csv';
+import create_df_from_csv from '../../python_code_js_modules/create_df_from_csv';
 
 const FileUpload = ({cardTitle, fileExtension, iconClassNames, setUploadedFile}) => {
 

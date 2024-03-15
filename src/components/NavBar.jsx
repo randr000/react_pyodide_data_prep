@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import NavBarComponentButton from './NavBarComponentButton';
+import AppDataContext from '../context/AppDataContext';
+import APP_ACTION_TYPES from '../action-types/appActionTypes';
 
 const NavBar = () => {
+
+    const {appState, dispatch} = useContext(AppDataContext);
 
     return (
         <>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Draggable from 'react-draggable';
-import DataFlowPill from './DataFlowPill';
-import ToggleTablePill from './ToggleTablePill';
-import CardSummary from './CardSummary';
-import Checkboxes from './Checkboxes';
-import Table from './Table';
-import filter from '../python_code_js_modules/filter';
-import { PyodideContext } from '../context/PyodideContext';
+import DataFlowPill from '../utilities/DataFlowPill';
+import ToggleTablePill from '../utilities/ToggleTablePill';
+import CardSummary from '../utilities/CardSummary';
+import Checkboxes from '../utilities/Checkboxes';
+import Table from '../utilities/Table';
+import filter from '../../python_code_js_modules/filter';
+import { PyodideContext } from '../../context/PyodideContext';
 
 import { useXarrow } from 'react-xarrows';
 

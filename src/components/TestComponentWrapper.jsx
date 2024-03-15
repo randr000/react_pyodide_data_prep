@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Xarrow from 'react-xarrows';
-import FileUpload from './FileUpload';
-import Filter from './Filter';
-import FileDownload from './FileDownload';
+import FileUpload from './data/FileUpload';
+import Filter from './data/Filter';
+import FileDownload from './data/FileDownload';
 
 const TestComponentWrapper = () => {
 

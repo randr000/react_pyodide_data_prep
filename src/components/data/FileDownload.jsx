@@ -1,11 +1,11 @@
 import React, {useState, useContext, useEffect } from 'react';
 import Draggable from 'react-draggable';
-import DataFlowPill from './DataFlowPill';
-import ToggleTablePill from './ToggleTablePill';
-import CardSummary from './CardSummary';
+import DataFlowPill from '../utilities/DataFlowPill';
+import ToggleTablePill from '../utilities/ToggleTablePill';
+import CardSummary from '../utilities/CardSummary';
 
-import { PyodideContext } from '../context/PyodideContext';
-import Table from './Table';
+import { PyodideContext } from '../../context/PyodideContext';
+import Table from '../utilities/Table';
 
 import { useXarrow } from 'react-xarrows';
 
