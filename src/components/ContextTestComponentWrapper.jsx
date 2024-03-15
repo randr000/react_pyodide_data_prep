@@ -3,7 +3,7 @@ import AppDataContext from '../context/AppDataContext';
 import { dataComponentMaker } from '../js/functions';
 import Xarrow from 'react-xarrows';
 import FileUpload from './data/FileUpload';
-import Filter from './data/Filter';
+import Filter from './data/FilterCols';
 import FileDownload from './data/FileDownload';
 
 const ContextTestComponentWrapper = () => {

@@ -11,9 +11,9 @@ export const appReducer = (state, action) => {
     const {type, payload} = action;
     const {nextID, components, arrows} = state;
     switch(type) {
-        case APP_ACTION_TYPES.ADD_FILE_UPLOAD:
+        case APP_ACTION_TYPES.ADD_DATA_COMPONENT:
             return {...state, nextID: nextID + 1, components: [...components, payload]};
-        case APP_ACTION_TYPES.REMOVE_COMPONENT:
+        case APP_ACTION_TYPES.REMOVE_DATA_COMPONENT:
             return {...state, components: payload};
         
     }

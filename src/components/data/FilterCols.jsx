@@ -10,7 +10,7 @@ import { PyodideContext } from '../../context/PyodideContext';
 
 import { useXarrow } from 'react-xarrows';
 
-const Filter = ({jsonData, cardTitle, iconClassNames, setFilteredData}) => {
+const FilterCols = ({jsonData, cardTitle, iconClassNames, setFilteredData}) => {
 
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
@@ -83,4 +83,4 @@ const Filter = ({jsonData, cardTitle, iconClassNames, setFilteredData}) => {
     );
 };
 
-export default Filter;
+export default FilterCols;

@@ -1,5 +1,7 @@
 import DATA_COMPONENT_TYPES from "./dataComponentTypes";
 import FileUpload from "../components/data/FileUpload";
+import FileDownload from "../components/data/FileDownload";
+import FilterCols from "../components/data/FilterCols";
 
 /**
  * Creates a URL string pointing to the file passed as the argument 
@@ -31,6 +33,23 @@ export function dataComponentMaker(obj) {
                 fileExtension="csv"
                 iconClassNames="bi bi-filetype-csv"
                 setUploadedFile={() => {}}
+            />;
+        case DATA_COMPONENT_TYPES.FILE_DOWNLOAD:
+            return <FileDownload
+                compID={compID}
+                cardTitle="Export CSV"
+                fileExtension="csv"
+                iconClassNames="bi bi-filetype-csv"
+                jsonData={{}}
+            />;
+        
+        case DATA_COMPONENT_TYPES.FILTER_COLS:
+            return <FilterCols 
+                compID={compID}
+                jsonData={{}}
+                cardTitle="Filter Columns"
+                iconClassNames="bi bi-funnel"
+                setFilteredData={() => {}}
             />;
     }
 }

@@ -9,10 +9,10 @@ const NavBar = () => {
     const {appState, dispatch} = useContext(AppDataContext);
     const {nextID, components} = appState;
 
-    function handleAddFileUpload() {
+    function handleOnClick(compType) {
         dispatch({
-            type: APP_ACTION_TYPES.ADD_FILE_UPLOAD,
-            payload: {type: DATA_COMPONENT_TYPES.FILE_UPLOAD, compID: nextID}
+            type: APP_ACTION_TYPES.ADD_DATA_COMPONENT,
+            payload: {type: compType, compID: nextID}
         });
     }
 
@@ -24,9 +24,9 @@ const NavBar = () => {
                 </div>
             </nav>
             <nav className="navbar bg-light d-flex justify-content-start">
-                <NavBarComponentButton btnText="Import CSV" onClick={handleAddFileUpload}/>
-                <NavBarComponentButton btnText="Export CSV" />
-                <NavBarComponentButton btnText="Filter Columns" />
+                <NavBarComponentButton btnText="Import CSV" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_UPLOAD)}/>
+                <NavBarComponentButton btnText="Export CSV" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_DOWNLOAD)}/>
+                <NavBarComponentButton btnText="Filter Columns" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILTER_COLS)}/>
                 <NavBarComponentButton btnText="Filter Rows" />
                 <NavBarComponentButton btnText="Join" />
                 <NavBarComponentButton btnText="Union" />
