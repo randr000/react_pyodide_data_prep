@@ -5,6 +5,7 @@ import ToggleTablePill from '../utilities/ToggleTablePill';
 import CardSummary from '../utilities/CardSummary';
 import FileUploadDropZone from '../utilities/FileUploadDropZone';
 import Table from '../utilities/Table';
+import DeleteDataComponentPill from '../utilities/DeleteDataComponentPill';
 
 import { createObjectURL } from '../../js/functions';
 
@@ -15,7 +16,7 @@ import { useXarrow } from 'react-xarrows';
 
 import create_df_from_csv from '../../python_code_js_modules/create_df_from_csv';
 
-const FileUpload = ({cardTitle, fileExtension, iconClassNames, setUploadedFile}) => {
+const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames, setUploadedFile}) => {
 
     const [file, setFile] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
@@ -58,7 +59,8 @@ const FileUpload = ({cardTitle, fileExtension, iconClassNames, setUploadedFile})
                 <div className="d-flex align-items-start">
                     <div className="card border border-primary border-3" style={{width: "12rem"}}>
                         <div className="card-body text-center">
-            
+
+                            <DeleteDataComponentPill compID={compID}/>
                             <DataFlowPill isOnTop={true} />
                             <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                             <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />

@@ -15,7 +15,7 @@ const ContextTestComponentWrapper = () => {
 
     return (
         <>
-            {components.map(c => c && <div key={c.compID}>{dataComponentMaker({type: c.type})}</div>)}
+            {components.map(c => c && <div key={c.compID}>{dataComponentMaker({type: c.type, compID: c.compID})}</div>)}
         </>
     );
 };

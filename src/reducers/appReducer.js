@@ -13,6 +13,8 @@ export const appReducer = (state, action) => {
     switch(type) {
         case APP_ACTION_TYPES.ADD_FILE_UPLOAD:
             return {...state, components: [...components, payload]};
+        case APP_ACTION_TYPES.REMOVE_COMPONENET:
+            return {...state, components: payload};
         // case APP_ACTION_TYPES.REMOVE_FILE_UPLOAD:
         //     return {...state};
         // case APP_ACTION_TYPES.ADD:

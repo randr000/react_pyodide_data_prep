@@ -22,9 +22,11 @@ export function createObjectURL(file) {
  * @returns {object} A React component
  */
 export function dataComponentMaker(obj) {
-    switch(obj.type) {
+    const {type, compID} = obj;
+    switch(type) {
         case DATA_COMPONENT_TYPES.FILE_UPLOAD:
             return <FileUpload
+                compID={compID}
                 cardTitle="Import CSV"
                 fileExtension="csv"
                 iconClassNames="bi bi-filetype-csv"
