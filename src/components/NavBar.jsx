@@ -7,12 +7,12 @@ import DATA_COMPONENT_TYPES from '../js/dataComponentTypes';
 const NavBar = () => {
 
     const {appState, dispatch} = useContext(AppDataContext);
-    const {components} = appState;
+    const {nextID, components} = appState;
 
     function handleAddFileUpload() {
         dispatch({
             type: APP_ACTION_TYPES.ADD_FILE_UPLOAD,
-            payload: {type: DATA_COMPONENT_TYPES.FILE_UPLOAD, compID: `${components.length}`}
+            payload: {type: DATA_COMPONENT_TYPES.FILE_UPLOAD, compID: nextID}
         });
     }
 
