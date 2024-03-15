@@ -4,10 +4,12 @@ import DataFlowPill from '../utilities/DataFlowPill';
 import ToggleTablePill from '../utilities/ToggleTablePill';
 import CardSummary from '../utilities/CardSummary';
 import FileUploadDropZone from '../utilities/FileUploadDropZone';
+import Table from '../utilities/Table';
+
 import { createObjectURL } from '../../js/functions';
 
 import { PyodideContext } from '../../context/PyodideContext';
-import Table from '../utilities/Table';
+
 
 import { useXarrow } from 'react-xarrows';
 
