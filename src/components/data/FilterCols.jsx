@@ -7,21 +7,26 @@ import Checkboxes from '../utilities/Checkboxes';
 import Table from '../utilities/Table';
 import filter from '../../python_code_js_modules/filter';
 import { PyodideContext } from '../../context/PyodideContext';
+import AppDataContext from '../../context/AppDataContext';
+import DeleteDataComponentPill from '../utilities/DeleteDataComponentPill';
 
 import { useXarrow } from 'react-xarrows';
 
-const FilterCols = ({jsonData, cardTitle, iconClassNames, setFilteredData}) => {
+const FilterCols = ({compID, jsonData, cardTitle, iconClassNames, setFilteredData}) => {
 
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const [cbKey, setCbKey] = useState(0);
     const [showTable, setShowTable] = useState(true);
+    const {appState, dispatch} = useContext(AppDataContext);
+    const {connectComponents} = appState;
 
     const updateXarrow = useXarrow();
     
-    const [filteredCols, setFilteredCols] = useState(
-        JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true}))
-    );
+    // const [filteredCols, setFilteredCols] = useState(
+    //     JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true}))
+    // );
+    const [filteredCols, setFilteredCols] = useState();
 
     function filterDF(jsonStr, cols) {
         if (isPyodideLoaded) {
@@ -31,32 +36,35 @@ const FilterCols = ({jsonData, cardTitle, iconClassNames, setFilteredData}) => {
     }
 
 
-    function filterCol(colName, isChecked) {
-        setFilteredCols(prevState => prevState.map(col => col.label === colName ? ({label: colName, isChecked: isChecked}) : col));
+    // function filterCol(colName, isChecked) {
+    //     setFilteredCols(prevState => prevState.map(col => col.label === colName ? ({label: colName, isChecked: isChecked}) : col));
+    // }
+    function filterCol() {
+        return;
     }
 
 
-    useEffect(() => {
-        filterDF(jsonData, filteredCols.filter(col => col.isChecked).map(col => col.label));
-    }, [filteredCols]);
+    // useEffect(() => {
+    //     filterDF(jsonData, filteredCols.filter(col => col.isChecked).map(col => col.label));
+    // }, [filteredCols]);
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        if (jsonData) {
+    //     if (jsonData) {
 
-            setFilteredCols(JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true})));
+    //         setFilteredCols(JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true})));
             
-            filterDF(jsonData, JSON.parse(jsonData)['columns']);
+    //         filterDF(jsonData, JSON.parse(jsonData)['columns']);
 
-            setCbKey(prevKey => prevKey + 1);
-        }
-        else setOutputData(null);
-        console.log(`json data: ${JSON.stringify(filteredCols)}`);
-    }, [jsonData]);
+    //         setCbKey(prevKey => prevKey + 1);
+    //     }
+    //     else setOutputData(null);
+    //     console.log(`json data: ${JSON.stringify(filteredCols)}`);
+    // }, [jsonData]);
 
-    useEffect(() => {
-        setFilteredData(outputData);
-    }, [outputData])
+    // useEffect(() => {
+    //     setFilteredData(outputData);
+    // }, [outputData])
 
     useEffect(() => {
         updateXarrow();
@@ -69,14 +77,15 @@ const FilterCols = ({jsonData, cardTitle, iconClassNames, setFilteredData}) => {
                 <div className="d-flex align-items-start">
                     <div className="card border border-primary border-3" style={{width: "12rem"}}>
                         <div className="card-body text-center">
-                            <DataFlowPill isOnTop={true} id="filter-in" />
+                            <DeleteDataComponentPill compID={compID}/>
+                            <DataFlowPill isOnTop={true} id={`${compID}-top`} />
                             <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                             <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
-                            <Checkboxes key={cbKey} checkboxes={filteredCols} onChange={filterCol} />
-                            <DataFlowPill isOnTop={false} id="filter-out" />
+                            {/* <Checkboxes key={cbKey} checkboxes={filteredCols} onChange={filterCol} /> */}
+                            <DataFlowPill isOnTop={false} id={`${compID}-btm`} />
                         </div>
                     </div>
-                    {outputData && <Table tableData={outputData} show={showTable} />}
+                    {/* {outputData && <Table tableData={outputData} show={showTable} />} */}
                 </div>
             </Draggable>
         </div>

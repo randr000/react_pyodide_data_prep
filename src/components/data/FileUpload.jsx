@@ -6,6 +6,7 @@ import CardSummary from '../utilities/CardSummary';
 import FileUploadDropZone from '../utilities/FileUploadDropZone';
 import Table from '../utilities/Table';
 import DeleteDataComponentPill from '../utilities/DeleteDataComponentPill';
+import AppDataContext from '../../context/AppDataContext';
 
 import { createObjectURL } from '../../js/functions';
 
@@ -22,6 +23,9 @@ const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames, setUpload
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const [result, setResult] = useState(null);
     const [showTable, setShowTable] = useState(true);
+    const {appState, dispatch} = useContext(AppDataContext);
+    const {connectComponents} = appState;
+
     const updateXarrow = useXarrow();
 
     useEffect(() => {
@@ -61,12 +65,12 @@ const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames, setUpload
                         <div className="card-body text-center">
 
                             <DeleteDataComponentPill compID={compID}/>
-                            <DataFlowPill isOnTop={true} />
+                            
                             <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                             <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
             
                             <FileUploadDropZone file={file} setFile={setFile} ext={fileExtension} />
-                            <DataFlowPill isOnTop={false} id="fileupload" />
+                            <DataFlowPill isOnTop={false} id={`${compID}-btm`} />
                         </div>
                     </div>
                     {result && <Table tableData={result} show={showTable} />}
