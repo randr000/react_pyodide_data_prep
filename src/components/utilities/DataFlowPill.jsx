@@ -40,7 +40,13 @@ const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
                 top-${isOnTop ? '0' : '100'}
                 start-50
                 translate-middle
-                ${connectComponents && !isOnTop && connectComponents.pillID === id ? 'bg-primary' : 'bg-white'}
+                ${
+                    connectComponents && !isOnTop && connectComponents.pillID === id
+                    ? 'bg-primary'
+                    : connectComponents && isOnTop && connectComponents.pillID !== `${parseInt(id)}-btm`
+                    ? 'bg-success'
+                    : 'bg-white'
+                }
                 border
                 border-primary
                 rounded-pill
