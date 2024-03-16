@@ -7,14 +7,33 @@ const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
     const {appState, dispatch} = useContext(AppDataContext);
     const {connectComponents} = appState;
 
+    function openConn() {
+        dispatch({
+            type: APP_ACTION_TYPES.OPEN_CONNECT_COMPONENTS,
+            payload: {pillID: id}
+        });
+    }
+
+    function closeConn() {
+        dispatch({type: APP_ACTION_TYPES.CLOSE_CONNECT_COMPONENTS});
+    }
+
     function handleOnClick() {
         if (isOnTop) {
             return;
+
+        } else if (connectComponents) {
+
+            // This allows a user to click on another bottom pill and simultaneously
+            // close the old opening connection and open a new one.
+            if (connectComponents.pillID !== id) {
+                openConn();
+
+            } else closeConn();
+            
         } else {
-            dispatch({
-                type: APP_ACTION_TYPES.OPEN_CONNECT_COMPONENTS,
-                payload: {pillID: id}
-            });
+
+            openConn();
         }
     }
     
