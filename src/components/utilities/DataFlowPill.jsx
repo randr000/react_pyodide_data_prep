@@ -26,15 +26,10 @@ const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
 
             // This allows a user to click on another bottom pill and simultaneously
             // close the old opening connection and open a new one.
-            if (connectComponents.pillID !== id) {
-                openConn();
-
-            } else closeConn();
+            if (connectComponents.pillID !== id) openConn();
+            else closeConn();
             
-        } else {
-
-            openConn();
-        }
+        } else openConn();
     }
     
     return (
