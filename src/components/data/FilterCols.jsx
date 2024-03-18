@@ -12,7 +12,6 @@ import DeleteDataComponentPill from '../utilities/DeleteDataComponentPill';
 
 import { useXarrow } from 'react-xarrows';
 
-// const FilterCols = ({compID, jsonData, cardTitle, iconClassNames, setFilteredData}) => {
     const FilterCols = ({compID, cardTitle, iconClassNames, setFilteredData}) => {
 
     const [outputData, setOutputData] = useState(null);
@@ -28,7 +27,6 @@ import { useXarrow } from 'react-xarrows';
     const [filteredCols, setFilteredCols] = useState(
         JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true}))
     );
-    // const [filteredCols, setFilteredCols] = useState();
 
     function filterDF(jsonStr, cols) {
         if (isPyodideLoaded) {
@@ -41,9 +39,7 @@ import { useXarrow } from 'react-xarrows';
     function filterCol(colName, isChecked) {
         setFilteredCols(prevState => prevState.map(col => col.label === colName ? ({label: colName, isChecked: isChecked}) : col));
     }
-    function filterCol() {
-        return;
-    }
+ 
 
 
     useEffect(() => {
