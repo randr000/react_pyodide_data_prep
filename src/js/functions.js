@@ -45,10 +45,8 @@ export function dataComponentMaker(obj) {
         case DATA_COMPONENT_TYPES.FILTER_COLS:
             return <FilterCols 
                 compID={compID}
-                jsonData={{}}
                 cardTitle="Filter Columns"
                 iconClassNames="bi bi-funnel"
-                setFilteredData={() => {}}
             />;
     }
 }
