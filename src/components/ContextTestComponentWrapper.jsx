@@ -16,6 +16,7 @@ const ContextTestComponentWrapper = () => {
     return (
         <>
             {components.map(c => <div key={c.compID}>{dataComponentMaker({type: c.type, compID: c.compID})}</div>)}
+            {arrows.map(a => <Xarrow key={a.arrowID} start={a.start} end={a.end} startAnchor='bottom' endAnchor='top' zIndex={5}/>)}
         </>
     );
 };

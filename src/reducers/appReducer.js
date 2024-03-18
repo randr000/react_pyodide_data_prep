@@ -5,6 +5,7 @@ export const APP_INITIAL_STATE = {
     connectComponents: false,
     components: [],
     arrows: []
+    // arrows: [{arrowID: '0-btm_1-top', start: '0-btm', end: '1-top'}]
 };
 
 export const appReducer = (state, action) => {
@@ -19,5 +20,7 @@ export const appReducer = (state, action) => {
             return {...state, connectComponents: payload};
         case APP_ACTION_TYPES.CLOSE_CONNECT_COMPONENTS:
             return {...state, connectComponents: false};
+        case APP_ACTION_TYPES.ADD_ARROW:
+            return {...state, arrows: [...arrows, payload]};
     }
 };

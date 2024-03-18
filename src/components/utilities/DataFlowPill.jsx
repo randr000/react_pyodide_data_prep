@@ -20,7 +20,16 @@ const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
 
     function handleOnClick() {
         if (isOnTop) {
-            return;
+            // Only creates arrow connection if they are different data components
+            if (connectComponents && parseInt(connectComponents.pillID) !== parseInt(id)) {
+                console.log(parseInt(connectComponents.pillID));
+                console.log(parseInt(id));
+                dispatch({
+                    type: APP_ACTION_TYPES.ADD_ARROW,
+                    payload: {arrowID: `${connectComponents.pillID}_${id}`, start: connectComponents.pillID, end: id}
+                });
+            }
+            closeConn();
 
         } else if (connectComponents) {
 
