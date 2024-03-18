@@ -22,5 +22,7 @@ export const appReducer = (state, action) => {
             return {...state, connectComponents: false};
         case APP_ACTION_TYPES.ADD_ARROW:
             return {...state, arrows: [...arrows, payload]};
+        case APP_ACTION_TYPES.MODIFY_COMPONENT_DATA:
+            return {...state, components: payload};
     }
 };

@@ -40,7 +40,7 @@ export function dataComponentMaker(obj) {
                 cardTitle="Export CSV"
                 fileExtension="csv"
                 iconClassNames="bi bi-filetype-csv"
-                jsonData={{}}
+                // jsonData={{}}
             />;
         
         case DATA_COMPONENT_TYPES.FILTER_COLS:

@@ -16,7 +16,6 @@ import { PyodideContext } from '../../context/PyodideContext';
 import { useXarrow } from 'react-xarrows';
 
 import create_df_from_csv from '../../python_code_js_modules/create_df_from_csv';
-import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
 const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames, setUploadedFile}) => {
 
@@ -25,14 +24,10 @@ const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames, setUpload
     const [result, setResult] = useState(null);
     const [showTable, setShowTable] = useState(true);
     const {appState, dispatch} = useContext(AppDataContext);
-    const {connectComponents, components} = appState;
-    // const data = components[compID].data ? components[compID].data : null;
-
+    const {connectComponents} = appState;
 
     const updateXarrow = useXarrow();
 
-    // If file is uploaded successfully and Pyodide is loaded, then data from file
-    // is converted to json and stored in 'result' state variable.
     useEffect(() => {
 
         async function readFileToDF(path) {
@@ -50,23 +45,9 @@ const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames, setUpload
 
     }, [file]);
 
-
-    // useEffect(() => {
-
-    //     if (result) setUploadedFile(result);
-    //     console.log(`result: ${result}`);
-
-    // }, [result]);
-
     useEffect(() => {
 
-        if (result) {
-            components[compID] = {...components[compID], data: result};
-            dispatch({
-                type: APP_ACTION_TYPES.MODIFY_COMPONENT_DATA,
-                payload: components
-            });
-        };
+        if (result) setUploadedFile(result);
         console.log(`result: ${result}`);
 
     }, [result]);
