@@ -16,18 +16,33 @@ import { useXarrow } from 'react-xarrows';
 
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
+
+    // Checkbox React component keys
     const [cbKey, setCbKey] = useState(0);
+
     const [showTable, setShowTable] = useState(true);
+
     const {appState, dispatch} = useContext(AppDataContext);
     const {connectComponents, components} = appState;
-    const jsonData = components[0].data;
+    const thisComponent = components[compID];
+    
+    const jsonData = thisComponent.sourceComponents.length ?
+                        components[thisComponent.sourceComponents[0]].data : null;
+
+    const maxSources = 1; // Max number of data source connections allowed
 
     const updateXarrow = useXarrow();
     
+    //
     const [filteredCols, setFilteredCols] = useState(
-        JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true}))
+        jsonData ? JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true})) : null
     );
 
+    /**
+     * 
+     * @param {Data is json format that can be converted to pandas dataframe} jsonStr 
+     * @param {Array of column names to be filtered for} cols 
+     */
     function filterDF(jsonStr, cols) {
         if (isPyodideLoaded) {
             pyodide.runPython(filter);
@@ -38,12 +53,15 @@ import { useXarrow } from 'react-xarrows';
 
     function filterCol(colName, isChecked) {
         setFilteredCols(prevState => prevState.map(col => col.label === colName ? ({label: colName, isChecked: isChecked}) : col));
+        updateXarrow();
     }
  
 
 
     useEffect(() => {
-        filterDF(jsonData, filteredCols.filter(col => col.isChecked).map(col => col.label));
+        if (jsonData) {
+            filterDF(jsonData, filteredCols.filter(col => col.isChecked).map(col => col.label));
+        }
     }, [filteredCols]);
 
     useEffect(() => {
@@ -57,11 +75,13 @@ import { useXarrow } from 'react-xarrows';
             setCbKey(prevKey => prevKey + 1);
         }
         else setOutputData(null);
+        updateXarrow();
         console.log(`json data: ${JSON.stringify(filteredCols)}`);
     }, [jsonData]);
 
     useEffect(() => {
         setFilteredData(outputData);
+        updateXarrow();
     }, [outputData])
 
     useEffect(() => {
@@ -79,7 +99,7 @@ import { useXarrow } from 'react-xarrows';
                             <DataFlowPill isOnTop={true} id={`${compID}-top`} />
                             <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                             <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
-                            <Checkboxes key={cbKey} checkboxes={filteredCols} onChange={filterCol} />
+                            {filteredCols && <Checkboxes key={cbKey} checkboxes={filteredCols} onChange={filterCol} />}
                             <DataFlowPill isOnTop={false} id={`${compID}-btm`} />
                         </div>
                     </div>

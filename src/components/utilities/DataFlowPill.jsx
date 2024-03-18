@@ -5,7 +5,7 @@ import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
 
     const {appState, dispatch} = useContext(AppDataContext);
-    const {connectComponents} = appState;
+    const {connectComponents, components} = appState;
 
     function openConn() {
         dispatch({
@@ -22,11 +22,17 @@ const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
         if (isOnTop) {
             // Only creates arrow connection if they are different data components
             if (connectComponents && parseInt(connectComponents.pillID) !== parseInt(id)) {
-                console.log(parseInt(connectComponents.pillID));
-                console.log(parseInt(id));
                 dispatch({
                     type: APP_ACTION_TYPES.ADD_ARROW,
                     payload: {arrowID: `${connectComponents.pillID}_${id}`, start: connectComponents.pillID, end: id}
+                });
+
+                const parentID = parseInt(id);
+                const sourceID = parseInt(connectComponents.pillID);
+                components[parentID] = {...components[parentID], sourceComponents: [sourceID]};
+                dispatch({
+                    type: APP_ACTION_TYPES.ADD_SOURCE_COMPONENT,
+                    payload: components
                 });
             }
             closeConn();
