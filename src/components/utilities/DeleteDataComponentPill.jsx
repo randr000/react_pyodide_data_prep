@@ -14,7 +14,10 @@ const DeleteDataComponentPill = ({compID}) => {
 
     function handleOnClick() {
         // console.log(components);
-        // components[Number(compID)] = null;
+        // console.log(compID);
+        // console.log(components.filter(c => c.compID !== compID));
+        
+      
         dispatch({type: APP_ACTION_TYPES.REMOVE_DATA_COMPONENT, payload: components.filter(c => c.compID !== compID)})
     }
 

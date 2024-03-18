@@ -8,8 +8,8 @@ import FileDownload from './data/FileDownload';
 
 const ContextTestComponentWrapper = () => {
 
-    const [uploadedFile, setUploadedFile] = useState(null);
-    const [filteredData, setFilteredData] = useState(null);
+    // const [uploadedFile, setUploadedFile] = useState(null);
+    // const [filteredData, setFilteredData] = useState(null);
     const {appState, dispatch} = useContext(AppDataContext);
     const {components, arrows} = appState;
 

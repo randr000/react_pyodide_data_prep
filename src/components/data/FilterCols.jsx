@@ -12,7 +12,7 @@ import DeleteDataComponentPill from '../utilities/DeleteDataComponentPill';
 
 import { useXarrow } from 'react-xarrows';
 
-    const FilterCols = ({compID, cardTitle, iconClassNames, setFilteredData}) => {
+    const FilterCols = ({compID, cardTitle, iconClassNames}) => {
 
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
@@ -24,7 +24,7 @@ import { useXarrow } from 'react-xarrows';
 
     const {appState, dispatch} = useContext(AppDataContext);
     const {connectComponents, components} = appState;
-    const thisComponent = components[compID];
+    const thisComponent = components.filter(c => c.compID === compID)[0];
     
     const jsonData = thisComponent.sourceComponents.length ?
                         components[thisComponent.sourceComponents[0]].data : null;
@@ -79,10 +79,6 @@ import { useXarrow } from 'react-xarrows';
         console.log(`json data: ${JSON.stringify(filteredCols)}`);
     }, [jsonData]);
 
-    useEffect(() => {
-        setFilteredData(outputData);
-        updateXarrow();
-    }, [outputData])
 
     useEffect(() => {
         updateXarrow();
