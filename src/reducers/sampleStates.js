@@ -14,12 +14,12 @@ const sampleStates = {
             {
                 type: DATA_COMPONENT_TYPES.FILE_UPLOAD,
                 compID: 0,
-                outputComponents: [1]
+                outputComponents: new Set([1])
             },
             {
                 type: DATA_COMPONENT_TYPES.FILTER_COLS,
                 compID: 1,
-                sourceComponents: [0]
+                sourceComponents: new Set([0])
             }
         ],
         arrows: [

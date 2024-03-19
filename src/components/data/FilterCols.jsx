@@ -26,8 +26,11 @@ import { useXarrow } from 'react-xarrows';
     const {connectComponents, components} = appState;
     const thisComponent = components.filter(c => c.compID === compID)[0];
     
-    const jsonData = thisComponent.sourceComponents.length ?
-                        components[thisComponent.sourceComponents[0]].data : null;
+    // const jsonData = thisComponent.sourceComponents.length ?
+    //                     components[thisComponent.sourceComponents[0]].data : null;
+
+    const jsonData = thisComponent.sourceComponents.size ?
+                        components[[...thisComponent.sourceComponents][0]].data : null;
 
     const maxSources = 1; // Max number of data source connections allowed
 
@@ -76,7 +79,7 @@ import { useXarrow } from 'react-xarrows';
         }
         else setOutputData(null);
         updateXarrow();
-        console.log(`json data: ${JSON.stringify(filteredCols)}`);
+
     }, [jsonData]);
 
 
