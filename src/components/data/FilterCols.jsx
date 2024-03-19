@@ -33,6 +33,13 @@ import { useXarrow } from 'react-xarrows';
     const jsonData = thisComponent.sourceComponents.size ?
                         components[[...thisComponent.sourceComponents][0]].data : null;
 
+    // useEffect(() => {
+    //     console.log(`jsonData: ${jsonData}`);
+    //     console.log(`filteredCols: ${filteredCols}`);
+    // })
+
+    
+
     const maxSources = 1; // Max number of data source connections allowed
 
     const updateXarrow = useXarrow();
@@ -41,6 +48,11 @@ import { useXarrow } from 'react-xarrows';
     const [filteredCols, setFilteredCols] = useState(
         jsonData ? JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true})) : null
     );
+
+    useEffect(() => {
+        // Reset filteredCols when jsonData is removed
+        if (!jsonData) setFilteredCols(null);
+    }, [jsonData]);
 
     /**
      * 
