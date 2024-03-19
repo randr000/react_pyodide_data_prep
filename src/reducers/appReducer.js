@@ -1,11 +1,14 @@
 import APP_ACTION_TYPES from "../action-types/appActionTypes";
+import sampleStates from "./sampleStates";
 
-export const APP_INITIAL_STATE = {
-    nextID: 0,
-    connectComponents: false,
-    components: [],
-    arrows: []
-};
+// export const APP_INITIAL_STATE = {
+//     nextID: 0,
+//     connectComponents: false,
+//     components: [],
+//     arrows: []
+// };
+
+export const APP_INITIAL_STATE = sampleStates.b;
 
 /*
 *   APP INITIAL STATE:
