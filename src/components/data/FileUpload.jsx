@@ -21,6 +21,7 @@ import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames, setUploadedFile}) => {
 
     const [file, setFile] = useState(null);
+    const [disableDrag, setDisableDrag] = useState(false);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const [result, setResult] = useState(null);
     const [showTable, setShowTable] = useState(true);
@@ -78,12 +79,12 @@ const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames, setUpload
     return (
 
         <div className="d-flex">
-            <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
+            <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow} disabled={disableDrag}>
                 <div className="d-flex align-items-start">
                     <div className="card border border-primary border-3" style={{width: "12rem"}}>
                         <div className="card-body text-center">
 
-                            <DeleteDataComponentPill compID={compID}/>
+                            <DeleteDataComponentPill compID={compID} setDisableDrag={setDisableDrag} />
                             
                             <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                             <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />

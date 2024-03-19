@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AppDataContext from "../../context/AppDataContext";
+import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 
 const DeleteArrow = ({start, end}) => {
+
+    const {appState, dispatch} = useContext(AppDataContext);
+    const {components, arrows} = appState;
 
     const [styles, setStyles] = useState({
         visibility: "hidden",
@@ -18,7 +23,11 @@ const DeleteArrow = ({start, end}) => {
     function handleOnClick() {
         console.log(`start: ${start}`);
         console.log(`end: ${end}`);
-        return;
+        
+        // dispatch({
+        //     type: APP_ACTION_TYPES.REMOVE_ARROW,
+        //     payload: ''
+        // });
     }
 
     return (

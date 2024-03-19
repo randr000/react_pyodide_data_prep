@@ -14,6 +14,7 @@ import { useXarrow } from 'react-xarrows';
 
     const FilterCols = ({compID, cardTitle, iconClassNames}) => {
 
+    const [disableDrag, setDisableDrag] = useState(false);
     const [outputData, setOutputData] = useState(null);
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
 
@@ -90,11 +91,11 @@ import { useXarrow } from 'react-xarrows';
     return (
 
         <div className="d-flex">
-            <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
+            <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow} disabled={disableDrag}>
                 <div className="d-flex align-items-start">
                     <div className="card border border-primary border-3" style={{width: "12rem"}}>
                         <div className="card-body text-center">
-                            <DeleteDataComponentPill compID={compID}/>
+                            <DeleteDataComponentPill compID={compID} setDisableDrag={setDisableDrag} />
                             <DataFlowPill isOnTop={true} id={`${compID}-top`} />
                             <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                             <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />

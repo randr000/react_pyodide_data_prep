@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import AppDataContext from "../../context/AppDataContext";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 
-const DeleteDataComponentPill = ({compID}) => {
+const DeleteDataComponentPill = ({compID, setDisableDrag}) => {
 
     const {appState, dispatch} = useContext(AppDataContext);
     const {components} = appState;
@@ -23,10 +23,12 @@ const DeleteDataComponentPill = ({compID}) => {
 
     function handleOnMouseOver() {
         setStyles({...styles, visibility: "visible"});
+        setDisableDrag(true);
     }
 
     function handleOnMouseOut() {
         setStyles({...styles, visibility: "hidden"});
+        setDisableDrag(false);
     }
 
     return (
