@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AppDataContext from '../context/AppDataContext';
 import { dataComponentMaker } from '../js/functions';
 import Xarrow from 'react-xarrows';
@@ -13,6 +13,14 @@ const ContextTestComponentWrapper = () => {
     // const [filteredData, setFilteredData] = useState(null);
     const {appState, dispatch} = useContext(AppDataContext);
     const {components, arrows} = appState;
+
+    useEffect(() => {
+        // Debugging purposes only
+        // console.log(`nextID: ${appState.nextID}`);
+        // console.log('connectComponents:', appState.connectComponents);
+        console.log('components:', appState.components);
+        console.log('arrows:', appState.arrows);
+    }, [appState]);
 
     return (
         <>

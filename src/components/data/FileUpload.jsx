@@ -68,7 +68,7 @@ const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames, setUpload
                 payload: components
             });
         };
-        console.log(`result: ${result}`);
+        // console.log(`result: ${result}`);
 
     }, [result]);
 

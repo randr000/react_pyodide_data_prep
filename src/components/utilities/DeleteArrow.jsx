@@ -25,6 +25,7 @@ const DeleteArrow = ({start, end, arrowID}) => {
         console.log(`end: ${end}`);
         
         const c = [...components]; // Deep copy of components
+        console.log('c:', c);
 
         // find index of arrow's source component
         const sourceIdx = c.findIndex(o => o.hasOwnProperty('outputComponents') && o.outputComponents.has(end));

@@ -29,10 +29,14 @@ const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
 
                 const parentID = parseInt(id);
                 const sourceID = parseInt(connectComponents.pillID);
-                components[parentID] = {...components[parentID], sourceComponents: [sourceID]};
+                const c = [...components];
+
+                c[parentID] = {...c[parentID], sourceComponents: new Set([sourceID])};
+                c[sourceID] = {...c[sourceID], outputComponents: new Set([parentID])};
+
                 dispatch({
-                    type: APP_ACTION_TYPES.ADD_SOURCE_COMPONENT,
-                    payload: components
+                    type: APP_ACTION_TYPES.ADD_SOURCE_OUTPUT_REFS,
+                    payload: c
                 });
             }
             closeConn();
