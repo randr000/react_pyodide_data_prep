@@ -74,7 +74,7 @@ import APP_ACTION_TYPES from '../../action-types/appActionTypes';
     useEffect(() => {
     // Update component output data anytime columns are filtered or source data is modified
         const c = [...components];
-        c[compID].data = outputData;
+        c[c.findIndex(c => c.compID === compID)].data = outputData;
 
         dispatch({
             type: APP_ACTION_TYPES.MODIFY_COMPONENT_DATA,
