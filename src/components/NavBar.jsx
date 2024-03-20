@@ -14,7 +14,7 @@ const NavBar = () => {
 
         dispatch({
             type: APP_ACTION_TYPES.ADD_DATA_COMPONENT,
-            payload: hasSourceComps ? {...payload, sourceComponents: []}: payload
+            payload: hasSourceComps ? {...payload, sourceComponents: new Set([])}: payload
         });
     }
 
