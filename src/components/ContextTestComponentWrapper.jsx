@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AppDataContext from '../context/AppDataContext';
 import { dataComponentMaker } from '../js/functions';
-import Xarrow from 'react-xarrows';
+import Xarrow, { useXarrow } from 'react-xarrows';
 import DeleteArrow from './utilities/DeleteArrow';
 import FileUpload from './data/FileUpload';
 import Filter from './data/FilterCols';
@@ -13,6 +13,7 @@ const ContextTestComponentWrapper = () => {
     // const [filteredData, setFilteredData] = useState(null);
     const {appState, dispatch} = useContext(AppDataContext);
     const {components, arrows} = appState;
+    const updateXarrow = useXarrow();
 
     useEffect(() => {
         // Debugging purposes only
@@ -20,6 +21,7 @@ const ContextTestComponentWrapper = () => {
         // console.log('connectComponents:', appState.connectComponents);
         console.log('components:', appState.components);
         console.log('arrows:', appState.arrows);
+        updateXarrow();
     }, [appState]);
 
     return (

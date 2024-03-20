@@ -11,6 +11,7 @@ import AppDataContext from '../../context/AppDataContext';
 import DeleteDataComponentPill from '../utilities/DeleteDataComponentPill';
 
 import { useXarrow } from 'react-xarrows';
+import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
     const FilterCols = ({compID, cardTitle, iconClassNames}) => {
 
@@ -26,18 +27,9 @@ import { useXarrow } from 'react-xarrows';
     const {appState, dispatch} = useContext(AppDataContext);
     const {connectComponents, components} = appState;
     const thisComponent = components.filter(c => c.compID === compID)[0];
-    
-    // const jsonData = thisComponent.sourceComponents.length ?
-    //                     components[thisComponent.sourceComponents[0]].data : null;
 
     const jsonData = thisComponent.sourceComponents.size ?
                         components[[...thisComponent.sourceComponents][0]].data : null;
-
-    // useEffect(() => {
-    //     console.log(`jsonData: ${jsonData}`);
-    //     console.log(`filteredCols: ${filteredCols}`);
-    // })
-
     
 
     const maxSources = 1; // Max number of data source connections allowed
@@ -69,16 +61,27 @@ import { useXarrow } from 'react-xarrows';
 
     function filterCol(colName, isChecked) {
         setFilteredCols(prevState => prevState.map(col => col.label === colName ? ({label: colName, isChecked: isChecked}) : col));
-        updateXarrow();
     }
- 
-
 
     useEffect(() => {
         if (jsonData) {
             filterDF(jsonData, filteredCols.filter(col => col.isChecked).map(col => col.label));
         }
+
+        updateXarrow();
     }, [filteredCols]);
+
+    useEffect(() => {
+    // Update component output data anytime columns are filtered or source data is modified
+        const c = [...components];
+        c[compID].data = outputData;
+
+        dispatch({
+            type: APP_ACTION_TYPES.MODIFY_COMPONENT_DATA,
+            payload: c
+        });
+
+    }, [outputData]);
 
     useEffect(() => {
         
