@@ -31,9 +31,8 @@ const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
                 const sourceID = parseInt(connectComponents.pillID);
                 const c = [...components];
 
-                // TODO: Need to take into account multiple sources and outputs
-                c[parentID] = {...c[parentID], sourceComponents: new Set([sourceID])};
-                c[sourceID] = {...c[sourceID], outputComponents: new Set([parentID])};
+                c[parentID] = {...c[parentID], sourceComponents: new Set([...c[parentID].sourceComponents, sourceID])};
+                c[sourceID] = {...c[sourceID], outputComponents: new Set([...c[sourceID].outputComponents, parentID])};
 
                 dispatch({
                     type: APP_ACTION_TYPES.ADD_SOURCE_OUTPUT_REFS,
