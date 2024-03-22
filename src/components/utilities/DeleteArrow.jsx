@@ -21,16 +21,15 @@ const DeleteArrow = ({start, end, arrowID}) => {
     }
 
     function handleOnClick() {
-        console.log(`start: ${start}`);
-        console.log(`end: ${end}`);
         
         const c = [...components]; // Deep copy of components
 
         // find index of arrow's source component
-        const sourceIdx = c.findIndex(o => o.hasOwnProperty('outputComponents') && o.outputComponents.has(end));
+        const sourceIdx = c.findIndex(o => o.compID === start);
 
         // find index of arrow's output component
-        const outputIdx = c.findIndex(o => o.hasOwnProperty('sourceComponents') && o.sourceComponents.has(start));
+        const outputIdx = c.findIndex(o => o.compID === end);
+
 
         // remove source and output component references
         c[sourceIdx].outputComponents.delete(end);
