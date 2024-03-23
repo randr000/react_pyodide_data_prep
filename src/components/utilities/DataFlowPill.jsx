@@ -24,15 +24,22 @@ const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
             if (connectComponents && parseInt(connectComponents.pillID) !== parseInt(id)) {
                 dispatch({
                     type: APP_ACTION_TYPES.ADD_ARROW,
-                    payload: {arrowID: `${connectComponents.pillID}_${id}`, start: connectComponents.pillID, end: id}
+                    payload: {
+                        arrowID: `${connectComponents.pillID}_${id}`,
+                        start: connectComponents.pillID,
+                        end: id,
+                        compIDs: new Set([parseInt(connectComponents.pillID), parseInt(id)])
+                    }
                 });
 
                 const parentID = parseInt(id);
                 const sourceID = parseInt(connectComponents.pillID);
                 const c = [...components];
+                const parentIdx = c.findIndex(comp => comp.compID === parentID);
+                const sourceIdx = c.findIndex(comp => comp.compID === sourceID);
 
-                c[parentID] = {...c[parentID], sourceComponents: new Set([...c[parentID].sourceComponents, sourceID])};
-                c[sourceID] = {...c[sourceID], outputComponents: new Set([...c[sourceID].outputComponents, parentID])};
+                c[parentIdx] = {...c[parentIdx], sourceComponents: new Set([...c[parentIdx].sourceComponents, sourceID])};
+                c[sourceIdx] = {...c[sourceIdx], outputComponents: new Set([...c[sourceIdx].outputComponents, parentID])};
 
                 dispatch({
                     type: APP_ACTION_TYPES.ADD_SOURCE_OUTPUT_REFS,

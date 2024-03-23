@@ -5,7 +5,7 @@ import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 const DeleteDataComponentPill = ({compID, setDisableDrag}) => {
 
     const {appState, dispatch} = useContext(AppDataContext);
-    const {components} = appState;
+    const {components, arrows} = appState;
 
     const [styles, setStyles] = useState({
         visibility: "hidden",
@@ -13,12 +13,25 @@ const DeleteDataComponentPill = ({compID, setDisableDrag}) => {
     });
 
     function handleOnClick() {
-        // console.log(components);
-        // console.log(compID);
-        // console.log(components.filter(c => c.compID !== compID));
-        
+
+        // Filter out component being deleted
+        const c = components.filter(comp => comp.compID !== compID);
+
+        /* Remove references to the component being deleted from the other components' sourceComponents
+           and outputComponents properties */
+        c.forEach(comp => {
+            comp.hasOwnProperty('sourceComponents') && comp.sourceComponents.delete(compID);
+            comp.hasOwnProperty('outputComponents') && comp.outputComponents.delete(compID);
+        });
       
-        dispatch({type: APP_ACTION_TYPES.REMOVE_DATA_COMPONENT, payload: components.filter(c => c.compID !== compID)})
+        dispatch({
+            type: APP_ACTION_TYPES.REMOVE_DATA_COMPONENT,
+            payload: {
+                components: c,
+                // Filters out arrows that reference this components in their compIDs property
+                arrows: arrows.filter(a => !a.compIDs.has(compID))
+            }
+        });
     }
 
     function handleOnMouseOver() {
