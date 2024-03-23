@@ -62,10 +62,12 @@ const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames, setUpload
     useEffect(() => {
 
         if (result) {
-            components[compID] = {...components[compID], data: result};
+            const c = [...components];
+            const idx = c.findIndex(comp => comp.compID === compID);
+            c[idx] = {...c[idx], data: result};
             dispatch({
                 type: APP_ACTION_TYPES.MODIFY_COMPONENT_DATA,
-                payload: components
+                payload: c
             });
         };
         // console.log(`result: ${result}`);
