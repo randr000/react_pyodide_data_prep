@@ -8,7 +8,7 @@ import sampleStates from "./sampleStates";
 //     arrows: []
 // };
 
-export const APP_INITIAL_STATE = sampleStates.c;
+export const APP_INITIAL_STATE = sampleStates.d;
 
 /*
 *   APP INITIAL STATE:
