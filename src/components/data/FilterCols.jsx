@@ -28,9 +28,6 @@ import APP_ACTION_TYPES from '../../action-types/appActionTypes';
     const {connectComponents, components} = appState;
     const thisComponent = components.filter(c => c.compID === compID)[0];
 
-    // const jsonData = thisComponent.sourceComponents.size ?
-    //                     components[[...thisComponent.sourceComponents][0]].data : null;
-
     const jsonData = thisComponent.sourceComponents.size ?
                 components[components.findIndex(c => [...thisComponent.sourceComponents][0] === c.compID)].data : null;
     
