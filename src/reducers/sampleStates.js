@@ -85,7 +85,7 @@ const sampleStates = {
     },
 
     d: {
-        nextID: 4,
+        nextID: 5,
         connectComponents: false,
         components: [
             {
