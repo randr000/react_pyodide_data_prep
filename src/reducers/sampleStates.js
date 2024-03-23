@@ -20,6 +20,7 @@ const sampleStates = {
             {
                 type: DATA_COMPONENT_TYPES.FILTER_COLS,
                 compID: 1,
+                outputComponents: new Set([]),
                 sourceComponents: new Set([0])
             }
         ],
@@ -45,16 +46,19 @@ const sampleStates = {
             {
                 type: DATA_COMPONENT_TYPES.FILTER_COLS,
                 compID: 1,
+                outputComponents: new Set([]),
                 sourceComponents: new Set([0])
             },
             {
                 type: DATA_COMPONENT_TYPES.FILTER_COLS,
                 compID: 2,
+                outputComponents: new Set([]),
                 sourceComponents: new Set([0])
             },
             {
                 type: DATA_COMPONENT_TYPES.FILTER_COLS,
                 compID: 3,
+                outputComponents: new Set([]),
                 sourceComponents: new Set([0])
             }
         ],

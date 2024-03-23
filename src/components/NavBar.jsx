@@ -10,7 +10,7 @@ const NavBar = () => {
     const {nextID, components} = appState;
 
     function handleOnClick(compType, hasSourceComps=true) {
-        const payload = {type: compType, compID: nextID};
+        const payload = {type: compType, compID: nextID, outputComponents: new Set([])};
 
         dispatch({
             type: APP_ACTION_TYPES.ADD_DATA_COMPONENT,
