@@ -80,7 +80,7 @@ const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames, setUpload
 
     return (
 
-        <div className="d-flex">
+        <div className="d-flex" style={{position: "absolute"}}>
             <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow} disabled={disableDrag}>
                 <div className="d-flex align-items-start">
                     <div className="card border border-primary border-3" style={{width: "12rem"}}>
