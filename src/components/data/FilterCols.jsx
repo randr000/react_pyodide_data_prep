@@ -1,78 +1,53 @@
-import React, { useState, useEffect, useContext } from 'react';
-import Draggable from 'react-draggable';
-import DataFlowPill from '../utilities/DataFlowPill';
-import ToggleTablePill from '../utilities/ToggleTablePill';
-import CardSummary from '../utilities/CardSummary';
-import Checkboxes from '../utilities/Checkboxes';
-import Table from '../utilities/Table';
-import filter from '../../python_code_js_modules/filter';
-import { PyodideContext } from '../../context/PyodideContext';
+import React, { useState, useContext, useEffect } from 'react';
+import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import AppDataContext from '../../context/AppDataContext';
-import DeleteDataComponentPill from '../utilities/DeleteDataComponentPill';
-
-import { useXarrow } from 'react-xarrows';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
-    const FilterCols = ({compID, cardTitle, iconClassNames}) => {
+// import other utility component(s)
+import Checkboxes from '../utilities/Checkboxes';
 
-    const [disableDrag, setDisableDrag] = useState(false);
-    const [outputData, setOutputData] = useState(null);
+// import Pyodide context
+import { PyodideContext } from '../../context/PyodideContext';
+
+// import Python function(s)
+import filter from '../../python_code_js_modules/filter';
+
+
+const FilterCols = ({compID, cardTitle, iconClassNames}) => {
+    
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
-
-    // Checkbox React component keys
-    const [cbKey, setCbKey] = useState(0);
-
-    const [showTable, setShowTable] = useState(true);
-
     const {appState, dispatch} = useContext(AppDataContext);
     const {connectComponents, components} = appState;
-    const thisComponent = components.filter(c => c.compID === compID)[0];
 
-    const jsonData = thisComponent.sourceComponents.size ?
-                components[components.findIndex(c => [...thisComponent.sourceComponents][0] === c.compID)].data : null;
+    // A JSON formatted string that can be used to create a pandas dataframe
+    const [outputData, setOutputData] = useState(null);
+
+    // A reference to this components properties in the components global state variable
+    const thisComponent = components.filter(comp => comp.compID === compID)[0];
+
+    // If this component has a source component, then it loads the source component's JSON data as a string, else null
+    const jsonDataStr = thisComponent.sourceComponents.size ?
+                components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data : null;
     
-
-    const maxSources = 1; // Max number of data source connections allowed
-
-    const updateXarrow = useXarrow();
-    
-    //
+    // If there is source data stored as a JSON string, then set a string array of column names into filteredCols, else null
     const [filteredCols, setFilteredCols] = useState(
-        jsonData ? JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true})) : null
+        jsonDataStr ? JSON.parse(jsonDataStr)['columns'].map(col => ({label: col, isChecked: true})) : null
     );
-
+    
+    // Reset filteredCols when jsonDataStr is removed
     useEffect(() => {
-        // Reset filteredCols when jsonData is removed
-        if (!jsonData) setFilteredCols(null);
-    }, [jsonData]);
+        if (!jsonDataStr) setFilteredCols(null);
+    }, [jsonDataStr]);
 
-    /**
-     * 
-     * @param {Data is json format that can be converted to pandas dataframe} jsonStr 
-     * @param {Array of column names to be filtered for} cols 
-     */
-    function filterDF(jsonStr, cols) {
-        if (isPyodideLoaded) {
-            pyodide.runPython(filter);
-            setOutputData(pyodide.globals.get('filter')(jsonStr, cols));
-        }
-    }
-
-
-    function filterCol(colName, isChecked) {
-        setFilteredCols(prevState => prevState.map(col => col.label === colName ? ({label: colName, isChecked: isChecked}) : col));
-    }
-
+    // Refilter the source data and update the outputData anytime the array of filteredCols is changed.
     useEffect(() => {
-        if (jsonData) {
-            filterDF(jsonData, filteredCols.filter(col => col.isChecked).map(col => col.label));
+        if (jsonDataStr) {
+            filterDF(jsonDataStr, filteredCols.filter(col => col.isChecked).map(col => col.label));
         }
-
-        updateXarrow();
     }, [filteredCols]);
 
-    useEffect(() => {
     // Update component output data anytime columns are filtered or source data is modified
+    useEffect(() => {
         const c = [...components];
         c[c.findIndex(c => c.compID === compID)].data = outputData;
 
@@ -80,48 +55,59 @@ import APP_ACTION_TYPES from '../../action-types/appActionTypes';
             type: APP_ACTION_TYPES.MODIFY_COMPONENT_DATA,
             payload: c
         });
-
     }, [outputData]);
 
-    useEffect(() => {
-        
-        if (jsonData) {
+    // If there is a jsonDataStr and there is a change to it, then..., else reset outputData to null
+    useEffect(() => {  
+        if (jsonDataStr) {
 
-            setFilteredCols(JSON.parse(jsonData)['columns'].map(col => ({label: col, isChecked: true})));
+            // ...Update filteredCols for the new column names
+            setFilteredCols(JSON.parse(jsonDataStr)['columns'].map(col => ({label: col, isChecked: true})));
             
-            filterDF(jsonData, JSON.parse(jsonData)['columns']);
-
-            setCbKey(prevKey => prevKey + 1);
+            // ...Update the new outputData using all of the column names
+            filterDF(jsonDataStr, JSON.parse(jsonDataStr)['columns']);
         }
         else setOutputData(null);
-        updateXarrow();
+    }, [jsonDataStr]);
 
-    }, [jsonData]);
+    /**
+     * Takes a json formatted string that can be converted in to a pandas dataframe and a
+     * list of column names that will be filtered for. The Python function will set the
+     * new outputData to be the filtered dataframe as a JSON string.
+     * 
+     * @param {string} jsonStr Data is json format that can be converted to pandas dataframe
+     * @param {Array} cols A string array of column names to be filtered for
+     */
+    function filterDF(jsonStr, cols) {
+        if (isPyodideLoaded) {
+            // Load Python function
+            pyodide.runPython(filter);
+            // Call python function and sets new outputData state
+            setOutputData(pyodide.globals.get('filter')(jsonStr, cols));
+        }
+    }
 
-
-    useEffect(() => {
-        updateXarrow();
-    }, [showTable]);
+    /**
+     * Updates the filteredCols state by updatding the checked state of the column name passed
+     * 
+     * @param {string} colName 
+     * @param {boolean} isChecked 
+     */
+    function filterCol(colName, isChecked) {
+        setFilteredCols(prevState => prevState.map(col => col.label === colName ? ({label: colName, isChecked: isChecked}) : col));
+    }
 
     return (
 
-        <div className="d-flex" style={{position: "absolute"}}>
-            <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow} disabled={disableDrag}>
-                <div className="d-flex align-items-start">
-                    <div className="card border border-primary border-3" style={{width: "12rem"}}>
-                        <div className="card-body text-center">
-                            <DeleteDataComponentPill compID={compID} setDisableDrag={setDisableDrag} />
-                            <DataFlowPill isOnTop={true} id={`${compID}-top`} />
-                            <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
-                            <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
-                            {filteredCols && <Checkboxes key={cbKey} checkboxes={filteredCols} onChange={filterCol} />}
-                            <DataFlowPill isOnTop={false} id={`${compID}-btm`} />
-                        </div>
-                    </div>
-                    {outputData && <Table tableData={outputData} show={showTable} />}
-                </div>
-            </Draggable>
-        </div>
+        <DataComponentWrapper 
+            compID={compID}
+            cardTitle={cardTitle}
+            iconClassNames={iconClassNames}
+            outputData={outputData}
+        >
+            {filteredCols && <Checkboxes checkboxes={filteredCols} onChange={filterCol} />}
+        </DataComponentWrapper>
+
     );
 };
 
