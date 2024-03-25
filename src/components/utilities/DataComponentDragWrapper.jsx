@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Draggable from "react-draggable";
 import { useXarrow } from "react-xarrows";
 
-const DataComponentDragWrapper = ({children}) => {
+const DataComponentDragWrapper = ({children, disableDrag = false}) => {
 
-    const [disableDrag, setDisableDrag] = useState(false);
     const  updateXarrow = useXarrow();
 
     return (
