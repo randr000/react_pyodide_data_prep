@@ -1,47 +1,48 @@
-import React, {useState, useContext, useEffect } from 'react';
-import Draggable from 'react-draggable';
-import DataFlowPill from '../utilities/DataFlowPill';
-import ToggleTablePill from '../utilities/ToggleTablePill';
-import CardSummary from '../utilities/CardSummary';
+import React, { useState, useContext, useEffect } from 'react';
+import DataComponentWrapper from '../utilities/DataComponentWrapper';
+import AppDataContext from '../../context/AppDataContext';
+import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
+// import other utility component(s)
+
+
+// import Pyodide context
 import { PyodideContext } from '../../context/PyodideContext';
-import Table from '../utilities/Table';
 
-import { useXarrow } from 'react-xarrows';
 
-const FileDownload = ({cardTitle, fileExtension, iconClassNames, jsonData}) => {
 
-    const [showTable, setShowTable] = useState(true);
-    const [outputData, setOutputData] = useState(jsonData);
 
-    const updateXarrow = useXarrow();
+const FileDownload = ({compID, cardTitle, fileExtension, iconClassNames}) => {
+
+    const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
+    const {appState, dispatch} = useContext(AppDataContext);
+    const {connectComponents, components} = appState;
+
+    // A JSON formatted string that can be used to create a pandas dataframe
+    const [outputData, setOutputData] = useState(null);
+
+    // A reference to this components properties in the components global state variable
+    const thisComponent = components.filter(comp => comp.compID === compID)[0];
+
+    // If this component has a source component, then it loads the source component's JSON data as a string, else null
+    const jsonDataStr = thisComponent.sourceComponents.size ?
+                components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data : null;
 
     useEffect(() => {
-        setOutputData(jsonData);
-    }, [jsonData]);
+        setOutputData(jsonDataStr);
+    }, [jsonDataStr]);
 
-    useEffect(() => {
-        updateXarrow();
-    }, [showTable]);
 
     return (
-        <div className="d-flex">
-            <Draggable bounds="" onDrag={updateXarrow} onStop={updateXarrow}>
-                <div className="d-flex align-items-start">
-                    <div className="card border border-primary border-3" style={{width: "12rem"}}>
-                        <div className="card-body text-center">
+       <DataComponentWrapper
+        compID={compID}
+        cardTitle={cardTitle}
+        iconClassNames={iconClassNames}
+        canHaveOutput={false}
+        outputData={outputData}
+       >
 
-                            <DataFlowPill isOnTop={true} id="export-csv" />
-                            <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
-                            <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
-                            <DataFlowPill isOnTop={false} />
-
-                        </div>
-                    </div>
-                    {outputData && <Table tableData={outputData} show={showTable} />}
-                </div>
-            </Draggable>
-        </div>
+       </DataComponentWrapper>
     );
 };
 

@@ -32,7 +32,6 @@ export function dataComponentMaker(obj) {
                 cardTitle="Import CSV"
                 fileExtension="csv"
                 iconClassNames="bi bi-filetype-csv"
-                setUploadedFile={() => {}}
             />;
         case DATA_COMPONENT_TYPES.FILE_DOWNLOAD:
             return <FileDownload
