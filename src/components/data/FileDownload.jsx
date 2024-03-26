@@ -9,7 +9,8 @@ import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 // import Pyodide context
 import { PyodideContext } from '../../context/PyodideContext';
 
-
+// import Python function(s)
+import df_to_csv from '../../python_code_js_modules/df_to_csv';
 
 
 const FileDownload = ({compID, cardTitle, fileExtension, iconClassNames}) => {
@@ -27,11 +28,33 @@ const FileDownload = ({compID, cardTitle, fileExtension, iconClassNames}) => {
     // If this component has a source component, then it loads the source component's JSON data as a string, else null
     const jsonDataStr = thisComponent.sourceComponents.size ?
                 components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data : null;
-
+     
     useEffect(() => {
         setOutputData(jsonDataStr);
     }, [jsonDataStr]);
 
+    function handleOnClick() {
+        pyodide.runPython(df_to_csv);
+        // const file = pyodide.globals.get('df_to_csv')(outputData);
+        // const blob = new Blob([file], {type: "text/csv"})
+        // console.log(blob)
+        // const a = document.createElement('a');
+        // a.setAttribute('download', 'test.csv');
+        // const href = URL.createObjectURL(blob);
+        // a.href = href;
+        // a.click()
+        // URL.revokeObjectURL(href);
+        // document.removeChild(a);
+    //     const url = pyodide.globals.get('df_to_csv')(outputData);
+    //     const a = document.createElement('a');
+    //     a.setAttribute('download', 'test.csv');
+    //     const href = url;
+    //     a.href = href;
+    //     a.click()
+    //     URL.revokeObjectURL(href);
+    //     document.removeChild(a);
+    pyodide.globals.get('df_to_csv')(outputData);
+    }
 
     return (
        <DataComponentWrapper
@@ -41,7 +64,7 @@ const FileDownload = ({compID, cardTitle, fileExtension, iconClassNames}) => {
         canHaveOutput={false}
         outputData={outputData}
        >
-
+            <div onClick={handleOnClick}>click</div>
        </DataComponentWrapper>
     );
 };
