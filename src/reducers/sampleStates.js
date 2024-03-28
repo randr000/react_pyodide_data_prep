@@ -144,6 +144,43 @@ const sampleStates = {
                 compIDs: new Set([2, 4])
             }
         ]
+    },
+
+    e: {
+        nextID: 3,
+        connectComponents: false,
+        components: [
+            {
+                type: DATA_COMPONENT_TYPES.FILE_UPLOAD,
+                compID: 0,
+                outputComponents: new Set([1])
+            },
+            {
+                type: DATA_COMPONENT_TYPES.FILTER_COLS,
+                compID: 1,
+                outputComponents: new Set([]),
+                sourceComponents: new Set([0])
+            },
+            {
+                type: DATA_COMPONENT_TYPES.FILE_DOWNLOAD,
+                compID: 2,
+                sourceComponents: new Set([1])
+            }
+        ],
+        arrows: [
+            {
+                arrowID: '0-btm_1-top',
+                start: '0-btm',
+                end: '1-top',
+                compIDs: new Set([0, 1])
+            },
+            {
+                arrowID: '1-btm_2-top',
+                start: '1-btm',
+                end: '2-top',
+                compIDs: new Set([1, 2])
+            }
+        ]
     }
 };
 
