@@ -9,8 +9,8 @@ def df_to_csv(jsonStr):
     df = pd.read_json(path_or_buf=jsonStr, orient='split')
     with open('/test.csv', 'w') as f:
         df.to_csv(f, index=False, mode='w')
-    with open('/test.csv', 'r') as f2:
-        blob = Blob.new([f2.read()], {type: 'text/csv'})
+    with open('/test.csv', 'r') as f:
+        blob = Blob.new([f.read()], {type: 'text/csv'})
         url = window.URL.createObjectURL(blob)
         a = document.createElement('a')
         a.setAttribute('download', 'test.csv')
