@@ -35,25 +35,21 @@ const FileDownload = ({compID, cardTitle, fileExtension, iconClassNames}) => {
 
     function handleOnClick() {
         pyodide.runPython(df_to_csv);
-        // const file = pyodide.globals.get('df_to_csv')(outputData);
-        // const blob = new Blob([file], {type: "text/csv"})
+        const file = pyodide.globals.get('df_to_csv')(outputData);
+        const blob = new Blob([file], {type: "text/csv"})
         // console.log(blob)
-        // const a = document.createElement('a');
-        // a.setAttribute('download', 'test.csv');
-        // const href = URL.createObjectURL(blob);
-        // a.href = href;
-        // a.click()
-        // URL.revokeObjectURL(href);
+        const a = document.createElement('a');
+        a.setAttribute('download', 'test.csv');
+        const href = URL.createObjectURL(blob);
+        a.href = href;
+        a.click();
+        a.setAttribute('download', 'test.txt');
+        a.click();
+        URL.revokeObjectURL(href);
+        a.remove();
         // document.removeChild(a);
-        //     const url = pyodide.globals.get('df_to_csv')(outputData);
-        //     const a = document.createElement('a');
-        //     a.setAttribute('download', 'test.csv');
-        //     const href = url;
-        //     a.href = href;
-        //     a.click()
-        //     URL.revokeObjectURL(href);
-        //     document.removeChild(a);
-        console.log(pyodide.globals.get('df_to_csv')(outputData));
+
+        // console.log(pyodide.globals.get('df_to_csv')(outputData));
     }
 
     return (
