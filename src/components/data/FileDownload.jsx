@@ -36,20 +36,24 @@ const FileDownload = ({compID, cardTitle, fileExtension, iconClassNames}) => {
     function handleOnClick() {
         pyodide.runPython(df_to_csv);
         const file = pyodide.globals.get('df_to_csv')(outputData);
-        const blob = new Blob([file], {type: "text/csv"})
+        const blob = new Blob([file], {type: "text/csv"});
+        const blob2 = new Blob([file], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
         // console.log(blob)
         const a = document.createElement('a');
+        const a2 = document.createElement('a');
         a.setAttribute('download', 'test.csv');
+        a2.setAttribute('download', 'test.xlsx');
         const href = URL.createObjectURL(blob);
+        const href2 = URL.createObjectURL(blob2);
         a.href = href;
+        a2.href = href2;
         a.click();
+        a2.click();
         a.setAttribute('download', 'test.txt');
         a.click();
         URL.revokeObjectURL(href);
         a.remove();
-        // document.removeChild(a);
-
-        // console.log(pyodide.globals.get('df_to_csv')(outputData));
+        a2.remove();
     }
 
     return (
