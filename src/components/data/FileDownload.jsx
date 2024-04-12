@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { utils, read, writeFileXLSX } from 'xlsx';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import AppDataContext from '../../context/AppDataContext';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
@@ -36,24 +37,35 @@ const FileDownload = ({compID, cardTitle, fileExtension, iconClassNames}) => {
     function handleOnClick() {
         pyodide.runPython(df_to_csv);
         const file = pyodide.globals.get('df_to_csv')(outputData);
-        const blob = new Blob([file], {type: "text/csv"});
-        const blob2 = new Blob([file], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
-        // console.log(blob)
-        const a = document.createElement('a');
-        const a2 = document.createElement('a');
-        a.setAttribute('download', 'test.csv');
-        a2.setAttribute('download', 'test.xlsx');
-        const href = URL.createObjectURL(blob);
-        const href2 = URL.createObjectURL(blob2);
-        a.href = href;
-        a2.href = href2;
-        a.click();
-        a2.click();
-        a.setAttribute('download', 'test.txt');
-        a.click();
-        URL.revokeObjectURL(href);
-        a.remove();
-        a2.remove();
+        // const file = read(pyodide.globals.get('df_to_csv')(outputData));
+        console.log(JSON.parse(file)["xlsx"]);
+        const excelJSON = read(JSON.stringify(JSON.parse(file)["xlsx"]));
+        const workbook = utils.book_new();
+        const worksheet = utils.json_to_sheet([
+            {"state": "ny", "city": "buffalo"},
+            {"state": "fl", "city": "miami"}
+        ]);
+        utils.book_append_sheet(workbook, worksheet, 'data');
+        writeFileXLSX(workbook, 'test.xlsx');
+        // const blob = new Blob([file], {type: "text/csv"});
+        // const blob = new Blob([excelJSON], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+        // const blob = new Blob([workbook], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+        // console.log(blob);
+        // const a = document.createElement('a');
+        // const a2 = document.createElement('a');
+        // a.setAttribute('download', 'test.csv');
+        // a.setAttribute('download', 'test.xlsx');
+        // const href = URL.createObjectURL(blob);
+        // const href2 = URL.createObjectURL(blob2);
+        // a.href = href;
+        // a2.href = href2;
+        // a.click();
+        // a2.click();
+        // a.setAttribute('download', 'test.txt');
+        // a.click();
+        // URL.revokeObjectURL(href);
+        // a.remove();
+        // a2.remove();
     }
 
     return (
