@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { utils, read, writeFileXLSX } from 'xlsx';
+import Checkboxes from '../utilities/Checkboxes';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import AppDataContext from '../../context/AppDataContext';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
@@ -33,6 +34,25 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
     useEffect(() => {
         setOutputData(jsonDataStr);
     }, [jsonDataStr]);
+
+    // Keeps track of which download file type checkboxes are clicked
+    const [isCheckedFileType, setIsCheckedFileType] = useState([
+        {label: "csv", isChecked: false},
+        {label: "xlsx", isChecked: false},
+        {label: "txt", isChecked: false},
+        {label: "json (split)", isChecked: false},
+        {label: "json (records)", isChecked: false},
+    ]);
+
+    /**
+     * Updates the isCheckedFileType state by updatding the checked state of the file type name that was passed
+     * 
+     * @param {string} colName 
+     * @param {boolean} isChecked 
+     */
+    function handleCheckboxChange(label, isChecked) {
+        setIsCheckedFileType(prevState => prevState.map(fType => fType.label === label ? ({label: label, isChecked: isChecked}) : fType));
+    }
 
     function handleIconClick() {
         pyodide.runPython(df_to_csv);
@@ -77,6 +97,10 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         canHaveOutput={false}
         outputData={outputData}
        >
+            <Checkboxes 
+                checkboxes={isCheckedFileType}
+                onChange={handleCheckboxChange}
+            />
        </DataComponentWrapper>
     );
 };
