@@ -38,6 +38,7 @@ export function dataComponentMaker(obj) {
                 compID={compID}
                 cardTitle="Download"
                 iconClassNames="bi bi-file-earmark-arrow-down cursor-pointer"
+                iconOnClick={() => console.log('working')}
             />;
         
         case DATA_COMPONENT_TYPES.FILTER_COLS:

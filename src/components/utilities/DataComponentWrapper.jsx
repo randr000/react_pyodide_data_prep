@@ -11,6 +11,7 @@ const DataComponentWrapper = ({
     compID,
     cardTitle = 'Blank',
     iconClassNames = '',
+    iconOnClick = () => {},
     canHaveSources = true,
     canHaveOutput = true,
     outputData = null
@@ -26,7 +27,7 @@ const DataComponentWrapper = ({
                     <DeleteDataComponentPill compID={compID} setDisableDrag={setDisableDrag} />
                     {canHaveSources && <DataFlowPill isOnTop={true} id={`${compID}-top`} />}
                     <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
-                    <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} />
+                    <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
                     {children}
                     {canHaveOutput && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
                 </div>
