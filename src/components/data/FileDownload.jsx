@@ -14,7 +14,7 @@ import { PyodideContext } from '../../context/PyodideContext';
 import df_to_csv from '../../python_code_js_modules/df_to_csv';
 
 
-const FileDownload = ({compID, cardTitle, iconClassNames, iconOnClick}) => {
+const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const {appState, dispatch} = useContext(AppDataContext);
@@ -34,7 +34,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames, iconOnClick}) => {
         setOutputData(jsonDataStr);
     }, [jsonDataStr]);
 
-    function handleOnClick() {
+    function handleIconClick() {
         pyodide.runPython(df_to_csv);
         const file = pyodide.globals.get('df_to_csv')(outputData);
         // const file = read(pyodide.globals.get('df_to_csv')(outputData));
@@ -73,11 +73,10 @@ const FileDownload = ({compID, cardTitle, iconClassNames, iconOnClick}) => {
         compID={compID}
         cardTitle={cardTitle}
         iconClassNames={iconClassNames}
-        iconOnClick={iconOnClick}
+        iconOnClick={handleIconClick}
         canHaveOutput={false}
         outputData={outputData}
        >
-            <div onClick={handleOnClick}>click</div>
        </DataComponentWrapper>
     );
 };
