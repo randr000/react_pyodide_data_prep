@@ -36,9 +36,8 @@ export function dataComponentMaker(obj) {
         case DATA_COMPONENT_TYPES.FILE_DOWNLOAD:
             return <FileDownload
                 compID={compID}
-                cardTitle="Export CSV"
-                fileExtension="csv"
-                iconClassNames="bi bi-filetype-csv"
+                cardTitle="Download"
+                iconClassNames="bi bi-file-earmark-arrow-down cursor-pointer"
             />;
         
         case DATA_COMPONENT_TYPES.FILTER_COLS:

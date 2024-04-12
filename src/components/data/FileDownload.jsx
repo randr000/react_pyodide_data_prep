@@ -14,7 +14,7 @@ import { PyodideContext } from '../../context/PyodideContext';
 import df_to_csv from '../../python_code_js_modules/df_to_csv';
 
 
-const FileDownload = ({compID, cardTitle, fileExtension, iconClassNames}) => {
+const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const {appState, dispatch} = useContext(AppDataContext);

@@ -74,7 +74,7 @@ const FileUploadDropZone = ({file, setFile, ext}) => {
 
     return (
         <div
-            className="card mb-2"
+            className="card mb-2 cursor-pointer"
             style={uploadStyles}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
