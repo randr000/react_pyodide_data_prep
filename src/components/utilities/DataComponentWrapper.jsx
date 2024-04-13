@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, Children, cloneElement } from "react";
 import DataComponentDragWrapper from "./DataComponentDragWrapper";
 import DeleteDataComponentPill from "./DeleteDataComponentPill";
 import DataFlowPill from "./DataFlowPill";
@@ -14,11 +14,24 @@ const DataComponentWrapper = ({
     iconOnClick = () => {},
     canHaveSources = true,
     canHaveOutput = true,
-    outputData = null
+    outputData = null,
+    // isDragDisabled = false
 }) => {
 
     const [showTable, setShowTable] = useState(true);
     const [disableDrag, setDisableDrag] = useState(false);
+    // useEffect(() => {
+    //     setDisableDrag(isDragDisabled);
+    //     console.log(`DataComponentWrapper: ${disableDrag}`)
+    // },[disableDrag])
+
+    function handleDragOnMouseOver() {
+        setDisableDrag(true);
+    }
+
+    function handleDragOnMouseOut() {
+        setDisableDrag(false);
+    }
 
     return (
         <DataComponentDragWrapper disableDrag={disableDrag}>
@@ -28,7 +41,14 @@ const DataComponentWrapper = ({
                     {canHaveSources && <DataFlowPill isOnTop={true} id={`${compID}-top`} />}
                     <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                     <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
-                    {children}
+                    {/* {children} */}
+                    {Children.map(children, child => {
+                        // console.log(child.props.hasOwnProperty("disabledragonhover"));
+                        // return child;
+                        if (child.props.hasOwnProperty("disabledragonhover")) {
+                            return cloneElement(child, {onMouseOver: handleDragOnMouseOver, onMouseOut: handleDragOnMouseOut});
+                        } else return child;
+                    })}
                     {canHaveOutput && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
                 </div>
             </div>

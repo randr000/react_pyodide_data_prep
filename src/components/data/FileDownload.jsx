@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { utils, read, writeFileXLSX } from 'xlsx';
 import Checkboxes from '../utilities/Checkboxes';
+import Form from 'react-bootstrap/Form';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import AppDataContext from '../../context/AppDataContext';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
@@ -35,6 +36,9 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         setOutputData(jsonDataStr);
     }, [jsonDataStr]);
 
+    // Filename to use for downloaded file
+    const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
+
     // Keeps track of which download file type checkboxes are clicked
     const [isCheckedFileType, setIsCheckedFileType] = useState([
         {label: "csv", isChecked: false},
@@ -43,6 +47,21 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         {label: "json (split)", isChecked: false},
         {label: "json (records)", isChecked: false},
     ]);
+
+    // // Disable and enable the data component to be dragged
+    // const [disableDrag, setDisableDrag] = useState(false);
+
+    // function handleOnMouseOver() {
+    //     setDisableDrag(true);
+    // }
+
+    // function handleOnMouseOut() {
+    //     setDisableDrag(false);
+    // }
+
+    // useEffect(() => {
+    //     console.log(`FileDownload: ${disableDrag}`)
+    // }, [disableDrag])
 
     /**
      * Updates the isCheckedFileType state by updatding the checked state of the file type name that was passed
@@ -97,6 +116,18 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         canHaveOutput={false}
         outputData={outputData}
        >
+            <Form className="mb-1" disabledragonhover>
+                <Form.Group >
+                    <div className="d-flex justify-content-start">
+                        <Form.Label className="fw-bold">Filename:</Form.Label>
+                    </div>
+                    <Form.Control
+                        type="text"
+                        value={filename}
+                        onChange={e => setFilename(e.target.value)}
+                    />
+                </Form.Group>
+            </Form>
             <Checkboxes 
                 checkboxes={isCheckedFileType}
                 onChange={handleCheckboxChange}
