@@ -56,7 +56,7 @@ const DataComponentWrapper = ({
         <DataComponentDragWrapper disableDrag={disableDrag}>
             <div className="card border border-primary border-3" style={{width: "12rem"}}>
                 <div className="card-body text-center">
-                    <DeleteDataComponentPill compID={compID} setDisableDrag={setDisableDrag} />
+                    <DeleteDataComponentPill compID={compID} handleDragOnMouseOver={handleDragOnMouseOver} handleDragOnMouseOut={handleDragOnMouseOut} />
                     {canHaveSources && <DataFlowPill isOnTop={true} id={`${compID}-top`} />}
                     <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                     <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
