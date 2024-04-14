@@ -13,7 +13,7 @@ const DataComponentDragWrapper = ({children, disableDrag = false}) => {
     return (
         <div className="d-flex" style={{position: "absolute"}}>
             <Draggable nodeRef={nodeRef} bounds="" onDrag={updateXarrow} onStop={updateXarrow} disabled={disableDrag}>
-                <div ref={nodeRef} className="d-flex align-items-start cursor-grab">
+                <div ref={nodeRef} className="cursor-grab">
                     {children}
                 </div>
             </Draggable>

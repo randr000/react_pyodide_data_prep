@@ -116,22 +116,25 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         canHaveOutput={false}
         outputData={outputData}
        >
-            <Form className="mb-1" disabledragonhover>
-                <Form.Group >
+            <Form disabledragdrilldown>
+                <Form.Group disabledragdrilldown>
                     <div className="d-flex justify-content-start">
-                        <Form.Label className="fw-bold">Filename:</Form.Label>
+                        <Form.Label className="fw-bold cursor-grab">Filename:</Form.Label>
                     </div>
                     <Form.Control
+                        disabledragonhover
                         type="text"
                         value={filename}
                         onChange={e => setFilename(e.target.value)}
                     />
                 </Form.Group>
             </Form>
-            <Checkboxes 
-                checkboxes={isCheckedFileType}
-                onChange={handleCheckboxChange}
-            />
+            <div className="mt-2">
+                <Checkboxes
+                    checkboxes={isCheckedFileType}
+                    onChange={handleCheckboxChange}
+                />
+            </div>
        </DataComponentWrapper>
     );
 };
