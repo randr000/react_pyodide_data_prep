@@ -80,7 +80,9 @@ const FileUpload = ({compID, cardTitle, fileExtension, iconClassNames}) => {
             canHaveSources={false}
             outputData={outputData}
         >
-            <FileUploadDropZone file={file} setFile={setFile} ext={fileExtension} />
+            <div disabledragonhover>
+                <FileUploadDropZone file={file} setFile={setFile} ext={fileExtension} />
+            </div>
         </DataComponentWrapper>
 
     );
