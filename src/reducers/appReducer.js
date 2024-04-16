@@ -2,18 +2,21 @@ import APP_ACTION_TYPES from "../action-types/appActionTypes";
 import sampleStates from "./sampleStates";
 
 // export const APP_INITIAL_STATE = {
+//     isDragging: false,    
 //     nextID: 0,
 //     connectComponents: false,
 //     components: [],
 //     arrows: []
 // };
 
-export const APP_INITIAL_STATE = sampleStates.e;
+export const APP_INITIAL_STATE = {isDragging: false, ...sampleStates.e};
 
 /*
 *   APP INITIAL STATE:
-*
-*   nextID: int -Would be the next value to use as a unique React component key for the data components
+*   
+*   isDragging: bool - True means a data component is currently being dragged. Prevents click event from firing
+                       after component is finished being dragged.
+*   nextID: int - Would be the next value to use as a unique React component key for the data components
 *   connectComponentes: bool - True means a user can click on another valid data component in order to
 *                              create a connection between both of them and an arrow.
 *
@@ -55,5 +58,7 @@ export const appReducer = (state, action) => {
             return {...state, components: payload};
         case APP_ACTION_TYPES.ADD_SOURCE_OUTPUT_REFS:
             return {...state, components: payload};
+        case APP_ACTION_TYPES.TOGGLE_IS_DRAGGING:
+            return {...state, isDragging: payload};
     }
 };

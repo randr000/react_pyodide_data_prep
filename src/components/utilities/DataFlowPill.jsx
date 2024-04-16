@@ -5,7 +5,7 @@ import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
 
     const {appState, dispatch} = useContext(AppDataContext);
-    const {connectComponents, components} = appState;
+    const {connectComponents, components, isDragging} = appState;
 
     function openConn() {
         dispatch({
@@ -19,6 +19,7 @@ const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
     }
 
     function handleOnClick() {
+        if (isDragging) return;
         if (isOnTop) {
             // Only creates arrow connection if they are different data components
             if (connectComponents && parseInt(connectComponents.pillID) !== parseInt(id)) {

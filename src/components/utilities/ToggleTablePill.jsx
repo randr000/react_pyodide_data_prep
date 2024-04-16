@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
+import AppDataContext from '../../context/AppDataContext';
 
 const ToggleTablePill = ({isOnTop, id, showTable, toggleTable}) => {
 
+    const {appState, dispatch} = useContext(AppDataContext);
+    const {isDragging} = appState;
+
     return (
         <span
-            onClick={() => toggleTable(prev => !prev)}
+            onClick={() => !isDragging && toggleTable(prev => !prev)}
             id={id}
             className={`
                 position-absolute

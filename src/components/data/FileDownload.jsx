@@ -20,7 +20,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const {appState, dispatch} = useContext(AppDataContext);
-    const {connectComponents, components} = appState;
+    const {connectComponents, components, isDragging} = appState;
 
     // A JSON formatted string that can be used to create a pandas dataframe
     const [outputData, setOutputData] = useState(null);
@@ -74,6 +74,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
     }
 
     function handleIconClick() {
+        if (isDragging) return;
         pyodide.runPython(df_to_csv);
         const file = pyodide.globals.get('df_to_csv')(outputData);
         // const file = read(pyodide.globals.get('df_to_csv')(outputData));
