@@ -10,9 +10,17 @@ const DataComponentDragWrapper = ({children, disableDrag = false}) => {
     // Followed steps from React-Draggable documentation
     const nodeRef = useRef(null);
 
+    function handleOnDrag() {
+        updateXarrow();
+    }
+
+    function handleOnStop() {
+        updateXarrow();
+    }
+
     return (
         <div className="d-flex" style={{position: "absolute"}}>
-            <Draggable nodeRef={nodeRef} bounds="" onDrag={updateXarrow} onStop={updateXarrow} disabled={disableDrag}>
+            <Draggable nodeRef={nodeRef} bounds="" onDrag={handleOnDrag} onStop={handleOnStop} disabled={disableDrag}>
                 <div ref={nodeRef} className="d-flex align-items-start cursor-grab">
                     {children}
                 </div>
