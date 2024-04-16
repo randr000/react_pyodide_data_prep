@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import AppDataContext from '../../context/AppDataContext';
 
 const Checkbox = ({label, checkedState, onChange}) => {
 
     const [isChecked, setIsChecked] = useState(checkedState);
 
+    const {appState, _} = useContext(AppDataContext);
+    const {isDragging} = appState;
+
     function makeChanges() {
+        if (isDragging) return true;
         setIsChecked(!isChecked);
         onChange(label, !isChecked);
     }
