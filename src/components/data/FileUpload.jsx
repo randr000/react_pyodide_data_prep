@@ -46,7 +46,11 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
         setInvalidFileMsg(msg);
     }
 
+    // Error messages for different filetypes to be displayed to the user
+    const csvErrorMsg = 'An error occured reading the CSV file. Please make sure it is in the appropriate format.';
+    const txtErrorMsg = csvErrorMsg.replace('CSV', 'TXT');
     const jsonErrorMsg = 'An error occured reading the JSON file. Please make sure it is in the appropriate format.';
+    const excelErrorMsg = 'An error occured reading the Excel file. Please make sure it is in the appropriate format.';
 
     /* If file is uploaded successfully and Pyodide is loaded, then data from file
        is converted to json and stored in 'outputData' state variable. */
@@ -69,11 +73,16 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
 
         if (file) {
 
-            if (file.name.endsWith('.csv') || file.name.endsWith('.txt')) {
-                const url = createObjectURL(file);
-                readFileToDF(url);
+            if (file.name.endsWith.toLowerCase('.csv') || file.name.endsWith.toLowerCase('.txt')) {
+                try {
+                    const url = createObjectURL(file);
+                    readFileToDF(url);
+                } catch (e) {
+                    updateInvalidFileState(true, file.name.endsWith.toLowerCase('csv') ? csvErrorMsg : txtErrorMsg);
+                    console.log(e);
+                }
             
-            } else if (file.name.endsWith('.json')) {
+            } else if (file.name.endsWith.toLowerCase('.json')) {
                 try {
                     const fr = new FileReader();
                     fr.onload = () => {
@@ -99,6 +108,8 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
                     updateInvalidFileState(true, jsonErrorMsg);
                     console.log(e);
                 }
+            } else if (file.name.endsWith.toLowerCase('.xlsx')) {
+                return;
             }
 
         } else setOutputData(null);
