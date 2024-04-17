@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext } from 'react';
 import AppDataContext from '../../context/AppDataContext';
 
 const FileUploadDropZone = ({
-    file, setFile, ext, updateInvalidFileState, isInvalidFile, invalidFileMsg, uploadStyles, setUploadStyles}) => {
+    file, setFile, updateInvalidFileState, isInvalidFile, invalidFileMsg, uploadStyles, setUploadStyles}) => {
 
     const {appState, _} = useContext(AppDataContext);
     const {isDragging} = appState;
@@ -37,7 +37,7 @@ const FileUploadDropZone = ({
      */
     function handleChange(event) {
         const uploadedFile = event.target.files[0];
-        processUploadedFile(uploadedFile, ext);
+        processUploadedFile(uploadedFile);
     }
 
     /**
@@ -47,14 +47,13 @@ const FileUploadDropZone = ({
     function handleDrop(event) {
         event.preventDefault();
         const uploadedFile = event.dataTransfer.files[0];
-        processUploadedFile(uploadedFile, ext);
+        processUploadedFile(uploadedFile);
     }
 
     /**
      * Checks if uploaded file is of the correct type and update component state
      * and styles accordingly.
      * @param {object} file - object representing file that was uploaded by user 
-     * @param {string} ext - string representing the file extension the file must have.
      */
     function processUploadedFile(file) {
 

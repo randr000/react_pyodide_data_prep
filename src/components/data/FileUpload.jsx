@@ -17,7 +17,7 @@ import input_to_df from '../../python_code_js_modules/input_to_df';
 import { createObjectURL } from '../../js/functions';
 
 
-const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
+const FileUpload = ({compID, cardTitle, iconClassNames}) => {
 
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const {appState, dispatch} = useContext(AppDataContext);
@@ -169,7 +169,6 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
             <FileUploadDropZone
                 file={file}
                 setFile={setFile}
-                ext={fileExtension}
                 updateInvalidFileState={updateInvalidFileState}
                 isInvalidFile={isInvalidFile}
                 invalidFileMsg={invalidFileMsg}
