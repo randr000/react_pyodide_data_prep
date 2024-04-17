@@ -10,7 +10,7 @@ import FileUploadDropZone from '../utilities/FileUploadDropZone';
 import { PyodideContext } from '../../context/PyodideContext';
 
 // import Python function(s)
-import create_df_from_csv from '../../python_code_js_modules/create_df_from_csv';
+import input_to_df from '../../python_code_js_modules/input_to_df';
 
 // import other function(s)
 import { createObjectURL } from '../../js/functions';
@@ -59,30 +59,30 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
         /**
          * Converts the data from the uploaded file into a JSON object and sets the outputData state
          * 
-         * @param {string} path A path to the location where the uploaded file was stored by the browser
+         * @param {string} pathOrJSONString A path to the location where the uploaded file was stored by the browser or json string with data
          */
-        async function readFileToDF(path) {
+        async function readFileToDF(pathOrJSONString, fileType) {
 
             if (isPyodideLoaded) {
                 // Load python function
-                pyodide.runPython(create_df_from_csv);
+                pyodide.runPython(input_to_df);
                 // Call python function and sets new outputData state
-                setOutputData(pyodide.globals.get('create_df_from_csv')(path, ','));
+                setOutputData(pyodide.globals.get('input_to_df')(pathOrJSONString, fileType));
             }
         }
 
         if (file) {
 
-            if (file.name.endsWith.toLowerCase('.csv') || file.name.endsWith.toLowerCase('.txt')) {
+            if (file.name.toLowerCase().endsWith('.csv') || file.name.toLowerCase().endsWith('.txt')) {
                 try {
                     const url = createObjectURL(file);
-                    readFileToDF(url);
+                    readFileToDF(url, 'csv');
                 } catch (e) {
-                    updateInvalidFileState(true, file.name.endsWith.toLowerCase('csv') ? csvErrorMsg : txtErrorMsg);
+                    updateInvalidFileState(true, file.name.toLowerCase().endsWith('csv') ? csvErrorMsg : txtErrorMsg);
                     console.log(e);
                 }
             
-            } else if (file.name.endsWith.toLowerCase('.json')) {
+            } else if (file.name.toLowerCase().endsWith('.json')) {
                 try {
                     const fr = new FileReader();
                     fr.onload = () => {
@@ -95,7 +95,8 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
                             : null;
 
                         if (orient == 'records') {
-                            return;
+                            const json_str = JSON.stringify({data: jsonDataObj});
+                            readFileToDF(json_str, 'json');
 
                         } else if (orient == 'split') {
                             setOutputData(JSON.stringify(jsonDataObj));
@@ -108,7 +109,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
                     updateInvalidFileState(true, jsonErrorMsg);
                     console.log(e);
                 }
-            } else if (file.name.endsWith.toLowerCase('.xlsx')) {
+            } else if (file.name.toLowerCase().endsWith('.xlsx')) {
                 return;
             }
 
