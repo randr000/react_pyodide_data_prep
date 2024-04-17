@@ -13,6 +13,7 @@ const FileUploadDropZone = ({file, setFile, ext}) => {
     });
 
     const [isInvalidFile, setIsInvalidFile] = useState(false);
+    const [invalidFileMsg, setInvalidFileMsg] = useState('');
 
     const inputRef = useRef();
 
@@ -63,16 +64,21 @@ const FileUploadDropZone = ({file, setFile, ext}) => {
      * @param {object} file - object representing file that was uploaded by user 
      * @param {string} ext - string representing the file extension the file must have.
      */
-    function processUploadedFile(file, ext) {
-        
-        if (file.name.toLowerCase().endsWith(`.${ext}`)) {
+    function processUploadedFile(file) {
+
+        const regex = new RegExp('(.*\.xlsx$|.*\.csv$|.*\.json$|.*\.txt$)', 'i');
+
+        // Check if file is of correct type based on file extension
+        if (regex.test(file.name)) {
             setFile(file);
             setUploadStyles(styles => ({...styles, borderColor: "#28a745", borderStyle: "solid"}));
             setIsInvalidFile(false);
+            setInvalidFileMsg('');
         } else {
             setFile(null);
             setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "dashed"}))
             setIsInvalidFile(true);
+            setInvalidFileMsg('Invalid filetype. Please make sure filename extension is equal to .csv, .xlsx, .txt, or .json!');
         }
     }
 
@@ -96,7 +102,7 @@ const FileUploadDropZone = ({file, setFile, ext}) => {
                     "Drag or click to browse"
                 }
             </p>
-            {isInvalidFile && <p className="fs-5 fw-bold text-danger">File type must be {ext}</p>}
+            {isInvalidFile && <p className="fs-5 fw-bold text-danger">{invalidFileMsg}</p>}
             <input
                 type="file"
                 onChange={handleChange}
