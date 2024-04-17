@@ -73,7 +73,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
         // Handle downloads for csv and txt files
         if (downloadCsv || downloadTxt) {
-            const blob = new Blob([JSON.stringify(dataJSON['csv_txt'])], {type: 'text/csv'});
+            const blob = new Blob([dataJSON['csv_txt']], {type: 'text/csv'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
 
@@ -113,8 +113,6 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
         // Handle downloads for Excel files
         if (downloadExcel) {
-
-            // const excelJSON = read(dataStr);
             const workbook = utils.book_new();
             const worksheet = utils.json_to_sheet(JSON.parse(dataJSON['xlsx_json']));
             utils.book_append_sheet(workbook, worksheet, 'data');
