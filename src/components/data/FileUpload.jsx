@@ -28,6 +28,26 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
     // A reference to the uploaded file
     const [file, setFile] = useState(null);
 
+    // True if uploaded file is not a valid file or there is an error processing it
+    const [isInvalidFile, setIsInvalidFile] = useState(false);
+
+    // Message to be displayed if there is an error uploading or processing the file
+    const [invalidFileMsg, setInvalidFileMsg] = useState('');
+
+    /**
+     * 
+     * Function to update states for isInvalidFile and invalidFileMsg
+     * 
+     * @param {Boolean} bool - true if it is invalid file or error, false if otherwise
+     * @param {String} msg - The message to display to the user if there was an error uploading or processing the file
+     */
+    function updateInvalidFileState(bool=false, msg='') {
+        setIsInvalidFile(bool);
+        setInvalidFileMsg(msg);
+    }
+
+    const jsonErrorMsg = 'An error occured reading the JSON file. Please make sure it is in the appropriate format.';
+
     /* If file is uploaded successfully and Pyodide is loaded, then data from file
        is converted to json and stored in 'outputData' state variable. */
     useEffect(() => {
@@ -48,9 +68,37 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
         }
 
         if (file) {
+
             if (file.name.endsWith('.csv') || file.name.endsWith('.txt')) {
                 const url = createObjectURL(file);
                 readFileToDF(url);
+            
+            } else if (file.name.endsWith('.json')) {
+                try {
+                    const fr = new FileReader();
+                    fr.onload = () => {
+                        const jsonDataObj = JSON.parse(fr.result);
+                        const orient = 
+                            Array.isArray(jsonDataObj) 
+                            ? 'records'
+                            : jsonDataObj.hasOwnProperty('columns') && jsonDataObj.hasOwnProperty('index') && jsonDataObj.hasOwnProperty('data')
+                            ? 'split'
+                            : null;
+
+                        if (orient == 'records') {
+                            return;
+
+                        } else if (orient == 'split') {
+                            setOutputData(JSON.stringify(jsonDataObj));
+
+                        } else throw new Error(jsonErrorMsg);
+                        
+                    }
+                    fr.readAsText(file);
+                } catch (e) {
+                    updateInvalidFileState(true, jsonErrorMsg);
+                    console.log(e);
+                }
             }
 
         } else setOutputData(null);
@@ -83,7 +131,14 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
             canHaveSources={false}
             outputData={outputData}
         >
-            <FileUploadDropZone file={file} setFile={setFile} ext={fileExtension} />
+            <FileUploadDropZone
+                file={file}
+                setFile={setFile}
+                ext={fileExtension}
+                updateInvalidFileState={updateInvalidFileState}
+                isInvalidFile={isInvalidFile}
+                invalidFileMsg={invalidFileMsg}
+            />
         </DataComponentWrapper>
 
     );
