@@ -87,9 +87,11 @@ const FileUploadDropZone = ({file, setFile, ext, updateInvalidFileState, isInval
             onClick={() => !isDragging && inputRef.current.click()}
         >
             {
-                file ?
-                <i className="bi bi-file-check display-3 text-success"></i> :
-                <i className="bi bi-file-earmark-arrow-up display-3"></i>
+                isInvalidFile
+                ? <i className="bi bi-file-earmark-x display-3 text-danger"></i>
+                : file
+                    ? <i className="bi bi-file-check display-3 text-success"></i>
+                    : <i className="bi bi-file-earmark-arrow-up display-3"></i>
             }
             <p className="fs-5">{
                     file ?
