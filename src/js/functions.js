@@ -2,6 +2,7 @@ import DATA_COMPONENT_TYPES from "./dataComponentTypes";
 import FileUpload from "../components/data/FileUpload";
 import FileDownload from "../components/data/FileDownload";
 import FilterCols from "../components/data/FilterCols";
+import Union from "../components/data/Union";
 
 /**
  * Creates a URL string pointing to the file passed as the argument 
@@ -26,6 +27,7 @@ export function createObjectURL(file) {
 export function dataComponentMaker(obj) {
     const {type, compID} = obj;
     switch(type) {
+
         case DATA_COMPONENT_TYPES.FILE_UPLOAD:
             return <FileUpload
                 compID={compID}
@@ -33,6 +35,7 @@ export function dataComponentMaker(obj) {
                 fileExtension="csv"
                 iconClassNames={false}
             />;
+
         case DATA_COMPONENT_TYPES.FILE_DOWNLOAD:
             return <FileDownload
                 compID={compID}
@@ -45,6 +48,13 @@ export function dataComponentMaker(obj) {
                 compID={compID}
                 cardTitle="Filter Columns"
                 iconClassNames="bi bi-funnel"
+            />;
+
+        case DATA_COMPONENT_TYPES.UNION:
+            return <Union
+                compID={compID}
+                cardTitle={"Union"}
+                iconClassNames={"bi bi-union"}
             />;
     }
 }

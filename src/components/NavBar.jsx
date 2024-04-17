@@ -31,7 +31,7 @@ const NavBar = () => {
                 <NavBarComponentButton btnText="Filter Columns" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILTER_COLS)}/>
                 <NavBarComponentButton btnText="Filter Rows" />
                 <NavBarComponentButton btnText="Join" />
-                <NavBarComponentButton btnText="Union" />
+                <NavBarComponentButton btnText="Union" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.UNION)}/>
             </nav>
         </>
     );

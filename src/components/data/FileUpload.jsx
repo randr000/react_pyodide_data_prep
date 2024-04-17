@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import AppDataContext from '../../context/AppDataContext';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
-import { utils, read, readFile } from 'xlsx';
+import { utils, read } from 'xlsx';
 
 // import other utility component(s)
 import FileUploadDropZone from '../utilities/FileUploadDropZone';
