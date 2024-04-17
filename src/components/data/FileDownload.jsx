@@ -1,13 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { utils, read, writeFileXLSX } from 'xlsx';
-import Checkboxes from '../utilities/Checkboxes';
+import { utils, writeFileXLSX } from 'xlsx';
 import Form from 'react-bootstrap/Form';
-import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import AppDataContext from '../../context/AppDataContext';
-import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
 // import other utility component(s)
-
+import Checkboxes from '../utilities/Checkboxes';
+import DataComponentWrapper from '../utilities/DataComponentWrapper';
 
 // import Pyodide context
 import { PyodideContext } from '../../context/PyodideContext';
