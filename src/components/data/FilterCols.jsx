@@ -10,7 +10,7 @@ import Checkboxes from '../utilities/Checkboxes';
 import { PyodideContext } from '../../context/PyodideContext';
 
 // import Python function(s)
-import filter from '../../python_code_js_modules/filter';
+import filter_cols from '../../python_code_js_modules/filter_cols';
 
 
 const FilterCols = ({compID, cardTitle, iconClassNames}) => {
@@ -81,9 +81,9 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     function filterDF(jsonStr, cols) {
         if (isPyodideLoaded) {
             // Load Python function
-            pyodide.runPython(filter);
+            pyodide.runPython(filter_cols);
             // Call python function and sets new outputData state
-            setOutputData(pyodide.globals.get('filter')(jsonStr, cols));
+            setOutputData(pyodide.globals.get('filter_cols')(jsonStr, cols));
         }
     }
 
