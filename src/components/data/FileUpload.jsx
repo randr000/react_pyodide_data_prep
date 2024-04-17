@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import AppDataContext from '../../context/AppDataContext';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
-import { utils, read } from 'xlsx';
+import { utils, read, readFile } from 'xlsx';
 
 // import other utility component(s)
 import FileUploadDropZone from '../utilities/FileUploadDropZone';
@@ -121,7 +121,14 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
                 }
             } else if (file.name.toLowerCase().endsWith('.xlsx')) {
                 try {
-                    console.log(read(file))
+                    (async () => {
+                        const data = await file.arrayBuffer();
+                        const wb = read(data);
+                        const ws = wb.Sheets[wb.SheetNames[0]];
+                        const json_str = JSON.stringify({data: utils.sheet_to_json(ws)});
+                        readFileToDF(json_str, 'json');
+                    })();
+
                 } catch (e) {
                     updateInvalidFileState(true, excelErrorMsg);
                     setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "solid"}));
