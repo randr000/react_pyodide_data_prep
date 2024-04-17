@@ -4,15 +4,21 @@ import pandas as pd
 import json
 from js import Blob, document, window
 
-def df_to_output(json_str):
+def df_to_output(json_str, file_types):
+
+    data_dict = {}
+
     df = pd.read_json(path_or_buf=json_str, orient='split')
-    with open('/test.csv', 'w') as f:
-        df.to_csv(f, index=False, mode='w')
-    with open('/test.csv', 'r') as f:
-        # return f.read(), pd.DataFrame.from_dict(json.loads(json_str)).to_json(orient='records')
-        return json.dumps({
-            "csv": f.read(),
-            "xlsx": df.to_json(orient='records')
-        })`;
+
+    if 'csv' in file_types or 'txt' in file_types:
+        with open('/_.csv', 'w') as f:
+            df.to_csv(f, index=False, mode='w')
+        with open('/_.csv', 'r') as f:
+            data_dict['csv_txt'] = f.read()
+
+    if 'xlsx' in file_types or 'json (records)' in file_types:
+        data_dict['xlsx_json'] = df.to_json(orient='records')
+    
+    return json.dumps(data_dict)`;
 
 export default df_to_output;

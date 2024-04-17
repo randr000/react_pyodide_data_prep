@@ -48,21 +48,6 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         {label: "json (records)", isChecked: false},
     ]);
 
-    // // Disable and enable the data component to be dragged
-    // const [disableDrag, setDisableDrag] = useState(false);
-
-    // function handleOnMouseOver() {
-    //     setDisableDrag(true);
-    // }
-
-    // function handleOnMouseOut() {
-    //     setDisableDrag(false);
-    // }
-
-    // useEffect(() => {
-    //     console.log(`FileDownload: ${disableDrag}`)
-    // }, [disableDrag])
-
     /**
      * Updates the isCheckedFileType state by updatding the checked state of the file type name that was passed
      * 
@@ -75,18 +60,82 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
     function handleIconClick() {
         if (isDragging) return;
+
+        const fileTypes = isCheckedFileType.filter(obj => obj.isChecked).map(obj => obj.label);
         pyodide.runPython(df_to_output);
-        const file = pyodide.globals.get('df_to_output')(outputData);
-        // const file = read(pyodide.globals.get('df_to_output')(outputData));
-        console.log(JSON.parse(file)["xlsx"]);
-        const excelJSON = read(JSON.stringify(JSON.parse(file)["xlsx"]));
-        const workbook = utils.book_new();
-        const worksheet = utils.json_to_sheet([
-            {"state": "ny", "city": "buffalo"},
-            {"state": "fl", "city": "miami"}
-        ]);
-        utils.book_append_sheet(workbook, worksheet, 'data');
-        writeFileXLSX(workbook, 'test.xlsx');
+        const dataJSON = JSON.parse(pyodide.globals.get('df_to_output')(outputData, fileTypes))
+
+        const downloadCsv = fileTypes.includes('csv');
+        const downloadTxt = fileTypes.includes('txt');
+        const downloadExcel = fileTypes.includes('xlsx');
+        const downloadJSONSplit = fileTypes.includes('json (split)');
+        const downloadJSONRecords = fileTypes.includes('json (records)');
+
+        // Handle downloads for csv and txt files
+        if (downloadCsv || downloadTxt) {
+            const blob = new Blob([JSON.stringify(dataJSON['csv_txt'])], {type: 'text/csv'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+
+            if (downloadCsv) {
+                a.setAttribute('download', `${filename}.csv`);
+                a.click();
+            }
+
+            if (downloadTxt) {
+                a.setAttribute('download', `${filename}.txt`);
+                a.click();
+            }
+
+            a.remove(); 
+        }
+
+        // Handle downloads for json (split) files
+        if (downloadJSONSplit) {
+            const blob = new Blob([JSON.stringify(JSON.parse(outputData), null, 4)], {type: 'application/json'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.setAttribute('download', `${filename}-split.json`);
+            a.click();
+            a.remove();
+        }
+
+        if (downloadJSONRecords) {
+            const dataStr = JSON.stringify(dataJSON['xlsx_json'], null, 4);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.setAttribute('download', `${filename}-records.json`);
+            a.click();
+            a.remove();
+        }
+
+        // Handle downloads for Excel and json (records) files
+        if (downloadExcel || downloadJSONRecords) {
+            const dataStr = JSON.stringify(dataJSON['xlsx_json'], null, 4);
+
+            if (downloadExcel) {
+                const excelJSON = read(dataStr);
+                const workbook = utils.book_new();
+                const worksheet = utils.json_to_sheet(excelJSON);
+                utils.book_append_sheet(workbook, worksheet, 'data');
+                writeFileXLSX(workbook, `${filename}.xlsx`)
+            }
+
+            
+        }
+
+        return;
+        
+        // console.log(JSON.parse(file)["xlsx"]);
+        // const excelJSON = read(JSON.stringify(JSON.parse(file)["xlsx"]));
+        // const workbook = utils.book_new();
+        // const worksheet = utils.json_to_sheet([
+        //     {"state": "ny", "city": "buffalo"},
+        //     {"state": "fl", "city": "miami"}
+        // ]);
+        // utils.book_append_sheet(workbook, worksheet, 'data');
+        // writeFileXLSX(workbook, 'test.xlsx');
         // const blob = new Blob([file], {type: "text/csv"});
         // const blob = new Blob([excelJSON], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
         // const blob = new Blob([workbook], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
