@@ -29,7 +29,7 @@ export function dataComponentMaker(obj) {
         case DATA_COMPONENT_TYPES.FILE_UPLOAD:
             return <FileUpload
                 compID={compID}
-                cardTitle="Import CSV"
+                cardTitle="Upload"
                 fileExtension="csv"
                 iconClassNames="bi bi-filetype-csv"
             />;

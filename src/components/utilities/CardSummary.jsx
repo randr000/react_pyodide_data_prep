@@ -6,7 +6,7 @@ const CardSummary = ({cardTitle, iconClassNames, iconOnClick}) => {
     <div>
         <h5 className="card-title mt-1">{cardTitle}</h5>
         <p className="card-text display-1" >
-            <i className={iconClassNames} onClick={iconOnClick}></i>
+            {iconClassNames && <i className={iconClassNames} onClick={iconOnClick}></i>}
         </p>
     </div>
   );
