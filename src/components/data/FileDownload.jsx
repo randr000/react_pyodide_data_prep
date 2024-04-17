@@ -13,7 +13,7 @@ import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 import { PyodideContext } from '../../context/PyodideContext';
 
 // import Python function(s)
-import df_to_csv from '../../python_code_js_modules/df_to_csv';
+import df_to_output from '../../python_code_js_modules/df_to_output';
 
 
 const FileDownload = ({compID, cardTitle, iconClassNames}) => {
@@ -75,9 +75,9 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
     function handleIconClick() {
         if (isDragging) return;
-        pyodide.runPython(df_to_csv);
-        const file = pyodide.globals.get('df_to_csv')(outputData);
-        // const file = read(pyodide.globals.get('df_to_csv')(outputData));
+        pyodide.runPython(df_to_output);
+        const file = pyodide.globals.get('df_to_output')(outputData);
+        // const file = read(pyodide.globals.get('df_to_output')(outputData));
         console.log(JSON.parse(file)["xlsx"]);
         const excelJSON = read(JSON.stringify(JSON.parse(file)["xlsx"]));
         const workbook = utils.book_new();
