@@ -48,8 +48,11 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
         }
 
         if (file) {
-            const url = createObjectURL(file);
-            readFileToDF(url);
+            if (file.name.endsWith('.csv') || file.name.endsWith('.txt')) {
+                const url = createObjectURL(file);
+                readFileToDF(url);
+            }
+
         } else setOutputData(null);
 
     }, [file]);
