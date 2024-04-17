@@ -1,16 +1,11 @@
 import React, { useState, useRef, useContext } from 'react';
 import AppDataContext from '../../context/AppDataContext';
 
-const FileUploadDropZone = ({file, setFile, ext, updateInvalidFileState, isInvalidFile, invalidFileMsg}) => {
+const FileUploadDropZone = ({
+    file, setFile, ext, updateInvalidFileState, isInvalidFile, invalidFileMsg, uploadStyles, setUploadStyles}) => {
 
     const {appState, _} = useContext(AppDataContext);
     const {isDragging} = appState;
-
-    const [uploadStyles, setUploadStyles] = useState({
-        borderWidth: "3px",
-        borderStyle: "dashed",
-        borderColor: "#6c757d"
-    });
 
     const inputRef = useRef();
 
@@ -72,7 +67,7 @@ const FileUploadDropZone = ({file, setFile, ext, updateInvalidFileState, isInval
             updateInvalidFileState();
         } else {
             setFile(null);
-            setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "dashed"}))
+            setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "dashed"}));
             updateInvalidFileState(true, 'Invalid filetype. Please make sure filename extension is equal to .csv, .xlsx, .txt, or .json!');
         }
     }

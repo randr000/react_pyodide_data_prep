@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import AppDataContext from '../../context/AppDataContext';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
+import { utils, read } from 'xlsx';
 
 // import other utility component(s)
 import FileUploadDropZone from '../utilities/FileUploadDropZone';
@@ -21,6 +22,13 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const {appState, dispatch} = useContext(AppDataContext);
     const {connectComponents, components} = appState;
+
+    // In order to adjust upload zone styles depending on file state
+    const [uploadStyles, setUploadStyles] = useState({
+        borderWidth: "3px",
+        borderStyle: "dashed",
+        borderColor: "#6c757d"
+    });
 
     // A JSON formatted string that can be used to create a pandas dataframe
     const [outputData, setOutputData] = useState(null);
@@ -79,6 +87,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
                     readFileToDF(url, 'csv');
                 } catch (e) {
                     updateInvalidFileState(true, file.name.toLowerCase().endsWith('csv') ? csvErrorMsg : txtErrorMsg);
+                    setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "solid"}));
                     console.log(e);
                 }
             
@@ -107,10 +116,17 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
                     fr.readAsText(file);
                 } catch (e) {
                     updateInvalidFileState(true, jsonErrorMsg);
+                    setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "solid"}));
                     console.log(e);
                 }
             } else if (file.name.toLowerCase().endsWith('.xlsx')) {
-                return;
+                try {
+                    console.log(read(file))
+                } catch (e) {
+                    updateInvalidFileState(true, excelErrorMsg);
+                    setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "solid"}));
+                    console.log(e);
+                }
             }
 
         } else setOutputData(null);
@@ -150,6 +166,8 @@ const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
                 updateInvalidFileState={updateInvalidFileState}
                 isInvalidFile={isInvalidFile}
                 invalidFileMsg={invalidFileMsg}
+                uploadStyles={uploadStyles}
+                setUploadStyles={setUploadStyles}
             />
         </DataComponentWrapper>
 
