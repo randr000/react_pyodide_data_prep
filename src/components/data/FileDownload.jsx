@@ -100,8 +100,9 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
             a.remove();
         }
 
+        // Handle downloads for json (records) files
         if (downloadJSONRecords) {
-            const dataStr = JSON.stringify(dataJSON['xlsx_json'], null, 4);
+            const dataStr = JSON.stringify(JSON.parse(dataJSON['xlsx_json']), null, 4);
             const blob = new Blob([dataStr], {type: 'application/json'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
