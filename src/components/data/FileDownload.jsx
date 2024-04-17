@@ -63,7 +63,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
         const fileTypes = isCheckedFileType.filter(obj => obj.isChecked).map(obj => obj.label);
         pyodide.runPython(df_to_output);
-        const dataJSON = JSON.parse(pyodide.globals.get('df_to_output')(outputData, fileTypes))
+        const dataJSONStrings = JSON.parse(pyodide.globals.get('df_to_output')(outputData, fileTypes))
 
         const downloadCsv = fileTypes.includes('csv');
         const downloadTxt = fileTypes.includes('txt');
@@ -73,7 +73,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
         // Handle downloads for csv and txt files
         if (downloadCsv || downloadTxt) {
-            const blob = new Blob([dataJSON['csv_txt']], {type: 'text/csv'});
+            const blob = new Blob([dataJSONStrings['csv_txt']], {type: 'text/csv'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
 
@@ -100,55 +100,29 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
             a.remove();
         }
 
-        // Handle downloads for json (records) files
-        if (downloadJSONRecords) {
-            const dataStr = JSON.stringify(JSON.parse(dataJSON['xlsx_json']), null, 4);
-            const blob = new Blob([dataStr], {type: 'application/json'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.setAttribute('download', `${filename}-records.json`);
-            a.click();
-            a.remove();
-        }
+        // Handles downloads for Excel and json (records) files
+        if (downloadExcel || downloadJSONRecords) {
+            const jSONData = JSON.parse(dataJSONStrings['xlsx_json']);
 
-        // Handle downloads for Excel files
-        if (downloadExcel) {
-            const workbook = utils.book_new();
-            const worksheet = utils.json_to_sheet(JSON.parse(dataJSON['xlsx_json']));
-            utils.book_append_sheet(workbook, worksheet, 'data');
-            writeFileXLSX(workbook, `${filename}.xlsx`)
-        }
+            // Handle downloads for Excel files
+            if (downloadExcel) {
+                const workbook = utils.book_new();
+                const worksheet = utils.json_to_sheet(jSONData);
+                utils.book_append_sheet(workbook, worksheet, 'data');
+                writeFileXLSX(workbook, `${filename}.xlsx`)
+            }
 
-        return;
-        
-        // console.log(JSON.parse(file)["xlsx"]);
-        // const excelJSON = read(JSON.stringify(JSON.parse(file)["xlsx"]));
-        // const workbook = utils.book_new();
-        // const worksheet = utils.json_to_sheet([
-        //     {"state": "ny", "city": "buffalo"},
-        //     {"state": "fl", "city": "miami"}
-        // ]);
-        // utils.book_append_sheet(workbook, worksheet, 'data');
-        // writeFileXLSX(workbook, 'test.xlsx');
-        // const blob = new Blob([file], {type: "text/csv"});
-        // const blob = new Blob([excelJSON], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
-        // const blob = new Blob([workbook], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
-        // console.log(blob);
-        // const a = document.createElement('a');
-        // const a2 = document.createElement('a');
-        // a.setAttribute('download', 'test.csv');
-        // a.setAttribute('download', 'test.xlsx');
-        // const href = URL.createObjectURL(blob);
-        // const href2 = URL.createObjectURL(blob2);
-        // a.href = href;
-        // a2.href = href2;
-        // a.click();
-        // a2.click();
-        // a.setAttribute('download', 'test.txt');
-        // a.click();
-        // URL.revokeObjectURL(href);
-        // a.remove();
-        // a2.remove();
+            // Handle downloads for json (records) files
+            if (downloadJSONRecords) {
+                const dataStr = JSON.stringify(jSONData, null, 4);
+                const blob = new Blob([dataStr], {type: 'application/json'});
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.setAttribute('download', `${filename}-records.json`);
+                a.click();
+                a.remove();
+            }
+        } 
     }
 
     return (
