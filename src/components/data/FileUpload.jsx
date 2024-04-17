@@ -16,7 +16,7 @@ import create_df_from_csv from '../../python_code_js_modules/create_df_from_csv'
 import { createObjectURL } from '../../js/functions';
 
 
-const FileUpload = ({compID, cardTitle, fileExtension}) => {
+const FileUpload = ({compID, cardTitle, iconClassNames, fileExtension}) => {
 
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const {appState, dispatch} = useContext(AppDataContext);
@@ -76,7 +76,7 @@ const FileUpload = ({compID, cardTitle, fileExtension}) => {
         <DataComponentWrapper 
             compID={compID}
             cardTitle={cardTitle}
-            iconClassNames={false}
+            iconClassNames={iconClassNames}
             canHaveSources={false}
             outputData={outputData}
         >

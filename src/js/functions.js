@@ -31,7 +31,7 @@ export function dataComponentMaker(obj) {
                 compID={compID}
                 cardTitle="Upload"
                 fileExtension="csv"
-                iconClassNames="bi bi-filetype-csv"
+                iconClassNames={false}
             />;
         case DATA_COMPONENT_TYPES.FILE_DOWNLOAD:
             return <FileDownload
