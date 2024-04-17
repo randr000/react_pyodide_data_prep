@@ -111,19 +111,14 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
             a.remove();
         }
 
-        // Handle downloads for Excel and json (records) files
-        if (downloadExcel || downloadJSONRecords) {
-            const dataStr = JSON.stringify(dataJSON['xlsx_json'], null, 4);
+        // Handle downloads for Excel files
+        if (downloadExcel) {
 
-            if (downloadExcel) {
-                const excelJSON = read(dataStr);
-                const workbook = utils.book_new();
-                const worksheet = utils.json_to_sheet(excelJSON);
-                utils.book_append_sheet(workbook, worksheet, 'data');
-                writeFileXLSX(workbook, `${filename}.xlsx`)
-            }
-
-            
+            // const excelJSON = read(dataStr);
+            const workbook = utils.book_new();
+            const worksheet = utils.json_to_sheet(JSON.parse(dataJSON['xlsx_json']));
+            utils.book_append_sheet(workbook, worksheet, 'data');
+            writeFileXLSX(workbook, `${filename}.xlsx`)
         }
 
         return;
