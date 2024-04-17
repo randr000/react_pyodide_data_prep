@@ -1,6 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
+import AppDataContext from '../../context/AppDataContext';
 
 const FileUploadDropZone = ({file, setFile, ext}) => {
+
+    const {appState, _} = useContext(AppDataContext);
+    const {isDragging} = appState;
 
     const [uploadStyles, setUploadStyles] = useState({
         borderWidth: "3px",
@@ -79,7 +83,7 @@ const FileUploadDropZone = ({file, setFile, ext}) => {
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            onClick={() => inputRef.current.click()}
+            onClick={() => !isDragging && inputRef.current.click()}
         >
             {
                 file ?
