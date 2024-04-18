@@ -26,8 +26,8 @@ const NavBar = () => {
                 </div>
             </nav>
             <nav className="navbar bg-light d-flex justify-content-start">
-                <NavBarComponentButton btnText="Import CSV" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_UPLOAD, false)}/>
-                <NavBarComponentButton btnText="Export CSV" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_DOWNLOAD)}/>
+                <NavBarComponentButton btnText="Upload" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_UPLOAD, false)}/>
+                <NavBarComponentButton btnText="Download" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_DOWNLOAD)}/>
                 <NavBarComponentButton btnText="Filter Columns" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILTER_COLS)}/>
                 <NavBarComponentButton btnText="Filter Rows" />
                 <NavBarComponentButton btnText="Join" />
