@@ -13,7 +13,7 @@ const DataComponentWrapper = ({
     iconClassNames = '',
     iconOnClick = () => {},
     canHaveSources = true,
-    canHaveOutput = true,
+    canHaveTarget = true,
     outputData = null,
 }) => {
 
@@ -61,7 +61,7 @@ const DataComponentWrapper = ({
                     <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                     <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
                     {cloneChildren(children)}
-                    {canHaveOutput && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
+                    {canHaveTarget && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
                 </div>
             </div>
             {outputData && <Table tableData={outputData} show={showTable} />}

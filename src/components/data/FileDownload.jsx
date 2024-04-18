@@ -129,7 +129,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         cardTitle={cardTitle}
         iconClassNames={iconClassNames}
         iconOnClick={handleIconClick}
-        canHaveOutput={false}
+        canHaveTarget={false}
         outputData={outputData}
        >
             <Form disabledragdrilldown>
