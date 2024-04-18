@@ -15,6 +15,8 @@ const DataComponentWrapper = ({
     iconClassNames = '',
     iconOnClick = () => {},
     canHaveSources = true,
+    sourceDataJSONStr = null,
+    setSourceDataJSONStr = () => {},
     canHaveTargets = true,
     targetDataJSONStr = null,
 }) => {
@@ -24,6 +26,15 @@ const DataComponentWrapper = ({
 
     const [showTable, setShowTable] = useState(true);
     const [disableDrag, setDisableDrag] = useState(false);
+
+    // A reference to this components properties in the components global state variable
+    const thisComponent = components.filter(comp => comp.compID === compID)[0];
+
+    // If this component can have a source component, then it loads the source component's JSON data as a string, else null
+    if (canHaveSources) {
+        setSourceDataJSONStr(thisComponent.sourceComponents.size ? components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data : null);
+        // TODO: Update in case component has more than one source component
+    }
 
     function handleDragOnMouseOver() {
         setDisableDrag(true);

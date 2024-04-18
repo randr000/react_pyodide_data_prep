@@ -20,15 +20,11 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
     const {appState, dispatch} = useContext(AppDataContext);
     const {connectComponents, components, isDragging} = appState;
 
+    // A JSON formatted string containing the source data
+    const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
+
     // A JSON formatted string containing the transformed data
     const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
-
-    // A reference to this components properties in the components global state variable
-    const thisComponent = components.filter(comp => comp.compID === compID)[0];
-
-    // If this component has a source component, then it loads the source component's JSON data as a string, else null
-    const sourceDataJSONStr = thisComponent.sourceComponents.size ?
-                components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data : null;
      
     useEffect(() => {
         setTargetDataJSONStr(sourceDataJSONStr);
@@ -129,6 +125,8 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         cardTitle={cardTitle}
         iconClassNames={iconClassNames}
         iconOnClick={handleIconClick}
+        sourceDataJSONStr={sourceDataJSONStr}
+        setSourceDataJSONStr={setSourceDataJSONStr}
         canHaveTargets={false}
         targetDataJSONStr={targetDataJSONStr}
        >

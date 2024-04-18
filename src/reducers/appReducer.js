@@ -9,7 +9,7 @@ import sampleStates from "./sampleStates";
 //     arrows: []
 // };
 
-export const APP_INITIAL_STATE = {isDragging: false, ...sampleStates.e};
+export const APP_INITIAL_STATE = {isDragging: false, ...sampleStates.a};
 
 /*
 *   APP INITIAL STATE:

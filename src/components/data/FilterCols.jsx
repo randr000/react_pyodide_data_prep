@@ -19,15 +19,11 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     const {appState, dispatch} = useContext(AppDataContext);
     const {connectComponents, components} = appState;
 
+    // A JSON formatted string containing the source data
+    const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
+
     // A JSON formatted string containing the transformed data
     const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
-
-    // A reference to this components properties in the components global state variable
-    const thisComponent = components.filter(comp => comp.compID === compID)[0];
-
-    // If this component has a source component, then it loads the source component's JSON data as a string, else null
-    const sourceDataJSONStr = thisComponent.sourceComponents.size ?
-                components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data : null;
     
     // If there is source data stored as a JSON string, then set a string array of column names into filteredCols, else null
     const [filteredCols, setFilteredCols] = useState(
@@ -92,6 +88,8 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
             compID={compID}
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
+            sourceDataJSONStr={sourceDataJSONStr}
+            setSourceDataJSONStr={setSourceDataJSONStr}
             targetDataJSONStr={targetDataJSONStr}
         >
             {filteredCols && <Checkboxes checkboxes={filteredCols} onChange={filterCol} />}
