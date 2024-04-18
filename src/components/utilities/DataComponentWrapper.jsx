@@ -16,7 +16,7 @@ const DataComponentWrapper = ({
     iconOnClick = () => {},
     canHaveSources = true,
     canHaveTargets = true,
-    outputData = null,
+    targetDataJSONStr = null,
 }) => {
 
     const {appState, dispatch} = useContext(AppDataContext);
@@ -36,19 +36,19 @@ const DataComponentWrapper = ({
     // Update component output data anytime source data is modified
     useEffect(() => {
 
-        if (outputData && canHaveTargets) {
+        if (targetDataJSONStr && canHaveTargets) {
             const c = [...components];
             // Find the current index of this component
             const idx = c.findIndex(comp => comp.compID === compID);
-            // Updates this component's data property with the outputData JSON string
-            c[idx] = {...c[idx], data: outputData};
-            // Updates the app state with the modified outputData
+            // Updates this component's data property with the targetDataJSONStr JSON string
+            c[idx] = {...c[idx], data: targetDataJSONStr};
+            // Updates the app state with the modified targetDataJSONStr
             dispatch({
                 type: APP_ACTION_TYPES.MODIFY_COMPONENT_DATA,
                 payload: c
             });
         };
-    }, [outputData]);
+    }, [targetDataJSONStr]);
 
     /**
      * 
@@ -86,7 +86,7 @@ const DataComponentWrapper = ({
                     {canHaveTargets && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
                 </div>
             </div>
-            {outputData && <Table tableData={outputData} show={showTable} />}
+            {targetDataJSONStr && <Table tableData={targetDataJSONStr} show={showTable} />}
         </DataComponentDragWrapper>
     );
 };

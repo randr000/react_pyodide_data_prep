@@ -20,49 +20,49 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     const {connectComponents, components} = appState;
 
     // A JSON formatted string that can be used to create a pandas dataframe
-    const [outputData, setOutputData] = useState(null);
+    const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
 
     // A reference to this components properties in the components global state variable
     const thisComponent = components.filter(comp => comp.compID === compID)[0];
 
     // If this component has a source component, then it loads the source component's JSON data as a string, else null
-    const jsonDataStr = thisComponent.sourceComponents.size ?
+    const sourceDataJSONStr = thisComponent.sourceComponents.size ?
                 components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data : null;
     
     // If there is source data stored as a JSON string, then set a string array of column names into filteredCols, else null
     const [filteredCols, setFilteredCols] = useState(
-        jsonDataStr ? JSON.parse(jsonDataStr)['columns'].map(col => ({label: col, isChecked: true})) : null
+        sourceDataJSONStr ? JSON.parse(sourceDataJSONStr)['columns'].map(col => ({label: col, isChecked: true})) : null
     );
     
-    // Reset filteredCols when jsonDataStr is removed
+    // Reset filteredCols when sourceDataJSONStr is removed
     useEffect(() => {
-        if (!jsonDataStr) setFilteredCols(null);
-    }, [jsonDataStr]);
+        if (!sourceDataJSONStr) setFilteredCols(null);
+    }, [sourceDataJSONStr]);
 
-    // Refilter the source data and update the outputData anytime the array of filteredCols is changed.
+    // Refilter the source data and update the targetDataJSONStr anytime the array of filteredCols is changed.
     useEffect(() => {
-        if (jsonDataStr) {
-            filterDF(jsonDataStr, filteredCols.filter(col => col.isChecked).map(col => col.label));
+        if (sourceDataJSONStr) {
+            filterDF(sourceDataJSONStr, filteredCols.filter(col => col.isChecked).map(col => col.label));
         }
     }, [filteredCols]);
 
-    // If there is a jsonDataStr and there is a change to it, then..., else reset outputData to null
+    // If there is a sourceDataJSONStr and there is a change to it, then..., else reset targetDataJSONStr to null
     useEffect(() => {  
-        if (jsonDataStr) {
+        if (sourceDataJSONStr) {
 
             // ...Update filteredCols for the new column names
-            setFilteredCols(JSON.parse(jsonDataStr)['columns'].map(col => ({label: col, isChecked: true})));
+            setFilteredCols(JSON.parse(sourceDataJSONStr)['columns'].map(col => ({label: col, isChecked: true})));
             
-            // ...Update the new outputData using all of the column names
-            filterDF(jsonDataStr, JSON.parse(jsonDataStr)['columns']);
+            // ...Update the new targetDataJSONStr using all of the column names
+            filterDF(sourceDataJSONStr, JSON.parse(sourceDataJSONStr)['columns']);
         }
-        else setOutputData(null);
-    }, [jsonDataStr]);
+        else setTargetDataJSONStr(null);
+    }, [sourceDataJSONStr]);
 
     /**
      * Takes a json formatted string that can be converted in to a pandas dataframe and a
      * list of column names that will be filtered for. The Python function will set the
-     * new outputData to be the filtered dataframe as a JSON string.
+     * new targetDataJSONStr to be the filtered dataframe as a JSON string.
      * 
      * @param {string} jsonStr Data is json format that can be converted to pandas dataframe
      * @param {Array} cols A string array of column names to be filtered for
@@ -71,8 +71,8 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
         if (isPyodideLoaded) {
             // Load Python function
             pyodide.runPython(filter_cols);
-            // Call python function and sets new outputData state
-            setOutputData(pyodide.globals.get('filter_cols')(jsonStr, cols));
+            // Call python function and sets new targetDataJSONStr state
+            setTargetDataJSONStr(pyodide.globals.get('filter_cols')(jsonStr, cols));
         }
     }
 
@@ -92,7 +92,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
             compID={compID}
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
-            outputData={outputData}
+            targetDataJSONStr={targetDataJSONStr}
         >
             {filteredCols && <Checkboxes checkboxes={filteredCols} onChange={filterCol} />}
         </DataComponentWrapper>

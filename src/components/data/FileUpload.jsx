@@ -21,7 +21,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
 
     const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
     const {appState, dispatch} = useContext(AppDataContext);
-    const {connectComponents, components} = appState;
+    const {connectComponents} = appState;
 
     // In order to adjust upload zone styles depending on file state
     const [uploadStyles, setUploadStyles] = useState({
@@ -31,7 +31,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
     });
 
     // A JSON formatted string that can be used to create a pandas dataframe
-    const [outputData, setOutputData] = useState(null);
+    const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
 
     // A reference to the uploaded file
     const [file, setFile] = useState(null);
@@ -61,11 +61,11 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
     const excelErrorMsg = 'An error occured reading the Excel file. Please make sure it is in the appropriate format.';
 
     /* If file is uploaded successfully and Pyodide is loaded, then data from file
-       is converted to json and stored in 'outputData' state variable. */
+       is converted to json and stored in 'targetDataJSONStr' state variable. */
     useEffect(() => {
 
         /**
-         * Converts the data from the uploaded file into a JSON object and sets the outputData state
+         * Converts the data from the uploaded file into a JSON object and sets the targetDataJSONStr state
          * 
          * @param {string} pathOrJSONString A path to the location where the uploaded file was stored by the browser or json string with data
          */
@@ -74,8 +74,8 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
             if (isPyodideLoaded) {
                 // Load python function
                 pyodide.runPython(input_to_df);
-                // Call python function and sets new outputData state
-                setOutputData(pyodide.globals.get('input_to_df')(pathOrJSONString, fileType));
+                // Call python function and sets new targetDataJSONStr state
+                setTargetDataJSONStr(pyodide.globals.get('input_to_df')(pathOrJSONString, fileType));
             }
         }
 
@@ -108,7 +108,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
                             readFileToDF(json_str, 'json');
 
                         } else if (orient == 'split') {
-                            setOutputData(JSON.stringify(jsonDataObj));
+                            setTargetDataJSONStr(JSON.stringify(jsonDataObj));
 
                         } else throw new Error(jsonErrorMsg);
                         
@@ -136,7 +136,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
                 }
             }
 
-        } else setOutputData(null);
+        } else setTargetDataJSONStr(null);
 
     }, [file]);
 
@@ -147,7 +147,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
             canHaveSources={false}
-            outputData={outputData}
+            targetDataJSONStr={targetDataJSONStr}
         >
             <FileUploadDropZone
                 file={file}

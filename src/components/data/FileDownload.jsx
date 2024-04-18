@@ -21,18 +21,18 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
     const {connectComponents, components, isDragging} = appState;
 
     // A JSON formatted string that can be used to create a pandas dataframe
-    const [outputData, setOutputData] = useState(null);
+    const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
 
     // A reference to this components properties in the components global state variable
     const thisComponent = components.filter(comp => comp.compID === compID)[0];
 
     // If this component has a source component, then it loads the source component's JSON data as a string, else null
-    const jsonDataStr = thisComponent.sourceComponents.size ?
+    const sourceDataJSONStr = thisComponent.sourceComponents.size ?
                 components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data : null;
      
     useEffect(() => {
-        setOutputData(jsonDataStr);
-    }, [jsonDataStr]);
+        setTargetDataJSONStr(sourceDataJSONStr);
+    }, [sourceDataJSONStr]);
 
     // Filename to use for downloaded file
     const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
@@ -61,7 +61,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
         const fileTypes = isCheckedFileType.filter(obj => obj.isChecked).map(obj => obj.label);
         pyodide.runPython(df_to_output);
-        const dataJSONStrings = JSON.parse(pyodide.globals.get('df_to_output')(outputData, fileTypes))
+        const dataJSONStrings = JSON.parse(pyodide.globals.get('df_to_output')(targetDataJSONStr, fileTypes))
 
         const downloadCsv = fileTypes.includes('csv');
         const downloadTxt = fileTypes.includes('txt');
@@ -90,7 +90,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
         // Handle downloads for json (split) files
         if (downloadJSONSplit) {
-            const blob = new Blob([JSON.stringify(JSON.parse(outputData), null, 4)], {type: 'application/json'});
+            const blob = new Blob([JSON.stringify(JSON.parse(targetDataJSONStr), null, 4)], {type: 'application/json'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             a.setAttribute('download', `${filename}-split.json`);
@@ -130,7 +130,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         iconClassNames={iconClassNames}
         iconOnClick={handleIconClick}
         canHaveTargets={false}
-        outputData={outputData}
+        targetDataJSONStr={targetDataJSONStr}
        >
             <Form disabledragdrilldown>
                 <Form.Group disabledragdrilldown>
