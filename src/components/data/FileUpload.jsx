@@ -140,23 +140,6 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
 
     }, [file]);
 
-
-    useEffect(() => {
-
-        if (outputData) {
-            const c = [...components];
-            // Find the current index of this component
-            const idx = c.findIndex(comp => comp.compID === compID);
-            // Updates this component's data property with the outputData JSON string
-            c[idx] = {...c[idx], data: outputData};
-            // Updates the app state with the modified outputData
-            dispatch({
-                type: APP_ACTION_TYPES.MODIFY_COMPONENT_DATA,
-                payload: c
-            });
-        };
-    }, [outputData]);
-
     return (
         
         <DataComponentWrapper 

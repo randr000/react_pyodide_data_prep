@@ -1,4 +1,6 @@
-import React, { useEffect, useState, Children, cloneElement } from "react";
+import React, { useEffect, useState, useContext, Children, cloneElement } from "react";
+import AppDataContext from "../../context/AppDataContext";
+import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import DataComponentDragWrapper from "./DataComponentDragWrapper";
 import DeleteDataComponentPill from "./DeleteDataComponentPill";
 import DataFlowPill from "./DataFlowPill";
@@ -13,9 +15,12 @@ const DataComponentWrapper = ({
     iconClassNames = '',
     iconOnClick = () => {},
     canHaveSources = true,
-    canHaveTarget = true,
+    canHaveTargets = true,
     outputData = null,
 }) => {
+
+    const {appState, dispatch} = useContext(AppDataContext);
+    const {components} = appState;
 
     const [showTable, setShowTable] = useState(true);
     const [disableDrag, setDisableDrag] = useState(false);
@@ -27,6 +32,23 @@ const DataComponentWrapper = ({
     function handleDragOnMouseOut() {
         setDisableDrag(false);
     }
+
+    // Update component output data anytime source data is modified
+    useEffect(() => {
+
+        if (outputData && canHaveTargets) {
+            const c = [...components];
+            // Find the current index of this component
+            const idx = c.findIndex(comp => comp.compID === compID);
+            // Updates this component's data property with the outputData JSON string
+            c[idx] = {...c[idx], data: outputData};
+            // Updates the app state with the modified outputData
+            dispatch({
+                type: APP_ACTION_TYPES.MODIFY_COMPONENT_DATA,
+                payload: c
+            });
+        };
+    }, [outputData]);
 
     /**
      * 
@@ -61,7 +83,7 @@ const DataComponentWrapper = ({
                     <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                     <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
                     {cloneChildren(children)}
-                    {canHaveTarget && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
+                    {canHaveTargets && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
                 </div>
             </div>
             {outputData && <Table tableData={outputData} show={showTable} />}

@@ -46,17 +46,6 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
         }
     }, [filteredCols]);
 
-    // Update component output data anytime columns are filtered or source data is modified
-    useEffect(() => {
-        const c = [...components];
-        c[c.findIndex(c => c.compID === compID)].data = outputData;
-
-        dispatch({
-            type: APP_ACTION_TYPES.MODIFY_COMPONENT_DATA,
-            payload: c
-        });
-    }, [outputData]);
-
     // If there is a jsonDataStr and there is a change to it, then..., else reset outputData to null
     useEffect(() => {  
         if (jsonDataStr) {
