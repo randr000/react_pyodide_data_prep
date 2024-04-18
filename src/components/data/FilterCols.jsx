@@ -19,7 +19,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     const {appState, dispatch} = useContext(AppDataContext);
     const {connectComponents, components} = appState;
 
-    // A JSON formatted string that can be used to create a pandas dataframe
+    // A JSON formatted string containing the transformed data
     const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
 
     // A reference to this components properties in the components global state variable
