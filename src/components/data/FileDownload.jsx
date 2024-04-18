@@ -25,7 +25,9 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
     // A JSON formatted string containing the transformed data
     const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
-     
+    
+    // Actions to take when source data changes
+    // Update target data
     useEffect(() => {
         setTargetDataJSONStr(sourceDataJSONStr);
     }, [sourceDataJSONStr]);

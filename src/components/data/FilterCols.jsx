@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
-import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import AppDataContext from '../../context/AppDataContext';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
 // import other utility component(s)
 import Checkboxes from '../utilities/Checkboxes';
+import DataComponentWrapper from '../utilities/DataComponentWrapper';
 
 // import Pyodide context
 import { PyodideContext } from '../../context/PyodideContext';
@@ -24,16 +24,28 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
 
     // A JSON formatted string containing the transformed data
     const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
+
+    // Actions to take when source data changes
+    // If there is a sourceDataJSONStr and there is a change to it, then update target data and columns list, else reset to null
+    useEffect(() => {
+        if (!sourceDataJSONStr) {
+            // Reset filteredCols when sourceDataJSONStr is removed
+            setFilteredCols(null);
+            setTargetDataJSONStr(null)
+        }
+        else {
+            // ...Update filteredCols for the new column names
+            setFilteredCols(JSON.parse(sourceDataJSONStr)['columns'].map(col => ({label: col, isChecked: true})));
+            
+            // ...Update the new targetDataJSONStr using all of the column names
+            filterDF(sourceDataJSONStr, JSON.parse(sourceDataJSONStr)['columns']);   
+        }
+    }, [sourceDataJSONStr]);
     
     // If there is source data stored as a JSON string, then set a string array of column names into filteredCols, else null
     const [filteredCols, setFilteredCols] = useState(
         sourceDataJSONStr ? JSON.parse(sourceDataJSONStr)['columns'].map(col => ({label: col, isChecked: true})) : null
     );
-    
-    // Reset filteredCols when sourceDataJSONStr is removed
-    useEffect(() => {
-        if (!sourceDataJSONStr) setFilteredCols(null);
-    }, [sourceDataJSONStr]);
 
     // Refilter the source data and update the targetDataJSONStr anytime the array of filteredCols is changed.
     useEffect(() => {
@@ -41,19 +53,6 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
             filterDF(sourceDataJSONStr, filteredCols.filter(col => col.isChecked).map(col => col.label));
         }
     }, [filteredCols]);
-
-    // If there is a sourceDataJSONStr and there is a change to it, then..., else reset targetDataJSONStr to null
-    useEffect(() => {  
-        if (sourceDataJSONStr) {
-
-            // ...Update filteredCols for the new column names
-            setFilteredCols(JSON.parse(sourceDataJSONStr)['columns'].map(col => ({label: col, isChecked: true})));
-            
-            // ...Update the new targetDataJSONStr using all of the column names
-            filterDF(sourceDataJSONStr, JSON.parse(sourceDataJSONStr)['columns']);
-        }
-        else setTargetDataJSONStr(null);
-    }, [sourceDataJSONStr]);
 
     /**
      * Takes a json formatted string that can be converted in to a pandas dataframe and a
