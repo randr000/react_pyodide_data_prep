@@ -37,7 +37,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
         if (!sourceData) {
             // Reset filteredCols when sourceDataJSONStr is removed
             setFilteredCols(null);
-            updateTargetState(null)
+            updateTargetState(null);
         }
         else {
             // Update filteredCols for the new column names
