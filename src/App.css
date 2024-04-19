@@ -5,3 +5,8 @@
 .cursor-grab {
   cursor: grab;
 }
+
+/* Remove dropdown arrow from bootstrap dropdown toggles */
+.dropdown-toggle::after {
+  display: none !important;
+}

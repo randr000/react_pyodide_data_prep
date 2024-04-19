@@ -108,7 +108,7 @@ const DataComponentWrapper = ({
                 <div className="card-body text-center">
                     <DeleteDataComponentPill compID={compID} handleDragOnMouseOver={handleDragOnMouseOver} handleDragOnMouseOut={handleDragOnMouseOut} />
                     {canHaveSources && <DataFlowPill isOnTop={true} id={`${compID}-top`} />}
-                    <div className="position-absolute mt-5 ms-4 start-100 translate-middle d-flex flex-column">
+                    <div className="position-absolute mt-5 start-100 translate-middle d-flex flex-column">
                         <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                         <DownloadPill />
                     </div>

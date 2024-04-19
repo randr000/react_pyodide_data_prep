@@ -73,7 +73,7 @@ const FileUploadDropZone = ({
 
     return (
         <div
-            className="card mb-2 cursor-pointer"
+            className="card mb-2 cursor-pointer mx-3"
             style={uploadStyles}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -82,10 +82,10 @@ const FileUploadDropZone = ({
         >
             {
                 isInvalidFile
-                ? <i className="bi bi-file-earmark-x display-3 text-danger"></i>
+                ? <i className="bi bi-file-earmark-x display-5 text-danger"></i>
                 : file
-                    ? <i className="bi bi-file-check display-3 text-success"></i>
-                    : <i className="bi bi-file-earmark-arrow-up display-3"></i>
+                    ? <i className="bi bi-file-check display-5 text-success"></i>
+                    : <i className="bi bi-file-earmark-arrow-up display-5"></i>
             }
             <p className="fs-5">{
                     file ?
