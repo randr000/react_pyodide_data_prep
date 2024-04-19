@@ -31,7 +31,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
      * @param {string} sourceData - A JSON formatted string representing the source data of the component
      * @param {Function} updateTargetState - A function to be called when updating target state
      */
-    function updateData(sourceData, updateTargetState) {
+    function updateTargetData(sourceData, updateTargetState) {
         if (!sourceData) {
             // Reset filteredCols when sourceDataJSONStr is removed
             setFilteredCols(null);
@@ -95,7 +95,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
             setSourceDataJSONStr={setSourceDataJSONStr}
             setTargetDataJSONStr={setTargetDataJSONStr}
             targetDataJSONStr={targetDataJSONStr}
-            updateData={updateData}
+            updateTargetData={updateTargetData}
         >
             {filteredCols && <Checkboxes checkboxes={filteredCols} onChange={filterCol} />}
         </DataComponentWrapper>

@@ -20,7 +20,7 @@ const DataComponentWrapper = ({
     canHaveTargets = true,
     targetDataJSONStr = null,
     setTargetDataJSONStr = () => {},
-    updateData = false
+    updateTargetData = false
 }) => {
 
     const {pyodide, isPyodideLoaded, appState, dispatch} = useGetContexts();
@@ -40,8 +40,8 @@ const DataComponentWrapper = ({
 
     // Actions to take when source data changes
     useEffect(() => {
-        updateData
-        ? updateData(sourceDataJSONStr, setTargetDataJSONStr)
+        updateTargetData
+        ? updateTargetData(sourceDataJSONStr, setTargetDataJSONStr)
         : canHaveSources && setTargetDataJSONStr(sourceDataJSONStr);
     }, [sourceDataJSONStr]);
 
