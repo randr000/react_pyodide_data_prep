@@ -8,8 +8,13 @@ const DownloadPill = () => {
     const {appState} = useContext(AppDataContext);
     const {isDragging} = appState;
 
-    function handleOnClick(event) {
-        !isDragging && setShowDropdown(prev => !prev);
+    function handleOnClick() {
+        handleOnToggle(!showDropdown);
+        return;
+    }
+
+    function handleOnToggle(nextShow) {
+        !isDragging && setShowDropdown(nextShow);
     }
 
     return (
@@ -25,8 +30,9 @@ const DownloadPill = () => {
                 `}>
                 <Dropdown
                     show={showDropdown}
+                    onToggle={handleOnToggle}
                 >
-                    <Dropdown.Toggle className='' as="div">
+                    <Dropdown.Toggle as="div">
                         <i className="bi bi-file-earmark-arrow-down"></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="mt-2">
