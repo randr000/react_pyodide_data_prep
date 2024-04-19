@@ -20,7 +20,9 @@ const DataComponentWrapper = ({
     canHaveTargets = true,
     targetDataJSONStr = null,
     setTargetDataJSONStr = () => {},
-    updateTargetData = false
+    updateTargetData = false,
+    transformTargetData = false,
+    targetDataDeps = []
 }) => {
 
     const {pyodide, isPyodideLoaded, appState, dispatch} = useGetContexts();
@@ -44,6 +46,11 @@ const DataComponentWrapper = ({
         ? updateTargetData(sourceDataJSONStr, setTargetDataJSONStr)
         : setTargetDataJSONStr(sourceDataJSONStr);
     }, [sourceDataJSONStr]);
+
+    // Actions to take when target data needs to change due to user changing the varaibles used to transform the source data
+    useEffect(() => {
+        transformTargetData &&  targetDataDeps.length && transformTargetData(sourceDataJSONStr, setTargetDataJSONStr);
+    }, targetDataDeps);
 
     function handleDragOnMouseOver() {
         setDisableDrag(true);
