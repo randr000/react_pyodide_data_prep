@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext, Children, cloneElement } from "react";
-import AppDataContext from "../../context/AppDataContext";
+import React, { useEffect, useState, Children, cloneElement } from "react";
+import useGetContexts from "../../custom-hooks/useGetContexts";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import DataComponentDragWrapper from "./DataComponentDragWrapper";
 import DeleteDataComponentPill from "./DeleteDataComponentPill";
@@ -19,9 +19,11 @@ const DataComponentWrapper = ({
     setSourceDataJSONStr = () => {},
     canHaveTargets = true,
     targetDataJSONStr = null,
+    setTargetDataJSONStr = () => {},
+    transformData = false
 }) => {
 
-    const {appState, dispatch} = useContext(AppDataContext);
+    const {pyodide, isPyodideLoaded, appState, dispatch} = useGetContexts();
     const {components} = appState;
 
     const [showTable, setShowTable] = useState(true);
@@ -35,6 +37,13 @@ const DataComponentWrapper = ({
         setSourceDataJSONStr(thisComponent.sourceComponents.size ? components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data : null);
         // TODO: Update in case component has more than one source component
     }
+
+    // Actions to take when source data changes
+    useEffect(() => {
+        transformData
+        ? transformData(sourceDataJSONStr, setTargetDataJSONStr)
+        : canHaveSources && setTargetDataJSONStr(sourceDataJSONStr);
+    }, [sourceDataJSONStr]);
 
     function handleDragOnMouseOver() {
         setDisableDrag(true);

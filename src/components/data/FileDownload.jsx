@@ -1,14 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { utils, writeFileXLSX } from 'xlsx';
 import Form from 'react-bootstrap/Form';
-import AppDataContext from '../../context/AppDataContext';
+
+// import custom hooks
+import useGetContexts from '../../custom-hooks/useGetContexts';
 
 // import other utility component(s)
 import Checkboxes from '../utilities/Checkboxes';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
-
-// import Pyodide context
-import { PyodideContext } from '../../context/PyodideContext';
 
 // import Python function(s)
 import df_to_output from '../../python_code_js_modules/df_to_output';
@@ -16,8 +15,7 @@ import df_to_output from '../../python_code_js_modules/df_to_output';
 
 const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
-    const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
-    const {appState, dispatch} = useContext(AppDataContext);
+    const {pyodide, isPyodideLoaded, appState, dispatch} = useGetContexts();
     const {connectComponents, components, isDragging} = appState;
 
     // A JSON formatted string containing the source data
@@ -25,12 +23,6 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
     // A JSON formatted string containing the transformed data
     const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
-    
-    // Actions to take when source data changes
-    // Update target data
-    useEffect(() => {
-        setTargetDataJSONStr(sourceDataJSONStr);
-    }, [sourceDataJSONStr]);
 
     // Filename to use for downloaded file
     const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
@@ -59,7 +51,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
         const fileTypes = isCheckedFileType.filter(obj => obj.isChecked).map(obj => obj.label);
         pyodide.runPython(df_to_output);
-        const dataJSONStrings = JSON.parse(pyodide.globals.get('df_to_output')(targetDataJSONStr, fileTypes))
+        const dataJSONStrings = JSON.parse(pyodide.globals.get('df_to_output')(sourceDataJSONStr, fileTypes))
 
         const downloadCsv = fileTypes.includes('csv');
         const downloadTxt = fileTypes.includes('txt');
@@ -88,7 +80,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
         // Handle downloads for json (split) files
         if (downloadJSONSplit) {
-            const blob = new Blob([JSON.stringify(JSON.parse(targetDataJSONStr), null, 4)], {type: 'application/json'});
+            const blob = new Blob([JSON.stringify(JSON.parse(sourceDataJSONStr), null, 4)], {type: 'application/json'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             a.setAttribute('download', `${filename}-split.json`);
@@ -130,7 +122,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         sourceDataJSONStr={sourceDataJSONStr}
         setSourceDataJSONStr={setSourceDataJSONStr}
         canHaveTargets={false}
-        targetDataJSONStr={targetDataJSONStr}
+        targetDataJSONStr={sourceDataJSONStr}
        >
             <Form disabledragdrilldown>
                 <Form.Group disabledragdrilldown>

@@ -1,14 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
-import AppDataContext from '../../context/AppDataContext';
-import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 import { utils, read } from 'xlsx';
+
+// import custom hooks
+import useGetContexts from '../../custom-hooks/useGetContexts';
 
 // import other utility component(s)
 import FileUploadDropZone from '../utilities/FileUploadDropZone';
-
-// import Pyodide context
-import { PyodideContext } from '../../context/PyodideContext';
 
 // import Python function(s)
 import input_to_df from '../../python_code_js_modules/input_to_df';
@@ -19,8 +17,7 @@ import { createObjectURL } from '../../js/functions';
 
 const FileUpload = ({compID, cardTitle, iconClassNames}) => {
 
-    const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
-    const {appState, dispatch} = useContext(AppDataContext);
+    const {pyodide, isPyodideLoaded, appState, dispatch} = useGetContexts();
     const {connectComponents} = appState;
 
     // In order to adjust upload zone styles depending on file state
@@ -148,6 +145,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
             iconClassNames={iconClassNames}
             canHaveSources={false}
             targetDataJSONStr={targetDataJSONStr}
+            setTargetDataJSONStr={setTargetDataJSONStr}
         >
             <FileUploadDropZone
                 file={file}

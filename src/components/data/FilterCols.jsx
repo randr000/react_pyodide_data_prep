@@ -1,13 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
-import AppDataContext from '../../context/AppDataContext';
-import APP_ACTION_TYPES from '../../action-types/appActionTypes';
+import React, { useState, useEffect } from 'react';
+
+// import custom hooks
+import useGetContexts from '../../custom-hooks/useGetContexts';
 
 // import other utility component(s)
 import Checkboxes from '../utilities/Checkboxes';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
-
-// import Pyodide context
-import { PyodideContext } from '../../context/PyodideContext';
 
 // import Python function(s)
 import filter_cols from '../../python_code_js_modules/filter_cols';
@@ -15,8 +13,7 @@ import filter_cols from '../../python_code_js_modules/filter_cols';
 
 const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     
-    const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
-    const {appState, dispatch} = useContext(AppDataContext);
+    const {pyodide, isPyodideLoaded, appState, dispatch} = useGetContexts();
     const {connectComponents, components} = appState;
 
     // A JSON formatted string containing the source data
@@ -25,22 +22,20 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     // A JSON formatted string containing the transformed data
     const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
 
-    // Actions to take when source data changes
-    // If there is a sourceDataJSONStr and there is a change to it, then update target data and columns list, else reset to null
-    useEffect(() => {
-        if (!sourceDataJSONStr) {
+    function transformData(sourceData, updateTargetState) {
+        if (!sourceData) {
             // Reset filteredCols when sourceDataJSONStr is removed
             setFilteredCols(null);
-            setTargetDataJSONStr(null)
+            updateTargetState(null)
         }
         else {
             // ...Update filteredCols for the new column names
-            setFilteredCols(JSON.parse(sourceDataJSONStr)['columns'].map(col => ({label: col, isChecked: true})));
+            setFilteredCols(JSON.parse(sourceData)['columns'].map(col => ({label: col, isChecked: true})));
             
             // ...Update the new targetDataJSONStr using all of the column names
-            filterDF(sourceDataJSONStr, JSON.parse(sourceDataJSONStr)['columns']);   
+            filterDF(sourceData, JSON.parse(sourceData)['columns']);   
         }
-    }, [sourceDataJSONStr]);
+    }
     
     // If there is source data stored as a JSON string, then set a string array of column names into filteredCols, else null
     const [filteredCols, setFilteredCols] = useState(
@@ -89,7 +84,9 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
             iconClassNames={iconClassNames}
             sourceDataJSONStr={sourceDataJSONStr}
             setSourceDataJSONStr={setSourceDataJSONStr}
+            setTargetDataJSONStr={setTargetDataJSONStr}
             targetDataJSONStr={targetDataJSONStr}
+            transformData={transformData}
         >
             {filteredCols && <Checkboxes checkboxes={filteredCols} onChange={filterCol} />}
         </DataComponentWrapper>
