@@ -66,7 +66,8 @@ const DownloadPill = ({compID, cardTitle}) => {
                             <Form.Group disabledragdrilldown>
                                 <div className="d-flex justify-content-between">
                                     <Form.Label className="fw-bold cursor-grab">Filename:</Form.Label>
-                                    <icon className="bi bi-file-earmark-arrow-down cursor-pointer" />
+                                    {/* <icon className="bi bi-file-earmark-arrow-down cursor-pointer fs-5" /> */}
+                                    <icon className="bi bi-box-arrow-down cursor-pointer fs-5" />
                                 </div>
                                 <Form.Control
                                     disabledragonhover
