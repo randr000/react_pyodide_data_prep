@@ -47,11 +47,8 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
             filterDF(sourceData, JSON.parse(sourceData)['columns']);   
         }
     }
-    
-    // If there is source data stored as a JSON string, then set a string array of column names into filteredCols, else null
-    const [filteredCols, setFilteredCols] = useState(
-        sourceDataJSONStr ? JSON.parse(sourceDataJSONStr)['columns'].map(col => ({label: col, isChecked: true})) : null
-    );
+
+    const [filteredCols, setFilteredCols] = useState(null);
 
     // Refilter the source data and update the targetDataJSONStr anytime the array of filteredCols is changed.
     useEffect(() => {
