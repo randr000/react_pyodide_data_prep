@@ -30,7 +30,9 @@ const DownloadPill = () => {
                         <i className="bi bi-file-earmark-arrow-down"></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="mt-2">
-                        <Dropdown.Item><input type="text" /></Dropdown.Item>
+                        <Dropdown.Item onClick={(e) => e.stopPropagation()}>
+                            <input type="text" />
+                        </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </span>
