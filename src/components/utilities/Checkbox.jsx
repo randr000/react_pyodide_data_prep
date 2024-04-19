@@ -15,7 +15,7 @@ const Checkbox = ({label, checkedState, onChange}) => {
     }
     
     return (
-        <div className="form-check">
+        <div className="form-check" onClick={e => e.stopPropagation()}>
             <input
                 id={label}
                 type="checkbox"

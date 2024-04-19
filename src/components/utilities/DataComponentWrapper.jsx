@@ -110,7 +110,7 @@ const DataComponentWrapper = ({
                     {canHaveSources && <DataFlowPill isOnTop={true} id={`${compID}-top`} />}
                     <div className="position-absolute mt-5 start-100 translate-middle d-flex flex-column">
                         <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
-                        <DownloadPill />
+                        {cloneChildren([<DownloadPill compID={compID} cardTitle={cardTitle} />])}
                     </div>
                     <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
                     {cloneChildren(children)}
