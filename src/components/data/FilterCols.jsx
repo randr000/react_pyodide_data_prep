@@ -28,8 +28,10 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
      * Pass as prop to DataComponentWrapper if necessary
      * If not passed to DataComponentWrapper, the default is to just update target data with source data
      * 
-     * @param {string} sourceData - A JSON formatted string representing the source data of the component
-     * @param {Function} updateTargetState - A function to be called when updating target state
+     * @param {string} sourceData - A JSON formatted string, file object, etc. Any change to this variable will trigger
+     *                              this function to run when this function is passed as a prop to DataComponentWrapper.
+     * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
+     *                                       setState function.
      */
     function updateTargetData(sourceData, updateTargetState) {
         if (!sourceData) {

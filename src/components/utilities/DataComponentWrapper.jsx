@@ -42,7 +42,7 @@ const DataComponentWrapper = ({
     useEffect(() => {
         updateTargetData
         ? updateTargetData(sourceDataJSONStr, setTargetDataJSONStr)
-        : canHaveSources && setTargetDataJSONStr(sourceDataJSONStr);
+        : setTargetDataJSONStr(sourceDataJSONStr);
     }, [sourceDataJSONStr]);
 
     function handleDragOnMouseOver() {

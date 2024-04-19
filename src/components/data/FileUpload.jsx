@@ -57,9 +57,18 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
     const jsonErrorMsg = 'An error occured reading the JSON file. Please make sure it is in the appropriate format.';
     const excelErrorMsg = 'An error occured reading the Excel file. Please make sure it is in the appropriate format.';
 
-    /* If file is uploaded successfully and Pyodide is loaded, then data from file
-       is converted to json and stored in 'targetDataJSONStr' state variable. */
-    useEffect(() => {
+    /**
+     * 
+     * Defines the actions to take when source data changes in order to update target state
+     * Pass as prop to DataComponentWrapper if necessary
+     * If not passed to DataComponentWrapper, the default is to just update target data with source data
+     * 
+     * @param {string} sourceData - A JSON formatted string, file object, etc. Any change to this variable will trigger
+     *                              this function to run when this function is passed as a prop to DataComponentWrapper.
+     * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
+     *                                       setState function.
+     */
+    function updateTargetData(sourceData, updateTargetState) {
 
         /**
          * Converts the data from the uploaded file into a JSON object and sets the targetDataJSONStr state
@@ -72,23 +81,23 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
                 // Load python function
                 pyodide.runPython(input_to_df);
                 // Call python function and sets new targetDataJSONStr state
-                setTargetDataJSONStr(pyodide.globals.get('input_to_df')(pathOrJSONString, fileType));
+                updateTargetState(pyodide.globals.get('input_to_df')(pathOrJSONString, fileType));
             }
         }
 
-        if (file) {
+        if (sourceData) {
 
-            if (file.name.toLowerCase().endsWith('.csv') || file.name.toLowerCase().endsWith('.txt')) {
+            if (sourceData.name.toLowerCase().endsWith('.csv') || sourceData.name.toLowerCase().endsWith('.txt')) {
                 try {
-                    const url = createObjectURL(file);
+                    const url = createObjectURL(sourceData);
                     readFileToDF(url, 'csv');
                 } catch (e) {
-                    updateInvalidFileState(true, file.name.toLowerCase().endsWith('csv') ? csvErrorMsg : txtErrorMsg);
+                    updateInvalidFileState(true, sourceData.name.toLowerCase().endsWith('csv') ? csvErrorMsg : txtErrorMsg);
                     setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "solid"}));
                     console.log(e);
                 }
             
-            } else if (file.name.toLowerCase().endsWith('.json')) {
+            } else if (sourceData.name.toLowerCase().endsWith('.json')) {
                 try {
                     const fr = new FileReader();
                     fr.onload = () => {
@@ -105,21 +114,21 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
                             readFileToDF(json_str, 'json');
 
                         } else if (orient == 'split') {
-                            setTargetDataJSONStr(JSON.stringify(jsonDataObj));
+                            updateTargetState(JSON.stringify(jsonDataObj));
 
                         } else throw new Error(jsonErrorMsg);
                         
                     }
-                    fr.readAsText(file);
+                    fr.readAsText(sourceData);
                 } catch (e) {
                     updateInvalidFileState(true, jsonErrorMsg);
                     setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "solid"}));
                     console.log(e);
                 }
-            } else if (file.name.toLowerCase().endsWith('.xlsx')) {
+            } else if (sourceData.name.toLowerCase().endsWith('.xlsx')) {
                 try {
                     (async () => {
-                        const data = await file.arrayBuffer();
+                        const data = await sourceData.arrayBuffer();
                         const wb = read(data);
                         const ws = wb.Sheets[wb.SheetNames[0]];
                         const json_str = JSON.stringify({data: utils.sheet_to_json(ws)});
@@ -133,9 +142,9 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
                 }
             }
 
-        } else setTargetDataJSONStr(null);
-
-    }, [file]);
+        } else updateTargetState(null);
+        
+    }
 
     return (
         
@@ -144,8 +153,10 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
             canHaveSources={false}
-            targetDataJSONStr={targetDataJSONStr}
+            sourceDataJSONStr={file}
             setTargetDataJSONStr={setTargetDataJSONStr}
+            targetDataJSONStr={targetDataJSONStr}
+            updateTargetData={updateTargetData}
         >
             <FileUploadDropZone
                 file={file}
