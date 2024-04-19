@@ -62,7 +62,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
      * 
      * 
      * 
-     * @param {*} sourceData - A JSON formatted string containing the data to be transformed
+     * @param {String} sourceData - A JSON formatted string containing the data to be transformed
      * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
      *                                setState function.
      */
