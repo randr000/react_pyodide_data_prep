@@ -10,7 +10,6 @@ const DownloadPill = () => {
 
     function handleOnClick() {
         handleOnToggle(!showDropdown);
-        return;
     }
 
     function handleOnToggle(nextShow) {
