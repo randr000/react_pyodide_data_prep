@@ -5,6 +5,7 @@ import DataComponentDragWrapper from "./DataComponentDragWrapper";
 import DeleteDataComponentPill from "./DeleteDataComponentPill";
 import DataFlowPill from "./DataFlowPill";
 import ToggleTablePill from "./ToggleTablePill";
+import DownloadPill from "./DownloadPill";
 import CardSummary from "./CardSummary";
 import Table from "./Table";
 
@@ -107,7 +108,10 @@ const DataComponentWrapper = ({
                 <div className="card-body text-center">
                     <DeleteDataComponentPill compID={compID} handleDragOnMouseOver={handleDragOnMouseOver} handleDragOnMouseOut={handleDragOnMouseOut} />
                     {canHaveSources && <DataFlowPill isOnTop={true} id={`${compID}-top`} />}
-                    <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
+                    <div className="position-absolute mt-5 ms-4 start-100 translate-middle d-flex flex-column">
+                        <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
+                        <DownloadPill />
+                    </div>
                     <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
                     {cloneChildren(children)}
                     {canHaveTargets && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}

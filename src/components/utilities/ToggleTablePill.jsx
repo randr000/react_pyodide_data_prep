@@ -11,10 +11,7 @@ const ToggleTablePill = ({isOnTop, id, showTable, toggleTable}) => {
             onClick={() => !isDragging && toggleTable(prev => !prev)}
             id={id}
             className={`
-                position-absolute
-                mt-3
-                start-100
-                translate-middle
+                my-2
                 bg-white border
                 border-primary
                 rounded-pill
