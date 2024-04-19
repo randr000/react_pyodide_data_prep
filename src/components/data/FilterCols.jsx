@@ -22,17 +22,26 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     // A JSON formatted string containing the transformed data
     const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
 
-    function transformData(sourceData, updateTargetState) {
+    /**
+     * 
+     * Defines the actions to take when source data changes in order to update target state
+     * Pass as prop to DataComponentWrapper if necessary
+     * If not passed to DataComponentWrapper, the default is to just update target data with source data
+     * 
+     * @param {string} sourceData - A JSON formatted string representing the source data of the component
+     * @param {Function} updateTargetState - A function to be called when updating target state
+     */
+    function updateData(sourceData, updateTargetState) {
         if (!sourceData) {
             // Reset filteredCols when sourceDataJSONStr is removed
             setFilteredCols(null);
             updateTargetState(null)
         }
         else {
-            // ...Update filteredCols for the new column names
+            // Update filteredCols for the new column names
             setFilteredCols(JSON.parse(sourceData)['columns'].map(col => ({label: col, isChecked: true})));
             
-            // ...Update the new targetDataJSONStr using all of the column names
+            // Update the new targetDataJSONStr using all of the column names
             filterDF(sourceData, JSON.parse(sourceData)['columns']);   
         }
     }
@@ -86,7 +95,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
             setSourceDataJSONStr={setSourceDataJSONStr}
             setTargetDataJSONStr={setTargetDataJSONStr}
             targetDataJSONStr={targetDataJSONStr}
-            transformData={transformData}
+            updateData={updateData}
         >
             {filteredCols && <Checkboxes checkboxes={filteredCols} onChange={filterCol} />}
         </DataComponentWrapper>
