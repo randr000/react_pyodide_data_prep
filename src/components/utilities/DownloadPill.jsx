@@ -44,7 +44,8 @@ const DownloadPill = ({compID, cardTitle}) => {
                 onClick={handleOnClick}
                 className={`
                     mt-5
-                    bg-white border
+                    bg-white
+                    border
                     border-primary
                     rounded-pill
                     fs-5
