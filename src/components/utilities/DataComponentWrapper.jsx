@@ -23,7 +23,8 @@ const DataComponentWrapper = ({
     setTargetDataJSONStr = () => {},
     updateTargetData = false,
     transformTargetData = false,
-    targetDataDeps = []
+    targetDataDeps = [],
+    canHaveDownloadPill = true
 }) => {
 
     const {pyodide, isPyodideLoaded, appState, dispatch} = useGetContexts();
@@ -108,10 +109,21 @@ const DataComponentWrapper = ({
                 <div className="card-body text-center">
                     <DeleteDataComponentPill compID={compID} handleDragOnMouseOver={handleDragOnMouseOver} handleDragOnMouseOut={handleDragOnMouseOut} />
                     {canHaveSources && <DataFlowPill isOnTop={true} id={`${compID}-top`} />}
-                    <div className="position-absolute mt-5 start-100 translate-middle d-flex flex-column">
+                    {/* <div className="position-absolute  start-100 translate-middle d-flex flex-column">
                         <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
-                        {cloneChildren([<DownloadPill compID={compID} cardTitle={cardTitle} />])}
+                        {canHaveDownloadPill && <DownloadPill compID={compID} cardTitle={cardTitle} />}
+                    </div> */}
+                    <div className="position-absolute mt-1 start-100 translate-middle">
+                        <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
+                        
                     </div>
+                    {
+                        canHaveDownloadPill && 
+                        <div className="position-absolute mt-5 start-100 translate-middle">
+                            <DownloadPill compID={compID} cardTitle={cardTitle} />
+                        </div>
+                    }
+                   
                     <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
                     {cloneChildren(children)}
                     {canHaveTargets && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}

@@ -123,6 +123,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         setSourceDataJSONStr={setSourceDataJSONStr}
         canHaveTargets={false}
         targetDataJSONStr={sourceDataJSONStr}
+        canHaveDownloadPill={false}
        >
             <Form disabledragdrilldown>
                 <Form.Group disabledragdrilldown>

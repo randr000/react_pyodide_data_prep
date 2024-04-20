@@ -43,7 +43,7 @@ const DownloadPill = ({compID, cardTitle}) => {
             <span
                 onClick={handleOnClick}
                 className={`
-                    my-2
+                    mt-5
                     bg-white border
                     border-primary
                     rounded-pill
