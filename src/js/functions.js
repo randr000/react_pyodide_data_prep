@@ -3,6 +3,7 @@ import FileUpload from "../components/data/FileUpload";
 import FileDownload from "../components/data/FileDownload";
 import FilterCols from "../components/data/FilterCols";
 import Union from "../components/data/Union";
+import useGetContexts from "../custom-hooks/useGetContexts";
 
 /**
  * Creates a URL string pointing to the file passed as the argument 
@@ -57,4 +58,75 @@ export function dataComponentMaker(obj) {
                 iconClassNames={"bi bi-union"}
             />;
     }
+}
+
+export function downloadData(sourceDataJSONStr, checkedFileTypeStatuses) {
+    // if (isDragging) return;
+
+    const {pyodide, isPyodideLoaded} = useGetContexts();
+
+    const fileTypes = checkedFileTypeStatuses.filter(obj => obj.isChecked).map(obj => obj.label);
+    
+    if (!isPyodideLoaded) return;
+    pyodide.runPython(df_to_output);
+    const dataJSONStrings = JSON.parse(pyodide.globals.get('df_to_output')(sourceDataJSONStr, fileTypes))
+
+    const downloadCsv = fileTypes.includes('csv');
+    const downloadTxt = fileTypes.includes('txt');
+    const downloadExcel = fileTypes.includes('xlsx');
+    const downloadJSONSplit = fileTypes.includes('json (split)');
+    const downloadJSONRecords = fileTypes.includes('json (records)');
+
+    // Handle downloads for csv and txt files
+    if (downloadCsv || downloadTxt) {
+        const blob = new Blob([dataJSONStrings['csv_txt']], {type: 'text/csv'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+
+        if (downloadCsv) {
+            a.setAttribute('download', `${filename}.csv`);
+            a.click();
+        }
+
+        if (downloadTxt) {
+            a.setAttribute('download', `${filename}.txt`);
+            a.click();
+        }
+
+        a.remove(); 
+    }
+
+    // Handle downloads for json (split) files
+    if (downloadJSONSplit) {
+        const blob = new Blob([JSON.stringify(JSON.parse(sourceDataJSONStr), null, 4)], {type: 'application/json'});
+        const a = document.createElement('a');
+        a.href = createObjectURL(blob);
+        a.setAttribute('download', `${filename}-split.json`);
+        a.click();
+        a.remove();
+    }
+
+    // Handles downloads for Excel and json (records) files
+    if (downloadExcel || downloadJSONRecords) {
+        const jSONData = JSON.parse(dataJSONStrings['xlsx_json']);
+
+        // Handle downloads for Excel files
+        if (downloadExcel) {
+            const workbook = utils.book_new();
+            const worksheet = utils.json_to_sheet(jSONData);
+            utils.book_append_sheet(workbook, worksheet, 'data');
+            writeFileXLSX(workbook, `${filename}.xlsx`)
+        }
+
+        // Handle downloads for json (records) files
+        if (downloadJSONRecords) {
+            const dataStr = JSON.stringify(jSONData, null, 4);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            const a = document.createElement('a');
+            a.href = createObjectURL(blob);
+            a.setAttribute('download', `${filename}-records.json`);
+            a.click();
+            a.remove();
+        }
+    } 
 }

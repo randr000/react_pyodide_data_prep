@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Children, cloneElement } from "react";
 import useGetContexts from "../../custom-hooks/useGetContexts";
+import { downloadData } from "../../js/functions";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import DataComponentDragWrapper from "./DataComponentDragWrapper";
 import DeleteDataComponentPill from "./DeleteDataComponentPill";
@@ -78,6 +79,11 @@ const DataComponentWrapper = ({
             });
         };
     }, [targetDataJSONStr]);
+
+    // Download data into file
+    function downloadData() {
+
+    }
 
     /**
      * 
