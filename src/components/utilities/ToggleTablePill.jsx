@@ -12,7 +12,8 @@ const ToggleTablePill = ({isOnTop, id, showTable, toggleTable}) => {
             id={id}
             className={`
                 mt-4
-                bg-white border
+                bg-white
+                border
                 border-primary
                 rounded-pill
                 fs-5
