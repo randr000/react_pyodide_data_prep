@@ -60,10 +60,10 @@ export function dataComponentMaker(obj) {
     }
 }
 
-export function downloadData(sourceDataJSONStr, checkedFileTypeStatuses) {
+export function downloadData(sourceDataJSONStr, checkedFileTypeStatuses, isPyodideLoaded, pyodide, df_to_output, filename, utils, writeFileXLSX) {
     // if (isDragging) return;
 
-    const {pyodide, isPyodideLoaded} = useGetContexts();
+    // const {pyodide, isPyodideLoaded} = useGetContexts();
 
     const fileTypes = checkedFileTypeStatuses.filter(obj => obj.isChecked).map(obj => obj.label);
     
