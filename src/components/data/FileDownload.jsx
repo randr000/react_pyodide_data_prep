@@ -19,22 +19,22 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
     const {connectComponents, components, isDragging} = appState;
 
     // A JSON formatted string containing the source data
-    const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
+    // const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
 
     // A JSON formatted string containing the transformed data
-    const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
+    // const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
 
     // Filename to use for downloaded file
-    const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
+    // const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
 
     // Keeps track of which download file type checkboxes are clicked
-    const [isCheckedFileType, setIsCheckedFileType] = useState([
-        {label: "csv", isChecked: false},
-        {label: "xlsx", isChecked: false},
-        {label: "txt", isChecked: false},
-        {label: "json (split)", isChecked: false},
-        {label: "json (records)", isChecked: false},
-    ]);
+    // const [isCheckedFileType, setIsCheckedFileType] = useState([
+    //     {label: "csv", isChecked: false},
+    //     {label: "xlsx", isChecked: false},
+    //     {label: "txt", isChecked: false},
+    //     {label: "json (split)", isChecked: false},
+    //     {label: "json (records)", isChecked: false},
+    // ]);
 
     /**
      * Updates the isCheckedFileType state by updatding the checked state of the file type name that was passed
@@ -42,90 +42,90 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
      * @param {string} colName 
      * @param {boolean} isChecked 
      */
-    function handleCheckboxChange(label, isChecked) {
-        setIsCheckedFileType(prevState => prevState.map(fType => fType.label === label ? ({label: label, isChecked: isChecked}) : fType));
-    }
+    // function handleCheckboxChange(label, isChecked) {
+    //     setIsCheckedFileType(prevState => prevState.map(fType => fType.label === label ? ({label: label, isChecked: isChecked}) : fType));
+    // }
 
-    function handleIconClick() {
-        if (isDragging) return;
+    // function handleIconClick() {
+    //     if (isDragging) return;
 
-        const fileTypes = isCheckedFileType.filter(obj => obj.isChecked).map(obj => obj.label);
-        pyodide.runPython(df_to_output);
-        const dataJSONStrings = JSON.parse(pyodide.globals.get('df_to_output')(sourceDataJSONStr, fileTypes))
+    //     const fileTypes = isCheckedFileType.filter(obj => obj.isChecked).map(obj => obj.label);
+    //     pyodide.runPython(df_to_output);
+    //     const dataJSONStrings = JSON.parse(pyodide.globals.get('df_to_output')(sourceDataJSONStr, fileTypes))
 
-        const downloadCsv = fileTypes.includes('csv');
-        const downloadTxt = fileTypes.includes('txt');
-        const downloadExcel = fileTypes.includes('xlsx');
-        const downloadJSONSplit = fileTypes.includes('json (split)');
-        const downloadJSONRecords = fileTypes.includes('json (records)');
+    //     const downloadCsv = fileTypes.includes('csv');
+    //     const downloadTxt = fileTypes.includes('txt');
+    //     const downloadExcel = fileTypes.includes('xlsx');
+    //     const downloadJSONSplit = fileTypes.includes('json (split)');
+    //     const downloadJSONRecords = fileTypes.includes('json (records)');
 
-        // Handle downloads for csv and txt files
-        if (downloadCsv || downloadTxt) {
-            const blob = new Blob([dataJSONStrings['csv_txt']], {type: 'text/csv'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
+    //     // Handle downloads for csv and txt files
+    //     if (downloadCsv || downloadTxt) {
+    //         const blob = new Blob([dataJSONStrings['csv_txt']], {type: 'text/csv'});
+    //         const a = document.createElement('a');
+    //         a.href = URL.createObjectURL(blob);
 
-            if (downloadCsv) {
-                a.setAttribute('download', `${filename}.csv`);
-                a.click();
-            }
+    //         if (downloadCsv) {
+    //             a.setAttribute('download', `${filename}.csv`);
+    //             a.click();
+    //         }
 
-            if (downloadTxt) {
-                a.setAttribute('download', `${filename}.txt`);
-                a.click();
-            }
+    //         if (downloadTxt) {
+    //             a.setAttribute('download', `${filename}.txt`);
+    //             a.click();
+    //         }
 
-            a.remove(); 
-        }
+    //         a.remove(); 
+    //     }
 
-        // Handle downloads for json (split) files
-        if (downloadJSONSplit) {
-            const blob = new Blob([JSON.stringify(JSON.parse(sourceDataJSONStr), null, 4)], {type: 'application/json'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.setAttribute('download', `${filename}-split.json`);
-            a.click();
-            a.remove();
-        }
+    //     // Handle downloads for json (split) files
+    //     if (downloadJSONSplit) {
+    //         const blob = new Blob([JSON.stringify(JSON.parse(sourceDataJSONStr), null, 4)], {type: 'application/json'});
+    //         const a = document.createElement('a');
+    //         a.href = URL.createObjectURL(blob);
+    //         a.setAttribute('download', `${filename}-split.json`);
+    //         a.click();
+    //         a.remove();
+    //     }
 
-        // Handles downloads for Excel and json (records) files
-        if (downloadExcel || downloadJSONRecords) {
-            const jSONData = JSON.parse(dataJSONStrings['xlsx_json']);
+    //     // Handles downloads for Excel and json (records) files
+    //     if (downloadExcel || downloadJSONRecords) {
+    //         const jSONData = JSON.parse(dataJSONStrings['xlsx_json']);
 
-            // Handle downloads for Excel files
-            if (downloadExcel) {
-                const workbook = utils.book_new();
-                const worksheet = utils.json_to_sheet(jSONData);
-                utils.book_append_sheet(workbook, worksheet, 'data');
-                writeFileXLSX(workbook, `${filename}.xlsx`)
-            }
+    //         // Handle downloads for Excel files
+    //         if (downloadExcel) {
+    //             const workbook = utils.book_new();
+    //             const worksheet = utils.json_to_sheet(jSONData);
+    //             utils.book_append_sheet(workbook, worksheet, 'data');
+    //             writeFileXLSX(workbook, `${filename}.xlsx`)
+    //         }
 
-            // Handle downloads for json (records) files
-            if (downloadJSONRecords) {
-                const dataStr = JSON.stringify(jSONData, null, 4);
-                const blob = new Blob([dataStr], {type: 'application/json'});
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.setAttribute('download', `${filename}-records.json`);
-                a.click();
-                a.remove();
-            }
-        } 
-    }
+    //         // Handle downloads for json (records) files
+    //         if (downloadJSONRecords) {
+    //             const dataStr = JSON.stringify(jSONData, null, 4);
+    //             const blob = new Blob([dataStr], {type: 'application/json'});
+    //             const a = document.createElement('a');
+    //             a.href = URL.createObjectURL(blob);
+    //             a.setAttribute('download', `${filename}-records.json`);
+    //             a.click();
+    //             a.remove();
+    //         }
+    //     } 
+    // }
 
     return (
        <DataComponentWrapper
         compID={compID}
         cardTitle={cardTitle}
         iconClassNames={iconClassNames}
-        iconOnClick={handleIconClick}
-        sourceDataJSONStr={sourceDataJSONStr}
-        setSourceDataJSONStr={setSourceDataJSONStr}
+        // iconOnClick={handleIconClick}
+        // sourceDataJSONStr={sourceDataJSONStr}
+        // setSourceDataJSONStr={setSourceDataJSONStr}
         canHaveTargets={false}
-        targetDataJSONStr={sourceDataJSONStr}
+        // targetDataJSONStr={sourceDataJSONStr}
         canHaveDownloadPill={false}
        >
-            <Form disabledragdrilldown>
+            {/* <Form disabledragdrilldown>
                 <Form.Group disabledragdrilldown>
                     <div className="d-flex justify-content-start">
                         <Form.Label className="fw-bold cursor-grab">Filename:</Form.Label>
@@ -143,7 +143,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
                     checkboxes={isCheckedFileType}
                     onChange={handleCheckboxChange}
                 />
-            </div>
+            </div> */}
        </DataComponentWrapper>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import AppDataContext from '../../context/AppDataContext';
 import { Dropdown, Form } from 'react-bootstrap';
 import Checkboxes from './Checkboxes';
+import DownloadForm from './DownloadForm';
 import { downloadData } from '../../js/functions';
 
 const DownloadPill = ({compID, cardTitle, filename, setFilename, downloadData, isCheckedFileType, setIsCheckedFileType}) => {
@@ -59,12 +60,12 @@ const DownloadPill = ({compID, cardTitle, filename, setFilename, downloadData, i
                         <i className="bi bi-file-earmark-arrow-down"></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="mt-2 px-2" onClick={e => e.stopPropagation()} disabledragdrilldown>
-                        
-                        <Form disabledragdrilldown>
+                        <DownloadForm isDragging={isDragging} filename={filename} setFilename={setFilename} isCheckedFileType={isCheckedFileType} handleCheckboxChange={handleCheckboxChange} downloadData={downloadData}/>
+                        {/* <Form disabledragdrilldown>
                             <Form.Group disabledragdrilldown>
                                 <div className="d-flex justify-content-between">
                                     <Form.Label className="fw-bold cursor-grab">Filename:</Form.Label>
-                                    {/* <icon className="bi bi-file-earmark-arrow-down cursor-pointer fs-5" /> */}
+                                   
                                     <icon className="bi bi-box-arrow-down cursor-pointer fs-5" onClick={handleIconOnClick} />
                                 </div>
                                 <Form.Control
@@ -80,7 +81,7 @@ const DownloadPill = ({compID, cardTitle, filename, setFilename, downloadData, i
                                 checkboxes={isCheckedFileType}
                                 onChange={handleCheckboxChange}
                             />
-                        </div>
+                        </div> */}
                     </Dropdown.Menu>
                 </Dropdown>
             </span>
