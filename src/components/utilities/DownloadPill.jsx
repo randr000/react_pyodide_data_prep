@@ -2,21 +2,13 @@ import React, { useState, useContext } from 'react';
 import AppDataContext from '../../context/AppDataContext';
 import { Dropdown, Form } from 'react-bootstrap';
 import Checkboxes from './Checkboxes';
+import { downloadData } from '../../js/functions';
 
-const DownloadPill = ({compID, cardTitle}) => {
+const DownloadPill = ({compID, cardTitle, filename, setFilename, downloadData, isCheckedFileType, setIsCheckedFileType}) => {
 
     const [showDropdown, setShowDropdown] = useState(false);
     const {appState} = useContext(AppDataContext);
     const {isDragging} = appState;
-
-    // Keeps track of which download file type checkboxes are clicked
-    const [isCheckedFileType, setIsCheckedFileType] = useState([
-        {label: "csv", isChecked: false},
-        {label: "xlsx", isChecked: false},
-        {label: "txt", isChecked: false},
-        {label: "json (split)", isChecked: false},
-        {label: "json (records)", isChecked: false},
-    ]);
 
     /**
      * Updates the isCheckedFileType state by updatding the checked state of the file type name that was passed
@@ -29,7 +21,7 @@ const DownloadPill = ({compID, cardTitle}) => {
     }
 
     // Filename to use for downloaded file
-    const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
+    // const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
 
     function handleOnClick() {
         handleOnToggle(!showDropdown);
@@ -37,6 +29,11 @@ const DownloadPill = ({compID, cardTitle}) => {
 
     function handleOnToggle(nextShow) {
         !isDragging && setShowDropdown(nextShow);
+    }
+
+    function handleIconOnClick() {
+        if (isDragging) return;
+        downloadData();
     }
 
     return (
@@ -68,7 +65,7 @@ const DownloadPill = ({compID, cardTitle}) => {
                                 <div className="d-flex justify-content-between">
                                     <Form.Label className="fw-bold cursor-grab">Filename:</Form.Label>
                                     {/* <icon className="bi bi-file-earmark-arrow-down cursor-pointer fs-5" /> */}
-                                    <icon className="bi bi-box-arrow-down cursor-pointer fs-5" />
+                                    <icon className="bi bi-box-arrow-down cursor-pointer fs-5" onClick={handleIconOnClick} />
                                 </div>
                                 <Form.Control
                                     disabledragonhover
