@@ -82,15 +82,6 @@ const DataComponentWrapper = ({
         };
     }, [targetDataJSONStr]);
 
-    // Keeps track of which download file type checkboxes are clicked
-    const [isCheckedFileType, setIsCheckedFileType] = useState([
-        {label: "csv", isChecked: false},
-        {label: "xlsx", isChecked: false},
-        {label: "txt", isChecked: false},
-        {label: "json (split)", isChecked: false},
-        {label: "json (records)", isChecked: false},
-    ]);
-
     // Filename to use for downloaded file
     const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
 
@@ -131,7 +122,13 @@ const DataComponentWrapper = ({
                     {
                         canHaveDownloadPill && 
                         <div className="position-absolute mt-5 start-100 translate-middle">
-                            <DownloadPill compID={compID} cardTitle={cardTitle} filename={filename} setFilename={setFilename} isCheckedFileType={isCheckedFileType} setIsCheckedFileType={setIsCheckedFileType} targetDataJSONStr={targetDataJSONStr} />
+                            <DownloadPill
+                                compID={compID}
+                                cardTitle={cardTitle}
+                                filename={filename}
+                                setFilename={setFilename} 
+                                targetDataJSONStr={targetDataJSONStr}
+                            />
                         </div>
                     }
                     <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />

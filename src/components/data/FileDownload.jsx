@@ -13,7 +13,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
     const {appState} = useGetContexts();
     const {isDragging} = appState;
 
-    const {downloadData} = useDownloadData();
+    const {downloadData, updateCheckedFileTypes, isCheckedFileType} = useDownloadData();
 
     // A JSON formatted string containing the source data
     const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
@@ -24,15 +24,6 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
     // Filename to use for downloaded file
     const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
 
-    // Keeps track of which download file type checkboxes are clicked
-    const [isCheckedFileType, setIsCheckedFileType] = useState([
-        {label: "csv", isChecked: false},
-        {label: "xlsx", isChecked: false},
-        {label: "txt", isChecked: false},
-        {label: "json (split)", isChecked: false},
-        {label: "json (records)", isChecked: false},
-    ]);
-
     /**
      * Updates the isCheckedFileType state by updatding the checked state of the file type name that was passed
      * 
@@ -40,12 +31,12 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
      * @param {boolean} isChecked 
      */
     function handleCheckboxChange(label, isChecked) {
-        setIsCheckedFileType(prevState => prevState.map(fType => fType.label === label ? ({label: label, isChecked: isChecked}) : fType));
+        updateCheckedFileTypes(label, isChecked);
     }
 
     function handleIconClick() {
         if (isDragging) return;
-        downloadData(sourceDataJSONStr, isCheckedFileType, filename)
+        downloadData(sourceDataJSONStr, filename);
     }
 
     return (
@@ -64,8 +55,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
                 isDragging={isDragging}
                 filename={filename}
                 setFilename={setFilename}
-                isCheckedFileType={isCheckedFileType}
-                handleCheckboxChange={handleCheckboxChange}
+                handleCustomCheckboxChange={handleCheckboxChange}
                 targetDataJSONStr={targetDataJSONStr}
                 includeDownloadBtn={false}
             />

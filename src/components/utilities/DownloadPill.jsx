@@ -1,25 +1,13 @@
 import React, { useState, useContext } from 'react';
 import AppDataContext from '../../context/AppDataContext';
-import { Dropdown, Form } from 'react-bootstrap';
-import Checkboxes from './Checkboxes';
+import { Dropdown } from 'react-bootstrap';
 import DownloadForm from './DownloadForm';
-import { downloadData } from '../../js/functions';
 
-const DownloadPill = ({filename, setFilename, isCheckedFileType, setIsCheckedFileType, targetDataJSONStr}) => {
+const DownloadPill = ({filename, setFilename, targetDataJSONStr}) => {
 
     const [showDropdown, setShowDropdown] = useState(false);
     const {appState} = useContext(AppDataContext);
     const {isDragging} = appState;
-
-    /**
-     * Updates the isCheckedFileType state by updatding the checked state of the file type name that was passed
-     * 
-     * @param {string} colName 
-     * @param {boolean} isChecked 
-     */
-    function handleCheckboxChange(label, isChecked) {
-        setIsCheckedFileType(prevState => prevState.map(fType => fType.label === label ? ({label: label, isChecked: isChecked}) : fType));
-    }
 
     function handleOnClick() {
         handleOnToggle(!showDropdown);
@@ -56,8 +44,8 @@ const DownloadPill = ({filename, setFilename, isCheckedFileType, setIsCheckedFil
                             isDragging={isDragging}
                             filename={filename}
                             setFilename={setFilename}
-                            isCheckedFileType={isCheckedFileType}
-                            handleCheckboxChange={handleCheckboxChange}
+                            // isCheckedFileType={isCheckedFileType}
+                            // handleCheckboxChange={handleCheckboxChange}
                             targetDataJSONStr={targetDataJSONStr}
                         />
                     </Dropdown.Menu>

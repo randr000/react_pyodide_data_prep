@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import useGetContexts from './useGetContexts';
 import { utils, writeFileXLSX } from 'xlsx';
 import df_to_output from '../python_code_js_modules/df_to_output';
@@ -7,8 +8,27 @@ const useDownloadData = () => {
     
     const {pyodide, isPyodideLoaded} = useGetContexts();
 
-    function downloadData(targetDataJSONStr, isCheckedFileType, filename) {
+    // Keeps track of which download file type checkboxes are clicked
+    const [isCheckedFileType, setIsCheckedFileType] = useState([
+        {label: "csv", isChecked: false},
+        {label: "xlsx", isChecked: false},
+        {label: "txt", isChecked: false},
+        {label: "json (split)", isChecked: false},
+        {label: "json (records)", isChecked: false},
+    ]);
 
+    /**
+     * Updates the isCheckedFileType state by updatding the checked state of the file type name that was passed
+     * 
+     * @param {string} colName 
+     * @param {boolean} isChecked 
+     */
+    function updateCheckedFileTypes(label, isChecked) {
+        setIsCheckedFileType(prevState => prevState.map(fType => fType.label === label ? ({label: label, isChecked: isChecked}) : fType));
+    }
+
+    function downloadData(targetDataJSONStr, filename) {
+        
         const fileTypes = isCheckedFileType.filter(obj => obj.isChecked).map(obj => obj.label);
         pyodide.runPython(df_to_output);
         const dataJSONStrings = JSON.parse(pyodide.globals.get('df_to_output')(targetDataJSONStr, fileTypes))
@@ -73,7 +93,7 @@ const useDownloadData = () => {
         } 
     }
 
-    return {downloadData}
+    return {downloadData, updateCheckedFileTypes, isCheckedFileType}
 }
 
 export default useDownloadData;
