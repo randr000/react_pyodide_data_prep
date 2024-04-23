@@ -5,7 +5,7 @@ import Checkboxes from './Checkboxes';
 import DownloadForm from './DownloadForm';
 import { downloadData } from '../../js/functions';
 
-const DownloadPill = ({compID, cardTitle, filename, setFilename, downloadData, isCheckedFileType, setIsCheckedFileType}) => {
+const DownloadPill = ({filename, setFilename, isCheckedFileType, setIsCheckedFileType, targetDataJSONStr}) => {
 
     const [showDropdown, setShowDropdown] = useState(false);
     const {appState} = useContext(AppDataContext);
@@ -21,20 +21,12 @@ const DownloadPill = ({compID, cardTitle, filename, setFilename, downloadData, i
         setIsCheckedFileType(prevState => prevState.map(fType => fType.label === label ? ({label: label, isChecked: isChecked}) : fType));
     }
 
-    // Filename to use for downloaded file
-    // const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
-
     function handleOnClick() {
         handleOnToggle(!showDropdown);
     }
 
     function handleOnToggle(nextShow) {
         !isDragging && setShowDropdown(nextShow);
-    }
-
-    function handleIconOnClick() {
-        if (isDragging) return;
-        downloadData();
     }
 
     return (
@@ -60,28 +52,14 @@ const DownloadPill = ({compID, cardTitle, filename, setFilename, downloadData, i
                         <i className="bi bi-file-earmark-arrow-down"></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="mt-2 px-2" onClick={e => e.stopPropagation()} disabledragdrilldown>
-                        <DownloadForm isDragging={isDragging} filename={filename} setFilename={setFilename} isCheckedFileType={isCheckedFileType} handleCheckboxChange={handleCheckboxChange} downloadData={downloadData}/>
-                        {/* <Form disabledragdrilldown>
-                            <Form.Group disabledragdrilldown>
-                                <div className="d-flex justify-content-between">
-                                    <Form.Label className="fw-bold cursor-grab">Filename:</Form.Label>
-                                   
-                                    <icon className="bi bi-box-arrow-down cursor-pointer fs-5" onClick={handleIconOnClick} />
-                                </div>
-                                <Form.Control
-                                    disabledragonhover
-                                    type="text"
-                                    value={filename}
-                                    onChange={e => setFilename(e.target.value)}
-                                />
-                            </Form.Group>
-                        </Form>
-                        <div className="mt-2">
-                            <Checkboxes
-                                checkboxes={isCheckedFileType}
-                                onChange={handleCheckboxChange}
-                            />
-                        </div> */}
+                        <DownloadForm
+                            isDragging={isDragging}
+                            filename={filename}
+                            setFilename={setFilename}
+                            isCheckedFileType={isCheckedFileType}
+                            handleCheckboxChange={handleCheckboxChange}
+                            targetDataJSONStr={targetDataJSONStr}
+                        />
                     </Dropdown.Menu>
                 </Dropdown>
             </span>

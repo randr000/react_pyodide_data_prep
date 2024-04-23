@@ -1,12 +1,19 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import Checkboxes from "./Checkboxes";
+import useDownloadData from "../../custom-hooks/useDownloadData";
 
-const DownloadForm = ({isDragging, filename, setFilename, isCheckedFileType, handleCheckboxChange, downloadData, includeDownloadBtn=true}) => {
+const DownloadForm = ({isDragging, filename, setFilename, isCheckedFileType, handleCheckboxChange, includeDownloadBtn=true, targetDataJSONStr}) => {
+
+    const {downloadData} = useDownloadData();
 
     function handleOnClick() {
         if (isDragging) return;
-        downloadData();
+        handleDownload();
+    }
+
+    function handleDownload() {
+        downloadData(targetDataJSONStr, isCheckedFileType, filename);
     }
 
     return (
@@ -15,7 +22,7 @@ const DownloadForm = ({isDragging, filename, setFilename, isCheckedFileType, han
                 <Form.Group>
                     <div className="d-flex justify-content-between">
                         <Form.Label className="fw-bold cursor-grab">Filename:</Form.Label>
-                        <icon className="bi bi-box-arrow-down cursor-pointer fs-5" onClick={handleOnClick} />
+                        {includeDownloadBtn && <icon className="bi bi-box-arrow-down cursor-pointer fs-5" onClick={handleOnClick}></icon>}
                     </div>
                     <Form.Control
                         type="text"
