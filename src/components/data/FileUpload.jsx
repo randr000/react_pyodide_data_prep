@@ -14,6 +14,9 @@ import input_to_df from '../../python_code_js_modules/input_to_df';
 // import other function(s)
 import { createObjectURL } from '../../js/functions';
 
+// import error messages
+import ERROR_MSG from '../../js/error_messages';
+
 
 const FileUpload = ({compID, cardTitle, iconClassNames}) => {
 
@@ -52,10 +55,10 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
     }
 
     // Error messages for different filetypes to be displayed to the user
-    const csvErrorMsg = 'An error occured reading the CSV file. Please make sure it is in the appropriate format.';
-    const txtErrorMsg = csvErrorMsg.replace('CSV', 'TXT');
-    const jsonErrorMsg = 'An error occured reading the JSON file. Please make sure it is in the appropriate format.';
-    const excelErrorMsg = 'An error occured reading the Excel file. Please make sure it is in the appropriate format.';
+    const csvErrorMsg = ERROR_MSG.csvErrorMsg;
+    const txtErrorMsg = ERROR_MSG.txtErrorMsg;
+    const jsonErrorMsg = ERROR_MSG.jsonErrorMsg;
+    const excelErrorMsg = ERROR_MSG.excelErrorMsg;
 
     /**
      * 
