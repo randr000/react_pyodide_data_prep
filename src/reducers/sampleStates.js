@@ -2,6 +2,7 @@ import DATA_COMPONENT_TYPES from "../js/dataComponentTypes";
 
 const sampleStates = {
     a: {
+        isDragging: false,
         nextID: 0,
         connectComponents: false,
         components: [],
@@ -9,6 +10,7 @@ const sampleStates = {
     },
 
     b: {
+        isDragging: false,
         nextID: 2,
         connectComponents: false,
         components: [
@@ -35,6 +37,7 @@ const sampleStates = {
     },
     
     c: {
+        isDragging: false,
         nextID: 4,
         connectComponents: false,
         components: [
@@ -85,6 +88,7 @@ const sampleStates = {
     },
 
     d: {
+        isDragging: false,
         nextID: 5,
         connectComponents: false,
         components: [
@@ -147,6 +151,7 @@ const sampleStates = {
     },
 
     e: {
+        isDragging: false,
         nextID: 3,
         connectComponents: false,
         components: [
@@ -181,6 +186,20 @@ const sampleStates = {
                 compIDs: new Set([1, 2])
             }
         ]
+    },
+
+    f: {
+        isDragging: false,
+        nextID: 1,
+        connectComponents: false,
+        components: [
+            {
+                type: DATA_COMPONENT_TYPES.FILE_UPLOAD,
+                compID: 0,
+                outputComponents: new Set([])
+            }
+        ],
+        arrows: []
     }
 };
 
