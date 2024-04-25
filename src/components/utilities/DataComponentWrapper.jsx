@@ -28,7 +28,7 @@ const DataComponentWrapper = ({
 }) => {
 
     const {appState, dispatch} = useGetContexts();
-    const {components} = appState;
+    const {components, isDragging} = appState;
 
     const [showTable, setShowTable] = useState(true);
     const [disableDrag, setDisableDrag] = useState(false);
@@ -115,21 +115,18 @@ const DataComponentWrapper = ({
                 <div className="card-body text-center">
                     <DeleteDataComponentPill compID={compID} handleDragOnMouseOver={handleDragOnMouseOver} handleDragOnMouseOut={handleDragOnMouseOut} />
                     {canHaveSources && <DataFlowPill isOnTop={true} id={`${compID}-top`} />}
-                    <div className="position-absolute mt-1 start-100 translate-middle">
-                        <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
+
+                    <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                         
-                    </div>
                     {
                         canHaveDownloadPill && 
-                        <div className="position-absolute mt-5 start-100 translate-middle">
-                            <DownloadPill
-                                compID={compID}
-                                cardTitle={cardTitle}
-                                filename={filename}
-                                setFilename={setFilename} 
-                                targetDataJSONStr={targetDataJSONStr}
-                            />
-                        </div>
+                        <DownloadPill
+                            compID={compID}
+                            cardTitle={cardTitle}
+                            filename={filename}
+                            setFilename={setFilename} 
+                            targetDataJSONStr={targetDataJSONStr}
+                        />
                     }
                     <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
                     {cloneChildren(children)}
