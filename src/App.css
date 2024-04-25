@@ -10,3 +10,18 @@
 .dropdown-toggle::after {
   display: none !important;
 }
+
+.table-container {
+  height: 17rem;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+
+.data-th {
+  position: sticky;
+  top: 0;
+}
+
+.data-tr {
+  scroll-snap-align: end;
+}
