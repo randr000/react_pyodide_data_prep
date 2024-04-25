@@ -31,7 +31,7 @@ it('should have file upload drop zone in the document', () => {
         arrows: []
     };
 
-    mockUseGetContexts.mockReturnValue({pyodide: {}, isPyodideLoaded: true, appState: mockedState, dispatch: jest.fn()});
+    mockUseGetContexts.mockReturnValue({appState: mockedState, dispatch: jest.fn()});
     
     render(<FileUpload compID={0} cardTitle={"File Upload"} iconClassNames={false}/>)
     const inputElement = screen.getByText("Drag or click to browse");

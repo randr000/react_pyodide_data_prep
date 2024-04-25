@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { loadPyodide } from 'pyodide/pyodide.js';
 
 export const PyodideContext = React.createContext(null);
 
@@ -12,10 +13,11 @@ export const PyodideContextWrapper = ({children}) => {
 
         (async function () {
 
-            pyodideRef.current = await window.loadPyodide();
-            // pyodideRef.current = await window.loadPyodide({
-            //     indexURL : "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/"
-            //   });
+            // pyodideRef.current = await window.loadPyodide();
+            // pyodideRef.current = await loadPyodide();
+            pyodideRef.current = await loadPyodide({
+                indexURL : "https://cdn.jsdelivr.net/pyodide/v0.21.3/full/"
+              });
             await pyodideRef.current.loadPackage('pandas');
             setIsPyodideLoaded(true);
             return pyodideRef.current.runPythonAsync('2 * 3');
