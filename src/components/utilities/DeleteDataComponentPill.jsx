@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
-import AppDataContext from "../../context/AppDataContext";
+// import AppDataContext from "../../context/AppDataContext";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
+import useGetContexts from "../../custom-hooks/useGetContexts";
 
 const DeleteDataComponentPill = ({compID, handleDragOnMouseOver, handleDragOnMouseOut}) => {
 
-    const {appState, dispatch} = useContext(AppDataContext);
+    const {appState, dispatch} = useGetContexts();
     const {components, arrows} = appState;
 
     const [styles, setStyles] = useState({

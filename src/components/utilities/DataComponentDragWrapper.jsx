@@ -1,14 +1,15 @@
 import React, { useRef, useContext } from "react";
 import Draggable from "react-draggable";
 import { useXarrow } from "react-xarrows";
-import AppDataContext from "../../context/AppDataContext";
+// import AppDataContext from "../../context/AppDataContext";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
+import useGetContexts from "../../custom-hooks/useGetContexts";
 
 const DataComponentDragWrapper = ({children, disableDrag = false}) => {
 
-    const  updateXarrow = useXarrow();
+    const updateXarrow = useXarrow();
 
-    const {_, dispatch} = useContext(AppDataContext);
+    const {dispatch} = useGetContexts();
 
     // To prevent warning when running in React strict mode
     // Followed steps from React-Draggable documentation

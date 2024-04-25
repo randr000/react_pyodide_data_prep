@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
-import AppDataContext from '../../context/AppDataContext';
+// import AppDataContext from '../../context/AppDataContext';
 import { Dropdown } from 'react-bootstrap';
 import DownloadForm from './DownloadForm';
+import useGetContexts from '../../custom-hooks/useGetContexts';
 
 const DownloadPill = ({filename, setFilename, targetDataJSONStr}) => {
 
     const [showDropdown, setShowDropdown] = useState(false);
-    const {appState} = useContext(AppDataContext);
+    const {appState} = useGetContexts();
     const {isDragging} = appState;
 
     function handleOnClick() {
@@ -29,17 +30,17 @@ const DownloadPill = ({filename, setFilename, targetDataJSONStr}) => {
                     fs-5
                     btn
                 `}
-                disabledragdrilldown
+                
             >
                 <Dropdown
                     show={showDropdown}
                     onToggle={handleOnToggle}
-                    disabledragdrilldown
+                    
                 >
                     <Dropdown.Toggle as="div">
                         <i className="bi bi-file-earmark-arrow-down"></i>
                     </Dropdown.Toggle>
-                    <Dropdown.Menu className="mt-2 px-2" onClick={e => e.stopPropagation()} disabledragdrilldown>
+                    <Dropdown.Menu className="mt-2 px-2" onClick={e => e.stopPropagation()} >
                         <DownloadForm
                             isDragging={isDragging}
                             filename={filename}

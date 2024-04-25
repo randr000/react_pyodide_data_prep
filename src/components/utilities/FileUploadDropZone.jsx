@@ -1,10 +1,11 @@
 import React, { useState, useRef, useContext } from 'react';
-import AppDataContext from '../../context/AppDataContext';
+import useGetContexts from '../../custom-hooks/useGetContexts';
+// import AppDataContext from '../../context/AppDataContext';
 
 const FileUploadDropZone = ({
     file, setFile, updateInvalidFileState, isInvalidFile, invalidFileMsg, uploadStyles, setUploadStyles}) => {
 
-    const {appState, _} = useContext(AppDataContext);
+    const {appState} = useGetContexts();
     const {isDragging} = appState;
 
     const inputRef = useRef();

@@ -1,9 +1,10 @@
 import React, { useEffect, useContext } from 'react';
-import AppDataContext from '../../context/AppDataContext';
+import useGetContexts from '../../custom-hooks/useGetContexts';
+// import AppDataContext from '../../context/AppDataContext';
 
 const ToggleTablePill = ({isOnTop, id, showTable, toggleTable}) => {
 
-    const {appState, dispatch} = useContext(AppDataContext);
+    const {appState, dispatch} = useGetContexts();
     const {isDragging} = appState;
 
     return (

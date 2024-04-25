@@ -1,10 +1,11 @@
 import React, {useContext, useState} from 'react';
-import AppDataContext from '../../context/AppDataContext';
+// import AppDataContext from '../../context/AppDataContext';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
+import useGetContexts from '../../custom-hooks/useGetContexts';
 
 const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
 
-    const {appState, dispatch} = useContext(AppDataContext);
+    const {appState, dispatch} = useGetContexts();
     const {connectComponents, components, isDragging} = appState;
 
     function openConn() {
