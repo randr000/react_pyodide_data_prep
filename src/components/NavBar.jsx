@@ -3,6 +3,7 @@ import NavBarComponentButton from './NavBarComponentButton';
 import AppDataContext from '../context/AppDataContext';
 import APP_ACTION_TYPES from '../action-types/appActionTypes';
 import DATA_COMPONENT_TYPES from '../js/dataComponentTypes';
+import CONSTANTS from '../js/app-constants';
 
 const NavBar = () => {
 
@@ -22,7 +23,7 @@ const NavBar = () => {
         <>
             <nav className="navbar bg-light">
                 <div className="container-fluid">
-                    <h1 className="navbar-brand">Pyodide React App</h1>
+                    <h1 className="navbar-brand">{CONSTANTS.APP_TITLE}</h1>
                 </div>
             </nav>
             <nav className="navbar bg-light d-flex justify-content-start">

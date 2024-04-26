@@ -31,7 +31,7 @@ export const PyodideContextWrapper = ({children}) => {
             {
                 isPyodideLoaded ?
                 children :
-                <p className="text-center fs-1 fw-bold">Pyodide is Loading <span className="spinner-border" role="status"></span></p>
+                <p className="text-center fs-1 fw-bold">Pyodide is Loading<span data-testid="pyodide-loading-spinner" className="spinner-border" role="status"></span></p>
             }
             
         </PyodideContext.Provider>
