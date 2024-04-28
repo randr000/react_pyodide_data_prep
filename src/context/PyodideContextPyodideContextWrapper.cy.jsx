@@ -1,8 +1,6 @@
 import React from 'react';
 import { PyodideContextWrapper } from './PyodideContext';
-// import { loadPyodide } from 'pyodide/pyodide.js';
 import * as Pyodide from 'pyodide/pyodide.js';
-
 
 describe('<PyodideContextWrapper />', () => {
 
@@ -15,7 +13,7 @@ describe('<PyodideContextWrapper />', () => {
 
   it('renders Pyodide loading message and spinner when Pyodide is not loaded', () => {
 
-    cy.stub(React, 'useState', () => [false, () => {}])
+    cy.stub(React, 'useState', () => [false, () => {}]);
     cy.mount(<PyodideContextWrapper toLoadPyodide={false} />);
     cy.contains('Pyodide is Loading').should('exist');
     cy.get('[data-testid=pyodide-loading-spinner]').should('exist');
