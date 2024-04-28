@@ -3,18 +3,14 @@ import { loadPyodide } from 'pyodide/pyodide.js';
 
 export const PyodideContext = React.createContext(null);
 
-export const PyodideContextWrapper = ({children}) => {
+export const PyodideContextWrapper = ({children, toLoadPyodide=true}) => {
 
-    // const [isPyodideLoaded, setIsPyodideLoaded] = useState(true);
-    const [isPyodideLoaded, setIsPyodideLoaded] = useState(false);
+    const [isPyodideLoaded, setIsPyodideLoaded] = useState(!toLoadPyodide);
     const pyodideRef = useRef(null);
 
     useEffect(() => {
-
+        toLoadPyodide &&
         (async function () {
-
-            // pyodideRef.current = await window.loadPyodide();
-            // pyodideRef.current = await loadPyodide();
             pyodideRef.current = await loadPyodide({
                 indexURL : "https://cdn.jsdelivr.net/pyodide/v0.21.3/full/"
               });
