@@ -8,7 +8,7 @@ import CONSTANTS from '../js/app-constants';
 const NavBar = () => {
 
     const {appState, dispatch} = useContext(AppDataContext);
-    const {nextID, components} = appState;
+    const {nextID} = appState;
 
     function handleOnClick(compType, hasSourceComps=true) {
         const payload = {type: compType, compID: nextID, outputComponents: new Set([])};
