@@ -25,20 +25,26 @@ fs.readdir(pythonCodePath, (err, files) => {
     }
 
     files.forEach(file => {
+        if (
+                fs.lstatSync(`${pythonCodePath}/${file}`).isFile()
+                && file.substring(0, 5).toLowerCase() !== 'test_'
+                && file.substring(file.lastIndexOf('.'), file.length) === '.py'
+            ) {
 
-        const modName = file.substring(0, file.length - 3);
+            const modName = file.substring(0, file.length - 3);
 
-        fs.readFile(`${pythonCodePath}/${file}`, 'utf8', (err, data) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
+            fs.readFile(`${pythonCodePath}/${file}`, 'utf8', (err, data) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
 
-            const logger = fs.createWriteStream(`${directoryPath}/${modName}.js`, {flags: 'a'});
-            logger.write(`const ${modName} = \`\n\n`);
-            logger.write(`${data}\`;\n\n`);
-            logger.write(`export default ${modName};`);
-            logger.end();
-        });
+                const logger = fs.createWriteStream(`${directoryPath}/${modName}.js`, {flags: 'a'});
+                logger.write(`const ${modName} = \`\n\n`);
+                logger.write(`${data}\`;\n\n`);
+                logger.write(`export default ${modName};`);
+                logger.end();
+            });
+        }
     });
 });

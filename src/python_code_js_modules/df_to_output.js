@@ -2,7 +2,6 @@ const df_to_output = `
 
 import pandas as pd
 import json
-from js import Blob, document, window
 
 def df_to_output(json_str, file_types):
 
