@@ -19,8 +19,9 @@
 .env.production.local
 /.vscode
 
-# python virtual environment
+# python virtual environment and temp files
 **/venv
+**/__pycache__
 
 npm-debug.log*
 yarn-debug.log*
