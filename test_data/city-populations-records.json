@@ -1,0 +1,82 @@
+[
+    {
+        "state": "California",
+        "city": "Los Angeles",
+        "population": 3850000
+    },
+    {
+        "state": "California",
+        "city": "San Diego",
+        "population": 1400000
+    },
+    {
+        "state": "California",
+        "city": "San Jose",
+        "population": 986300
+    },
+    {
+        "state": "California",
+        "city": "San Francisco",
+        "population": 815201
+    },
+    {
+        "state": "Texas",
+        "city": "Houston",
+        "population": 2296253
+    },
+    {
+        "state": "Texas",
+        "city": "San Antonio",
+        "population": 1445662
+    },
+    {
+        "state": "Texas",
+        "city": "Dallas",
+        "population": 1300642
+    },
+    {
+        "state": "Texas",
+        "city": "Austin",
+        "population": 958202
+    },
+    {
+        "state": "Florida",
+        "city": "Jacksonville",
+        "population": 990931
+    },
+    {
+        "state": "Florida",
+        "city": "Miami",
+        "population": 456229
+    },
+    {
+        "state": "Florida",
+        "city": "Tampa",
+        "population": 408438
+    },
+    {
+        "state": "Florida",
+        "city": "Orlando",
+        "population": 324429
+    },
+    {
+        "state": "New York",
+        "city": "New York City",
+        "population": 7931147
+    },
+    {
+        "state": "New York",
+        "city": "Buffalo",
+        "population": 275352
+    },
+    {
+        "state": "New York",
+        "city": "Rochester",
+        "population": 207537
+    },
+    {
+        "state": "New York",
+        "city": "Yonkers",
+        "population": 205253
+    }
+]
