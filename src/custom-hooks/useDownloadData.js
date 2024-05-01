@@ -32,7 +32,6 @@ const useDownloadData = () => {
         const fileTypes = isCheckedFileType.filter(obj => obj.isChecked).map(obj => obj.label);
         pyodide.runPython(df_to_output);
         const dataJSONStrings = JSON.parse(pyodide.globals.get('df_to_output')(targetDataJSONStr, fileTypes))
-
         const downloadCsv = fileTypes.includes('csv');
         const downloadTxt = fileTypes.includes('txt');
         const downloadExcel = fileTypes.includes('xlsx');
@@ -41,7 +40,7 @@ const useDownloadData = () => {
 
         // Handle downloads for csv and txt files
         if (downloadCsv || downloadTxt) {
-            const blob = new Blob([dataJSONStrings['csv_txt']], {type: 'text/csv'});
+            const blob = new Blob([dataJSONStrings.csv_text], {type: 'text/csv'});
             const a = document.createElement('a');
             a.href = createObjectURL(blob);
 
