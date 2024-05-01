@@ -15,11 +15,17 @@ def read_file(path):
         with open(path, 'r') as f:
             return f.read()
         
+def load_json(path):
+    return json.loads(read_file(path))
+        
 city_populations_json_records = '../test_data/city-populations-records.json'
 city_populations_json_split = '../test_data/city-populations-split.json'
 city_populations_csv = '../test_data/city-populations.csv'
 city_populations_txt = '../test_data/city-populations.txt'
 city_populations_xlsx = '../test_data/city-populations.xlsx'
+city_populations_filtered_out_state = '../test_data/city-populations-filtered-out-state-split.json'
+city_populations_filtered_out_city = '../test_data/city-populations-filtered-out-city-split.json'
+city_populations_filtered_out_state_and_city = '../test_data/city-populations-filtered-out-state-and-city-split.json'
 
 class TestAll(unittest.TestCase):
 
@@ -57,7 +63,22 @@ class TestAll(unittest.TestCase):
         self.assertEqual(test_value, expected_value)
 
     def test_filter_cols(self):
-        pass
+        input = read_file(city_populations_json_split)
+
+        # test when state is filtered out
+        test_value = json.loads(filter_cols(input, ['city', 'population']))
+        expected_value = load_json(city_populations_filtered_out_state)
+        self.assertEqual(test_value, expected_value)
+
+        # test when city is filtered out
+        test_value = json.loads(filter_cols(input, ['state', 'population']))
+        expected_value = load_json(city_populations_filtered_out_city)
+        self.assertEqual(test_value, expected_value)
+        
+        # test when state and city are filtered out
+        test_value = json.loads(filter_cols(input, ['population']))
+        expected_value = load_json(city_populations_filtered_out_state_and_city)
+        self.assertEqual(test_value, expected_value)
 
     def test_df_to_output(self):
 
