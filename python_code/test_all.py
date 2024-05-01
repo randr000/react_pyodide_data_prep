@@ -75,7 +75,7 @@ class TestAll(unittest.TestCase):
             csv_expected = f.read()
 
         with open(self.city_populations_json_records, 'r') as f:
-            json_records_expected = f.read()
+            json_records_expected = json.dumps(json.loads(f.read()))
 
         # test when none of the file types that need to be converted by pandas are not passed
         test_value = df_to_output(input, ['json (split)'])
@@ -86,17 +86,27 @@ class TestAll(unittest.TestCase):
         test_value = json.loads(df_to_output(input, 'csv'))
         expected_value = {'csv_txt': csv_expected}
         self.assertEqual(test_value, expected_value)
-   
-        # print(len(test_value['csv_text']))
-        # print(len(csv_expected))
-        # self.assertEqual(test_value['csv_text'], csv_expected)
 
-        # test when none of the file types that need to be converted by pandas are not passed
-        # test_value = df_to_output(input, ['xlsx'])
-        # expected_value = json_records_expected
-        # self.assertEqual(test_value, expected_value)
+        # test when txt file type is passed
+        test_value = json.loads(df_to_output(input, 'txt'))
+        expected_value = {'csv_txt': csv_expected}
+        self.assertEqual(test_value, expected_value)
 
+        # test when xlsx file type is passed
+        test_value = {'xlsx_json': json.dumps(json.loads(json.loads(df_to_output(input, ['xlsx']))['xlsx_json']))}
+        expected_value = {'xlsx_json': json_records_expected}
+        self.assertEqual(test_value, expected_value)
 
+        # test when json (records) file type is passed
+        test_value = {'xlsx_json': json.dumps(json.loads(json.loads(df_to_output(input, ['json (records)']))['xlsx_json']))}
+        expected_value = {'xlsx_json': json_records_expected}
+        self.assertEqual(test_value, expected_value)
+
+        # test when mulitple file types are passed
+        test_value = json.loads(df_to_output(input, ['csv', 'txt', 'xlsx', 'json (records)', 'json (split)']))
+        test_value['xlsx_json'] = json.dumps(json.loads(test_value['xlsx_json']))
+        expected_value = {'csv_txt': csv_expected, 'xlsx_json': json_records_expected}
+        self.assertEqual(test_value, expected_value)
        
 
 
