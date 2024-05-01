@@ -11,7 +11,7 @@ def df_to_output(json_str, file_types):
     df = pd.read_json(path_or_buf=StringIO(json_str), orient='split')
 
     if 'csv' in file_types or 'txt' in file_types:
-        data_dict['csv_text'] = df.to_csv(index=False)
+        data_dict['csv_txt'] = df.to_csv(index=False)
 
     if 'xlsx' in file_types or 'json (records)' in file_types:
         data_dict['xlsx_json'] = df.to_json(orient='records')

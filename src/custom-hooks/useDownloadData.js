@@ -40,7 +40,7 @@ const useDownloadData = () => {
 
         // Handle downloads for csv and txt files
         if (downloadCsv || downloadTxt) {
-            const blob = new Blob([dataJSONStrings.csv_text], {type: 'text/csv'});
+            const blob = new Blob([dataJSONStrings.csv_txt], {type: 'text/csv'});
             const a = document.createElement('a');
             a.href = createObjectURL(blob);
 
