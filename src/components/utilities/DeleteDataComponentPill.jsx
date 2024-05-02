@@ -63,6 +63,7 @@ const DeleteDataComponentPill = ({compID, handleDragOnMouseOver, handleDragOnMou
                 className="bi bi-x-circle bg-white"
                 style={styles}
                 onClick={handleOnClick}
+                data-testid={`del-comp-${compID}`}
             />
             
         </span>

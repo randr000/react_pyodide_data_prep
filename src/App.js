@@ -10,7 +10,7 @@ import { PyodideContextWrapper } from './context/PyodideContext.jsx';
 import { Xwrapper } from 'react-xarrows';
 
 
-function App() {
+function App({toLoadPyodide=true}) {
 
   const [appState, dispatch] = useReducer(appReducer, APP_INITIAL_STATE);
 
@@ -18,7 +18,7 @@ function App() {
     <Xwrapper>
       <AppDataContext.Provider value={{appState: appState, dispatch: dispatch}}>
         <NavBar/>
-        <PyodideContextWrapper>
+        <PyodideContextWrapper toLoadPyodide={toLoadPyodide}>
           
             
           {/* <TestComponentWrapper /> */}

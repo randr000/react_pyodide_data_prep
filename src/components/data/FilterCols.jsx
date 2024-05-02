@@ -13,8 +13,7 @@ import filter_cols from '../../python_code_js_modules/filter_cols';
 
 const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     
-    const {pyodide, isPyodideLoaded, appState, dispatch} = useGetContexts();
-    const {connectComponents, components} = appState;
+    const {pyodide, isPyodideLoaded} = useGetContexts();
 
     // A JSON formatted string containing the source data
     const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
