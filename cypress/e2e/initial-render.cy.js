@@ -1,6 +1,6 @@
 import CONSTANTS from "../../src/js/app-constants";
 
-describe('Initial Page Render', () => {
+describe('App End to End Test', () => {
   
     it('Should have all of the initial elements render on the screen',() => {
       cy.visit('/');
