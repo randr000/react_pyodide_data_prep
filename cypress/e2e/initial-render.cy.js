@@ -1,9 +1,13 @@
 import CONSTANTS from "../../src/js/app-constants";
 
 describe('App End to End Test', () => {
+
+    before(() => {
+      cy.visit('/');
+    });
   
     it('Should have all of the initial elements render on the screen',() => {
-      cy.visit('/');
+      // cy.visit('/');
 
       const elements = ['Pyodide is Loading', CONSTANTS.APP_TITLE, 'Upload', 'Download', 'Filter Columns', 'Filter Rows', 'Join', 'Union'];
       elements.forEach(name => cy.contains(name).should('exist'));
@@ -17,5 +21,9 @@ describe('App End to End Test', () => {
       // Test if spinner disappears
       cy.get('[data-testid=pyodide-loading-spinner]', {timeout: 10_000}).should('not.exist');
 
+    });
+
+    it('Should show Upload component after clicking', () => {
+      cy.contains('Upload').click();
     });
 });
