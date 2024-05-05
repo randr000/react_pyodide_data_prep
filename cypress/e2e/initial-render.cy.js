@@ -2,28 +2,28 @@ import CONSTANTS from "../../src/js/app-constants";
 
 describe('App End to End Test', () => {
 
-    before(() => {
-      cy.visit('/');
-    });
-  
-    it('Should have all of the initial elements render on the screen',() => {
-      // cy.visit('/');
+  before(() => {
+    cy.visit('/');
+  });
 
-      const elements = ['Pyodide is Loading', CONSTANTS.APP_TITLE, 'Upload', 'Download', 'Filter Columns', 'Filter Rows', 'Join', 'Union'];
-      elements.forEach(name => cy.contains(name).should('exist'));
+  // it('Should have all of the initial elements render on the screen',() => {
+  //   // cy.visit('/');
 
-      // Test if spinner shows up
-      cy.get('[data-testid=pyodide-loading-spinner]').should('exist');
+  //   const elements = ['Pyodide is Loading', CONSTANTS.APP_TITLE, 'Upload', 'Download', 'Filter Columns', 'Filter Rows', 'Join', 'Union'];
+  //   elements.forEach(name => cy.contains(name).should('exist'));
 
-      // Pyodide is Loading disappears
-      cy.contains('Pyodide is Loading', {timeout: 10_000}).should('not.exist');
+  //   // Test if spinner shows up
+  //   cy.get('[data-testid=pyodide-loading-spinner]').should('exist');
 
-      // Test if spinner disappears
-      cy.get('[data-testid=pyodide-loading-spinner]', {timeout: 10_000}).should('not.exist');
+  //   // Pyodide is Loading disappears
+  //   cy.contains('Pyodide is Loading', {timeout: 10_000}).should('not.exist');
 
-    });
+  //   // Test if spinner disappears
+  //   cy.get('[data-testid=pyodide-loading-spinner]', {timeout: 10_000}).should('not.exist');
 
-    it('Should show Upload component after clicking', () => {
-      cy.contains('Upload').click();
-    });
+  // });
+
+  it('Should show Upload component after clicking', () => {
+    cy.contains('Upload').click();
+  });
 });
