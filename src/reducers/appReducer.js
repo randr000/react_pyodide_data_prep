@@ -9,6 +9,16 @@ import sampleStates from "./sampleStates";
 //     arrows: []
 // };
 
+function resetState() {
+    return {
+        isDragging: false,
+        nextID: 0,
+        connectComponents: false,
+        components: [],
+        arrows: []
+    };
+}
+
 export const APP_INITIAL_STATE = {isDragging: false, ...sampleStates.a};
 
 /*
@@ -60,5 +70,7 @@ export const appReducer = (state, action) => {
             return {...state, components: payload};
         case APP_ACTION_TYPES.TOGGLE_IS_DRAGGING:
             return {...state, isDragging: payload};
+        case APP_ACTION_TYPES.REMOVE_ALL:
+            return {...state, ...resetState()}
     }
 };

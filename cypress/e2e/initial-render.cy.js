@@ -8,22 +8,25 @@ describe('App End to End Test', () => {
     cy.visit('/');
   });
 
-  // it('Should have all of the initial elements render on the screen',() => {
-  //   // cy.visit('/');
+  afterEach(() => {
+    cy.contains('Remove All').click();
+  });
 
-  //   const elements = ['Pyodide is Loading', CONSTANTS.APP_TITLE, 'Upload', 'Download', 'Filter Columns', 'Filter Rows', 'Join', 'Union'];
-  //   elements.forEach(name => cy.contains(name).should('exist'));
+  it('Should have all of the initial elements render on the screen',() => {
 
-  //   // Test if spinner shows up
-  //   cy.get('[data-testid=pyodide-loading-spinner]').should('exist');
+    const elements = ['Pyodide is Loading', CONSTANTS.APP_TITLE, 'Upload', 'Download', 'Filter Columns', 'Filter Rows', 'Join', 'Union', 'Remove All'];
+    elements.forEach(name => cy.contains(name).should('exist'));
 
-  //   // Pyodide is Loading disappears
-  //   cy.contains('Pyodide is Loading', {timeout: 10_000}).should('not.exist');
+    // Test if spinner shows up
+    cy.get('[data-testid=pyodide-loading-spinner]').should('exist');
 
-  //   // Test if spinner disappears
-  //   cy.get('[data-testid=pyodide-loading-spinner]', {timeout: 10_000}).should('not.exist');
+    // Pyodide is Loading disappears
+    cy.contains('Pyodide is Loading', {timeout: 10_000}).should('not.exist');
 
-  // });
+    // Test if spinner disappears
+    cy.get('[data-testid=pyodide-loading-spinner]', {timeout: 10_000}).should('not.exist');
+
+  });
 
   it('Should show correct component after clicking on its corresponding button on NavBar and then not show it after clicking on delete button', () => {
     
@@ -54,7 +57,6 @@ describe('App End to End Test', () => {
         });
       });
 
-      cy.get('.bi-x-circle').trigger('mouseover', {force: true}).click();
   });
 
 });

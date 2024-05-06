@@ -20,7 +20,7 @@ const ContextTestComponentWrapper = () => {
         // console.log(`nextID: ${appState.nextID}`);
         // console.log('connectComponents:', appState.connectComponents);
         console.log('components:', appState.components);
-        // console.log('arrows:', appState.arrows);
+        console.log('arrows:', appState.arrows);
         updateXarrow();
     }, [appState]);
 

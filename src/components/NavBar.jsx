@@ -19,6 +19,10 @@ const NavBar = () => {
         });
     }
 
+    function handleOnclickRemoveAll() {
+        dispatch({type: APP_ACTION_TYPES.REMOVE_ALL});
+    }
+
     return (
         <>
             <nav className="navbar bg-light">
@@ -26,13 +30,18 @@ const NavBar = () => {
                     <h1 className="navbar-brand">{CONSTANTS.APP_TITLE}</h1>
                 </div>
             </nav>
-            <nav className="navbar bg-light d-flex justify-content-start">
-                <NavBarComponentButton btnText="Upload" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_UPLOAD, false)}/>
-                <NavBarComponentButton btnText="Download" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_DOWNLOAD)}/>
-                <NavBarComponentButton btnText="Filter Columns" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILTER_COLS)}/>
-                <NavBarComponentButton btnText="Filter Rows" />
-                <NavBarComponentButton btnText="Join" />
-                <NavBarComponentButton btnText="Union" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.UNION)}/>
+            <nav className="navbar bg-light d-flex justify-content-between">
+                <div className="d-flex justify-content-start">
+                    <NavBarComponentButton btnText="Upload" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_UPLOAD, false)}/>
+                    <NavBarComponentButton btnText="Download" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_DOWNLOAD)}/>
+                    <NavBarComponentButton btnText="Filter Columns" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILTER_COLS)}/>
+                    <NavBarComponentButton btnText="Filter Rows" />
+                    <NavBarComponentButton btnText="Join" />
+                    <NavBarComponentButton btnText="Union" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.UNION)}/>
+                </div>
+                <div className="d-flex justify-content-end">
+                    <button className="btn btn-danger mx-1" onClick={handleOnclickRemoveAll}>Remove All</button>
+                </div>
             </nav>
         </>
     );
