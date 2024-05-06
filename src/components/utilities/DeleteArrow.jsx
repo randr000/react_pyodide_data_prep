@@ -46,6 +46,7 @@ const DeleteArrow = ({start, end, arrowID}) => {
 
     return (
         <span
+            id={`del-${arrowID}`}
             className={`
                 fs-5
                 text-danger
