@@ -2,6 +2,8 @@ import CONSTANTS from "../../src/js/app-constants";
 
 describe('App End to End Test', () => {
 
+  const dataComponentTitles = ['Upload', 'Download', 'Filter Columns', 'Union'];
+
   before(() => {
     cy.visit('/');
   });
@@ -23,7 +25,13 @@ describe('App End to End Test', () => {
 
   // });
 
-  it('Should show Upload component after clicking', () => {
-    cy.contains('Upload').click();
+  it('Should show correct component after clicking on its corresponding button on NavBar and then not show it after clicking on delete button', () => {
+    
+    dataComponentTitles.forEach((title, idx) => {
+      cy.contains(title).click();
+      cy.get(`[data-testid="${title}-${idx}"`).should('exist');
+      cy.get('.bi-x-circle').trigger('mouseover', {force: true}).click();
+      cy.get(`[data-testid="${title}-${idx}"`).should('not.exist');
+    });
   });
 });
