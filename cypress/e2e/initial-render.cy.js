@@ -27,11 +27,21 @@ describe('App End to End Test', () => {
 
   it('Should show correct component after clicking on its corresponding button on NavBar and then not show it after clicking on delete button', () => {
     
-    dataComponentTitles.forEach((title, idx) => {
+    dataComponentTitles.forEach(title => {
       cy.contains(title).click();
-      cy.get(`[data-testid="${title}-${idx}"`).should('exist');
+      cy.contains('h5', title).should('exist');
       cy.get('.bi-x-circle').trigger('mouseover', {force: true}).click();
-      cy.get(`[data-testid="${title}-${idx}"`).should('not.exist');
+      cy.contains('h5', title).should('not.exist');
     });
   });
+
+  it('test dragging', () => {
+
+    cy.contains('Upload').click();
+    cy.contains('h5', 'Upload')
+      .trigger('mousedown')
+      .trigger('mousemove', {clientX: 500, clientY: 500})
+      .trigger('mouseup');
+  });
+
 });
