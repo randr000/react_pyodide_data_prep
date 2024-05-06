@@ -12,21 +12,21 @@ describe('App End to End Test', () => {
     cy.contains('Remove All').click();
   });
 
-  // it('Should have all of the initial elements render on the screen',() => {
+  it('Should have all of the initial elements render on the screen',() => {
 
-  //   const elements = ['Pyodide is Loading', CONSTANTS.APP_TITLE, 'Upload', 'Download', 'Filter Columns', 'Filter Rows', 'Join', 'Union', 'Remove All'];
-  //   elements.forEach(name => cy.contains(name).should('exist'));
+    const elements = ['Pyodide is Loading', CONSTANTS.APP_TITLE, 'Upload', 'Download', 'Filter Columns', 'Filter Rows', 'Join', 'Union', 'Remove All'];
+    elements.forEach(name => cy.contains(name).should('exist'));
 
-  //   // Test if spinner shows up
-  //   cy.get('[data-testid=pyodide-loading-spinner]').should('exist');
+    // Test if spinner shows up
+    cy.get('[data-testid=pyodide-loading-spinner]').should('exist');
 
-  //   // Pyodide is Loading disappears
-  //   cy.contains('Pyodide is Loading', {timeout: 10_000}).should('not.exist');
+    // Pyodide is Loading disappears
+    cy.contains('Pyodide is Loading', {timeout: 10_000}).should('not.exist');
 
-  //   // Test if spinner disappears
-  //   cy.get('[data-testid=pyodide-loading-spinner]', {timeout: 10_000}).should('not.exist');
+    // Test if spinner disappears
+    cy.get('[data-testid=pyodide-loading-spinner]', {timeout: 10_000}).should('not.exist');
 
-  // });
+  });
 
   it('Should show correct component after clicking on its corresponding button on NavBar and then not show it after clicking on delete button', () => {
     
@@ -74,6 +74,26 @@ describe('App End to End Test', () => {
     cy.get('#del-0-btm_1-top').should('exist');
     cy.get('#del-0-btm_1-top').trigger('mouseover', {force: true}).click();
     cy.get('#del-0-btm_1-top').should('not.exist');
+  });
+
+  it('Should upload file and alert if it is a valid filetype or not', () => {
+    cy.contains('Upload').click();
+    const path = '/home/raul/react_pyodide_data_prep/test_data/';
+
+    function assertValidUpload(fName, isValid=true) {
+      cy.get('input[type=file]').selectFile(`${path}${fName}`, {force: true});
+      if (isValid) cy.contains(fName).should('exist');
+      else cy
+        .contains('Invalid filetype. Please make sure filename extension is equal to .csv, .xlsx, .txt, or .json!')
+        .should('exist');
+    }
+
+    assertValidUpload('city-populations.xlsx');
+    assertValidUpload('city-populations.csv');
+    assertValidUpload('city-populations.txt');
+    assertValidUpload('invalid-file.pdf', false);
+    assertValidUpload('city-populations-records.json');
+    assertValidUpload('city-populations-split.json');
   });
 
 });

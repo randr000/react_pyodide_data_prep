@@ -10,7 +10,7 @@ import { PyodideContextWrapper } from './context/PyodideContext.jsx';
 import { Xwrapper } from 'react-xarrows';
 
 
-function App({toLoadPyodide=false}) {
+function App({toLoadPyodide=true}) {
 
   const [appState, dispatch] = useReducer(appReducer, APP_INITIAL_STATE);
 
