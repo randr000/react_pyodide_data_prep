@@ -133,7 +133,7 @@ const DataComponentWrapper = ({
                     {canHaveTargets && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
                 </div>
             </div>
-            {targetDataJSONStr && <Table tableData={targetDataJSONStr} show={showTable} />}
+            {targetDataJSONStr && <Table tableData={targetDataJSONStr} show={showTable} compID={compID} />}
         </DataComponentDragWrapper>
     );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useXarrow } from 'react-xarrows';
 
-const Table = ({tableData, show}) => {
+const Table = ({tableData, show, compID}) => {
 
     const tableDataJSON = JSON.parse(tableData);
     const {columns, data} = tableDataJSON;
@@ -16,6 +16,7 @@ const Table = ({tableData, show}) => {
         <div title="table-container" className="table-container">
             <table
                 className={`table table-striped table-hover table-bordered table-sm table-responsive w-25 ms-5 overflow-scroll ${!show && "d-none"}` }
+                data-testid={`table-${compID}`}
             >
                 <thead className="table-dark data-th">
                     <tr>

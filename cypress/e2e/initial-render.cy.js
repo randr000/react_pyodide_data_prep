@@ -5,13 +5,34 @@ describe('App End to End Test', () => {
   const dataComponentTitles = ['Upload', 'Download', 'Filter Columns', 'Union'];
   const path = '/home/raul/react_pyodide_data_prep/test_data/';
 
+  function assertTable(fName, table='table') {
+
+    cy.readFile(`${path}${fName}`)
+      .then(expected => {
+        const columns = expected.columns;
+        const rows = expected.data;
+        cy.log(JSON.stringify(columns))
+
+        cy.get(table).find('th').each((th, idx) => {
+          expect(th.text()).to.equal(columns[idx]);
+        });
+
+        cy.get(table).find('td').each((td, idx) => {
+          const rowIdx = Math.ceil((idx + 1) / columns.length) - 1;
+          const colIdx = idx % columns.length;
+          const test = Number.isNaN(+td.text()) ? td.text() : Number(td.text());
+          expect(test).to.equal(rows[rowIdx][colIdx]);
+        });
+      });
+  }
+
   before(() => {
     cy.visit('/');
   });
 
-  // afterEach(() => {
-  //   cy.contains('Remove All').click();
-  // });
+  afterEach(() => {
+    cy.contains('Remove All').click();
+  });
 
   it('Should have all of the initial elements render on the screen',() => {
 
@@ -96,45 +117,10 @@ describe('App End to End Test', () => {
   //   assertValidUpload('city-populations-split.json');
   // });
 
-  it('Should have the data components edit the data correctly', () => {
+  it('Should have the data components display the table data correctly', () => {
     cy.get('button').contains('Upload').click();
     cy.get('input[type=file]').selectFile(`${path}city-populations.xlsx`, {force: true});
-
-    
-
-    function assertTable(fName, table='table') {
-
-      cy.readFile(`${path}${fName}`)
-        .then(expected => {
-          const columns = expected.columns;
-          const rows = expected.data;
-          cy.log(JSON.stringify(columns))
-
-          cy.get(table).get('th').each((th, idx) => {
-            expect(th.text()).to.equal(columns[idx]);
-          });
-
-          cy.get(table).get('td').each((td, idx) => {
-            const rowIdx = Math.ceil((idx + 1) / columns.length) - 1;
-            const colIdx = idx % columns.length;
-            const test = Number.isNaN(+td.text()) ? td.text() : Number(td.text());
-            expect(test).to.equal(rows[rowIdx][colIdx]);
-          });
-
-          // cy.get(table).get('tr').each((tr, rowIdx) => {
-          //   cy.wrap(tr).get('td').each((td, colIdx) => {
-          //     const test = Number.isNaN(+td.text()) ? td.text() : Number(td.text());
-          //     // expect(expected).to.equal(rows[rowIdx][colIdx]);
-          //     cy.log(`test: ${test} expected: ${rows[rowIdx][colIdx]} rowIdx: ${rowIdx} colIdx: ${colIdx}`);
-          //   });
-          // });
-
-        });
-
-    }
     assertTable('city-populations-split.json');
-    
-    
   });
 
 });
