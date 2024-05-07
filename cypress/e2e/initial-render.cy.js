@@ -30,9 +30,9 @@ describe('App End to End Test', () => {
     cy.visit('/');
   });
 
-  afterEach(() => {
-    cy.contains('Remove All').click();
-  });
+  // afterEach(() => {
+  //   cy.contains('Remove All').click();
+  // });
 
   it('Should have all of the initial elements render on the screen',() => {
 
@@ -117,10 +117,31 @@ describe('App End to End Test', () => {
   //   assertValidUpload('city-populations-split.json');
   // });
 
-  it('Should have the data components display the table data correctly', () => {
+  // it('Should have the data components display the table data correctly', () => {
+  //   cy.get('button').contains('Upload').click();
+  //   cy.get('input[type=file]').selectFile(`${path}city-populations.xlsx`, {force: true});
+  //   assertTable('city-populations-split.json');
+  // });
+
+  it('Should filter data columns correctly', () => {
     cy.get('button').contains('Upload').click();
     cy.get('input[type=file]').selectFile(`${path}city-populations.xlsx`, {force: true});
-    assertTable('city-populations-split.json');
-  });
+    cy.get('button').contains('Filter Columns').click();
+    cy.get('#0-btm').click();
+    cy.get('#1-top').click();
 
+    cy.get('input[type=checkbox]').uncheck('state', {force: true});
+    assertTable('city-populations-filtered-out-state-split.json', '[data-testid=table-1]');
+    cy.get('input[type=checkbox]').check({force: true});
+
+    cy.get('input[type=checkbox]').uncheck('city', {force: true});
+    assertTable('city-populations-filtered-out-city-split.json', '[data-testid=table-1]');
+    cy.get('input[type=checkbox]').check({force: true});
+
+    cy.get('input[type=checkbox]').uncheck(['state', 'city'], {force: true});
+    assertTable('city-populations-filtered-out-state-and-city-split.json', '[data-testid=table-1]');
+    cy.get('input[type=checkbox]').check({force: true});
+
+    assertTable('city-populations-split.json', '[data-testid=table-1]');
+  });
 });
