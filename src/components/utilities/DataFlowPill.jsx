@@ -3,7 +3,7 @@ import React, {useContext, useState} from 'react';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 import useGetContexts from '../../custom-hooks/useGetContexts';
 
-const DataFlowPill = ({isOnTop, id, maxConnections=1}) => {
+const DataFlowPill = ({isOnTop, id, maxSources=0}) => {
 
     const {appState, dispatch} = useGetContexts();
     const {connectComponents, components, isDragging} = appState;

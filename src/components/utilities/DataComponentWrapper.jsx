@@ -16,6 +16,7 @@ const DataComponentWrapper = ({
     iconClassNames = '',
     iconOnClick = () => {},
     canHaveSources = true,
+    maxSources = 1,
     sourceDataJSONStr = null,
     setSourceDataJSONStr = () => {},
     canHaveTargets = true,
@@ -40,8 +41,20 @@ const DataComponentWrapper = ({
 
         // If this component can have a source component, then it loads the source component's JSON data as a string, else null
         if (canHaveSources) {
-            setSourceDataJSONStr(thisComponent.sourceComponents.size ? components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data : null);
-            // TODO: Update in case component has more than one source component
+            if (maxSources === 1) {
+                setSourceDataJSONStr(
+                    thisComponent.sourceComponents.size
+                    ? components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data
+                    : null
+                );
+            } else if (thisComponent.sourceComponents.size) {
+                const sourceDataArray = [];
+                thisComponent.sourceComponents.forEach(id => {
+                    sourceDataArray.push(components[components.findIndex(comp => id === comp.compID)].data)
+                });
+                setSourceDataJSONStr(sourceDataArray);
+
+            } else setSourceDataJSONStr(null);
         }
     });
 
@@ -114,7 +127,7 @@ const DataComponentWrapper = ({
             <div data-testid={`${cardTitle}-${compID}`} className="card border border-primary border-3" style={{width: "12rem"}}>
                 <div className="card-body text-center">
                     <DeleteDataComponentPill compID={compID} handleDragOnMouseOver={handleDragOnMouseOver} handleDragOnMouseOut={handleDragOnMouseOut} />
-                    {canHaveSources && <DataFlowPill isOnTop={true} id={`${compID}-top`} />}
+                    {canHaveSources && <DataFlowPill isOnTop={true} id={`${compID}-top`} maxSources={maxSources} />}
 
                     <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                         
