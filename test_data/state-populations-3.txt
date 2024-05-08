@@ -1,0 +1,2 @@
+state,population
+New York,19571216

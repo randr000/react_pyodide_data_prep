@@ -1,0 +1,20 @@
+{
+    "columns": [
+        "state",
+        "population"
+    ],
+    "index": [
+        0,
+        1
+    ],
+    "data": [
+        [
+            "California",
+            38965193
+        ],
+        [
+            "Texas",
+            30503301
+        ]
+    ]
+}

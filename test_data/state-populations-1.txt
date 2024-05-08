@@ -1,0 +1,3 @@
+state,population
+California,38965193
+Texas,30503301

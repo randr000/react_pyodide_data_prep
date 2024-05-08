@@ -1,0 +1,15 @@
+{
+    "columns": [
+        "state",
+        "population"
+    ],
+    "index": [
+        0
+    ],
+    "data": [
+        [
+            "New York",
+            19571216
+        ]
+    ]
+}
