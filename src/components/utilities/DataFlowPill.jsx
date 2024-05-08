@@ -3,7 +3,7 @@ import React, {useContext, useState} from 'react';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 import useGetContexts from '../../custom-hooks/useGetContexts';
 
-const DataFlowPill = ({isOnTop, id, maxSources=0}) => {
+const DataFlowPill = ({isOnTop, id, maxSources=0, numOfSourceComponents=0}) => {
 
     const {appState, dispatch} = useGetContexts();
     const {connectComponents, components, isDragging} = appState;
@@ -22,6 +22,8 @@ const DataFlowPill = ({isOnTop, id, maxSources=0}) => {
     function handleOnClick() {
         if (isDragging) return;
         if (isOnTop) {
+            // Do not allow connection if component already has the number of max sources
+            if (maxSources === numOfSourceComponents) return;
             // Only creates arrow connection if they are different data components
             if (connectComponents && parseInt(connectComponents.pillID) !== parseInt(id)) {
                 dispatch({
@@ -71,7 +73,7 @@ const DataFlowPill = ({isOnTop, id, maxSources=0}) => {
                 ${
                     connectComponents && !isOnTop && connectComponents.pillID === id
                     ? 'bg-primary'
-                    : connectComponents && isOnTop && connectComponents.pillID !== `${parseInt(id)}-btm`
+                    : connectComponents && isOnTop && connectComponents.pillID !== `${parseInt(id)}-btm` && numOfSourceComponents < maxSources
                     ? 'bg-success'
                     : 'bg-white'
                 }

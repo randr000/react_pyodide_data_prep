@@ -127,7 +127,15 @@ const DataComponentWrapper = ({
             <div data-testid={`${cardTitle}-${compID}`} className="card border border-primary border-3" style={{width: "12rem"}}>
                 <div className="card-body text-center">
                     <DeleteDataComponentPill compID={compID} handleDragOnMouseOver={handleDragOnMouseOver} handleDragOnMouseOut={handleDragOnMouseOut} />
-                    {canHaveSources && <DataFlowPill isOnTop={true} id={`${compID}-top`} maxSources={maxSources} />}
+                    {
+                        canHaveSources && 
+                        <DataFlowPill
+                            isOnTop={true}
+                            id={`${compID}-top`}
+                            maxSources={maxSources}
+                            numOfSourceComponents={thisComponent.sourceComponents.size}
+                        />
+                    }
 
                     <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
                         
