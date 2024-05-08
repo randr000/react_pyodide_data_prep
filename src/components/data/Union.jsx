@@ -1,35 +1,55 @@
 import React, { useState, useContext } from "react";
-import DataComponentWrapper from "../utilities/DataComponentWrapper";
-import AppDataContext from '../../context/AppDataContext';
-import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
-// import Pyodide context
-import { PyodideContext } from '../../context/PyodideContext';
+// import custom hooks
+import useGetContexts from '../../custom-hooks/useGetContexts';
+
+// import other utility component(s)
+import DataComponentWrapper from "../utilities/DataComponentWrapper";
 
 // import Python function(s)
 
 const Union = ({compID, cardTitle, iconClassNames}) => {
 
-        const {pyodide, isPyodideLoaded} = useContext(PyodideContext);
-        const {appState, dispatch} = useContext(AppDataContext);
-        const {connectComponents, components} = appState;
+        const {pyodide, isPyodideLoaded} = useGetContexts();
 
-        // A JSON formatted string that can be used to create a pandas dataframe
-        const [outputData, setOutputData] = useState(null);
+        // A JSON formatted string containing the source data
+        const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
 
-        // A reference to this components properties in the components global state variable
-        const thisComponent = components.filter(comp => comp.compID === compID)[0];
-    
-        // If this component has a source component, then it loads the source component's JSON data as a string, else null
-        const jsonDataStr = thisComponent.sourceComponents.size ?
-                    components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data : null;
+        // A JSON formatted string containing the transformed data
+        const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
+
+        /**
+         * 
+         * Defines the actions to take when source data changes in order to update target state
+         * Pass as prop to DataComponentWrapper if necessary
+         * If not passed to DataComponentWrapper, the default is to just update target data with source data
+         * 
+         * @param {*} sourceData - A JSON formatted string, file object, etc. Any change to this variable will trigger
+         *                              this function to run when this function is passed as a prop to DataComponentWrapper.
+         * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
+         *                                       setState function.
+         */
+        function updateTargetData(sourceData, updateTargetState) {
+            if (!sourceData) {
+                updateTargetState(null);
+            }
+            else {
+                // where python function will run
+                console.log(sourceData);
+                return;   
+            }
+        }
 
     return (
         <DataComponentWrapper 
             compID={compID}
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
-            outputData={outputData}
+            sourceDataJSONStr={sourceDataJSONStr}
+            setSourceDataJSONStr={setSourceDataJSONStr}
+            setTargetDataJSONStr={setTargetDataJSONStr}
+            targetDataJSONStr={targetDataJSONStr}
+            updateTargetData={updateTargetData}
             maxSources={Infinity}
         >
         </DataComponentWrapper>

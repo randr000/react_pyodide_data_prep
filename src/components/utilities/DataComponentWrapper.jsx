@@ -50,9 +50,10 @@ const DataComponentWrapper = ({
             } else if (thisComponent.sourceComponents.size) {
                 const sourceDataArray = [];
                 thisComponent.sourceComponents.forEach(id => {
-                    sourceDataArray.push(components[components.findIndex(comp => id === comp.compID)].data)
+                    const data = components[components.findIndex(comp => id === comp.compID)].data;
+                    data && sourceDataArray.push(data);
                 });
-                setSourceDataJSONStr(sourceDataArray);
+                sourceDataArray.length ? setSourceDataJSONStr(JSON.stringify(sourceDataArray)) : setSourceDataJSONStr(null);
 
             } else setSourceDataJSONStr(null);
         }
