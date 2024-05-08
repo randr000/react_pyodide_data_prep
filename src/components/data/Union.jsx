@@ -35,7 +35,8 @@ const Union = ({compID, cardTitle, iconClassNames}) => {
             }
             else {
                 // where python function will run
-                console.log(sourceData);
+                const data = JSON.parse(sourceData);
+                data.forEach(a => console.log(a));
                 return;   
             }
         }
