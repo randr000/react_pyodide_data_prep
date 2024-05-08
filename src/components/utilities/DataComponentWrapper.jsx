@@ -51,7 +51,7 @@ const DataComponentWrapper = ({
                 const sourceDataArray = [];
                 thisComponent.sourceComponents.forEach(id => {
                     const data = components[components.findIndex(comp => id === comp.compID)].data;
-                    data && sourceDataArray.push(data);
+                    data && sourceDataArray.push(JSON.parse(data));
                 });
                 sourceDataArray.length ? setSourceDataJSONStr(JSON.stringify(sourceDataArray)) : setSourceDataJSONStr(null);
 

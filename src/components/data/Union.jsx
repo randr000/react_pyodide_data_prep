@@ -7,6 +7,7 @@ import useGetContexts from '../../custom-hooks/useGetContexts';
 import DataComponentWrapper from "../utilities/DataComponentWrapper";
 
 // import Python function(s)
+import union from '../../python_code_js_modules/union';
 
 const Union = ({compID, cardTitle, iconClassNames}) => {
 
@@ -33,11 +34,11 @@ const Union = ({compID, cardTitle, iconClassNames}) => {
             if (!sourceData) {
                 updateTargetState(null);
             }
-            else {
-                // where python function will run
-                const data = JSON.parse(sourceData);
-                data.forEach(a => console.log(a));
-                return;   
+            else if (isPyodideLoaded) {
+                // Load Python function
+                pyodide.runPython(union);
+                // Call python function and sets new targetDataJSONStr state
+                updateTargetState(pyodide.globals.get('union')(sourceData));
             }
         }
 
