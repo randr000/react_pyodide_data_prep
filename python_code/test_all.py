@@ -10,6 +10,7 @@ from test1 import mult
 from input_to_df import input_to_df
 from filter_cols import filter_cols
 from df_to_output import df_to_output
+from union import union
 
 def read_file(path):
         with open(path, 'r') as f:
@@ -26,19 +27,12 @@ city_populations_xlsx = '../test_data/city-populations.xlsx'
 city_populations_filtered_out_state = '../test_data/city-populations-filtered-out-state-split.json'
 city_populations_filtered_out_city = '../test_data/city-populations-filtered-out-city-split.json'
 city_populations_filtered_out_state_and_city = '../test_data/city-populations-filtered-out-state-and-city-split.json'
+state_populations_1 = '../test_data/state-populations-1-split.json'
+state_populations_2 = '../test_data/state-populations-2-split.json'
+state_populations_3 = '../test_data/state-populations-3-split.json'
+state_populations_all = '../test_data/state-populations-all-split.json'
 
 class TestAll(unittest.TestCase):
-
-
-
-    # def test_test1(self):
-    #     self.assertEqual(mult(3, 2), 6)
-
-    # def test_pandas(self):
-    #     d = {'col1': [1, 2], 'col2': [3, 4]}
-    #     df_1 = pd.DataFrame(data=d)
-    #     df_2 = pd.DataFrame(data=d)
-    #     self.assertTrue(df_1.equals(df_2))
 
     @patch('input_to_df.pyodide.http.open_url')
     def test_input_to_df_csv(self, pyodide_mock):
@@ -117,7 +111,14 @@ class TestAll(unittest.TestCase):
         test_value['xlsx_json'] = json.dumps(json.loads(test_value['xlsx_json']))
         expected_value = {'csv_txt': csv_expected, 'xlsx_json': json_records_expected}
         self.assertEqual(test_value, expected_value)
-       
+
+    def test_union(self):
+        file_list = [state_populations_1, state_populations_2, state_populations_3]
+        data_list = [load_json(data) for data in file_list]
+        test_value = json.loads(union(json.dumps(data_list)))
+        expected_value = load_json(state_populations_all)
+        self.assertEqual(test_value, expected_value)
+
 
 
 if __name__ == 'main':
