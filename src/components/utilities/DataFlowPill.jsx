@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React from 'react';
 // import AppDataContext from '../../context/AppDataContext';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 import useGetContexts from '../../custom-hooks/useGetContexts';
@@ -6,7 +6,7 @@ import useGetContexts from '../../custom-hooks/useGetContexts';
 const DataFlowPill = ({isOnTop, id, maxSources=0, numOfSourceComponents=0}) => {
 
     const {appState, dispatch} = useGetContexts();
-    const {connectComponents, components, isDragging} = appState;
+    const {arrows, connectComponents, components, isDragging} = appState;
 
     function openConn() {
         dispatch({
@@ -24,6 +24,13 @@ const DataFlowPill = ({isOnTop, id, maxSources=0, numOfSourceComponents=0}) => {
         if (isOnTop) {
             // Do not allow connection if component already has the number of max sources
             if (maxSources === numOfSourceComponents) return;
+
+            // Do not allow duplicate connections
+            if (arrows.filter(arrow => arrow.arrowID === `${connectComponents.pillID}_${id}`).length) {
+                closeConn();
+                return;
+            }
+
             // Only creates arrow connection if they are different data components
             if (connectComponents && parseInt(connectComponents.pillID) !== parseInt(id)) {
                 dispatch({

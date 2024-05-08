@@ -30,6 +30,7 @@ const Union = ({compID, cardTitle, iconClassNames}) => {
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
             outputData={outputData}
+            maxSources={Infinity}
         >
         </DataComponentWrapper>
     );
