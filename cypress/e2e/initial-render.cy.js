@@ -14,11 +14,7 @@ describe('App End to End Test', () => {
     // Test if spinner shows up
     cy.get('[data-testid=pyodide-loading-spinner]').should('exist');
 
-    // Pyodide is Loading disappears
-    cy.contains('Pyodide is Loading', {timeout: 30_000}).should('not.exist');
-
-    // Test if spinner disappears
-    cy.get('[data-testid=pyodide-loading-spinner]', {timeout: 30_000}).should('not.exist');
+    cy.assertPyodideIsLoaded();
 
   });
 

@@ -62,3 +62,14 @@ Cypress.Commands.add('assertValidUpload', (fName, isValid=true, dataTestId=false
       .contains('Invalid filetype. Please make sure filename extension is equal to .csv, .xlsx, .txt, or .json!')
       .should('exist');
 });
+
+// Assumes Pyodide is loaded when loading message and spinner disappear, used to make sure Pyodide is loaded before other tests can run
+Cypress.Commands.add('assertPyodideIsLoaded', () => {
+    const timeout = 30_000;
+
+    // Pyodide is Loading disappears
+    cy.contains('Pyodide is Loading', {timeout: 30_000}).should('not.exist');
+
+    // Test if spinner disappears
+    cy.get('[data-testid=pyodide-loading-spinner]', {timeout: 30_000}).should('not.exist');
+});

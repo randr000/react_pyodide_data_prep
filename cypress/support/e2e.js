@@ -20,6 +20,7 @@ import './commands'
 // require('./commands')
 before(() => {
     cy.visit('/');
+    if (Cypress.currentTest.title !== 'Should have all of the initial elements render on the screen') cy.assertPyodideIsLoaded();
 });
 
 afterEach(() => {
