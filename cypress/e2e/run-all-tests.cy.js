@@ -1,1 +1,9 @@
-import './test*';
+import './test-initial-render.cy';
+import './test-data-component-rendering.cy';
+import './test-component-dragging.cy';
+import './test-connect-two-data-components.cy';
+import './test-multiple-sources-data-component.cy';
+import './test-display-table-data.cy';
+import './test-upload-file.cy';
+import './test-filter-columns.cy';
+import './test-union.cy';
