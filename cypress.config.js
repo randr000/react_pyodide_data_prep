@@ -5,6 +5,8 @@ module.exports = defineConfig({
     testDataPath: '/home/raul/react_pyodide_data_prep/test_data/'
   },
 
+  defaultCommandTimeout: 30_000,
+  
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here

@@ -68,8 +68,8 @@ Cypress.Commands.add('assertPyodideIsLoaded', () => {
     const timeout = 30_000;
 
     // Pyodide is Loading disappears
-    cy.contains('Pyodide is Loading', {timeout: 30_000}).should('not.exist');
+    cy.contains('Pyodide is Loading', {timeout: timeout}).should('not.exist');
 
     // Test if spinner disappears
-    cy.get('[data-testid=pyodide-loading-spinner]', {timeout: 30_000}).should('not.exist');
+    cy.get('[data-testid=pyodide-loading-spinner]', {timeout: timeout}).should('not.exist');
 });
