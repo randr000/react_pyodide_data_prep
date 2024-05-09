@@ -33,7 +33,7 @@ const ContextTestComponentWrapper = () => {
                 end={a.end}
                 startAnchor='bottom'
                 endAnchor='top'
-                zIndex={5}
+                zIndex={0}
                 labels={<DeleteArrow start={parseInt(a.start)} end={parseInt(a.end)} arrowID={a.arrowID}/>} />)}
         </>
     );

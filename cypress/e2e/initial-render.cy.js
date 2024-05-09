@@ -181,4 +181,37 @@ describe('App End to End Test', () => {
 
     assertTable('city-populations-split.json', '[data-testid=table-1]');
   });
+
+  it('Should combine the data and display correctly when using the union data component', () => {
+    cy.contains('button', 'Upload').click();
+    cy.get('[data-testid=Upload-0]').trigger('mousedown').trigger('mousemove', {clientX: 600, clientY: 300}).trigger('mouseup');
+    
+    cy.contains('button', 'Upload').click();
+    cy.get('[data-testid=Upload-1]').trigger('mousedown').trigger('mousemove', {clientX: 350, clientY: 300}).trigger('mouseup');
+    
+    cy.contains('button', 'Upload').click();
+    cy.get('[data-testid=Upload-2]').trigger('mousedown').trigger('mousemove', {clientX: 100, clientY: 300}).trigger('mouseup');
+    
+    cy.contains('button', 'Union').click();
+
+    cy.get('#0-btm').click({force: true});
+    cy.get('#3-top').click({force: true});
+
+    cy.get('#1-btm').click({force: true});
+    cy.get('#3-top').click({force: true});
+
+    cy.get('#2-btm').click({force: true});
+    cy.get('#3-top').click({force: true});
+
+    cy.get('[data-testid=Upload-0]').find('input[type=file]').selectFile(`${path}state-populations-1.xlsx`, {force: true});
+    cy.wait(5000);
+    cy.get('[data-testid=Upload-1]').find('input[type=file]').selectFile(`${path}state-populations-2.xlsx`, {force: true});
+    cy.wait(5000);
+    cy.get('[data-testid=Upload-2]').find('input[type=file]').selectFile(`${path}state-populations-3.xlsx`, {force: true});
+    
+    assertTable('state-populations-1-split.json', '[data-testid=table-0]');
+    assertTable('state-populations-2-split.json', '[data-testid=table-1]');
+    assertTable('state-populations-3-split.json', '[data-testid=table-2]');
+    assertTable('state-populations-all-split.json', '[data-testid=table-3]');
+  });
 });
