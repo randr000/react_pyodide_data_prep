@@ -18,3 +18,10 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+before(() => {
+    cy.visit('/');
+});
+
+afterEach(() => {
+cy.contains('Remove All').click();
+});

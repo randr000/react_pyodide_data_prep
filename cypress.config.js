@@ -1,6 +1,10 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+  env: {
+    testDataPath: '/home/raul/react_pyodide_data_prep/test_data/'
+  },
+
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here

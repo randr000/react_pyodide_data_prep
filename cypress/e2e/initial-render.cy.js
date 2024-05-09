@@ -2,37 +2,8 @@ import CONSTANTS from "../../src/js/app-constants";
 
 describe('App End to End Test', () => {
 
-  const dataComponentTitles = ['Upload', 'Download', 'Filter Columns', 'Union'];
-  const path = '/home/raul/react_pyodide_data_prep/test_data/';
+  const path = Cypress.env('testDataPath');
 
-  function assertTable(fName, table='table') {
-
-    cy.readFile(`${path}${fName}`)
-      .then(expected => {
-        const columns = expected.columns;
-        const rows = expected.data;
-        cy.log(JSON.stringify(columns))
-
-        cy.get(table).find('th').each((th, idx) => {
-          expect(th.text()).to.equal(columns[idx]);
-        });
-
-        cy.get(table).find('td').each((td, idx) => {
-          const rowIdx = Math.ceil((idx + 1) / columns.length) - 1;
-          const colIdx = idx % columns.length;
-          const test = Number.isNaN(+td.text()) ? td.text() : Number(td.text());
-          expect(test).to.equal(rows[rowIdx][colIdx]);
-        });
-      });
-  }
-
-  before(() => {
-    cy.visit('/');
-  });
-
-  afterEach(() => {
-    cy.contains('Remove All').click();
-  });
 
   it('Should have all of the initial elements render on the screen',() => {
 
@@ -52,6 +23,7 @@ describe('App End to End Test', () => {
 
   it('Should show correct component after clicking on its corresponding button on NavBar and then not show it after clicking on delete button', () => {
     
+    const dataComponentTitles = ['Upload', 'Download', 'Filter Columns', 'Union'];
     dataComponentTitles.forEach(title => {
       cy.contains(title).click();
       cy.contains('h5', title).should('exist');
@@ -157,7 +129,7 @@ describe('App End to End Test', () => {
   it('Should have the data components display the table data correctly', () => {
     cy.get('button').contains('Upload').click();
     cy.get('input[type=file]').selectFile(`${path}city-populations.xlsx`, {force: true});
-    assertTable('city-populations-split.json');
+    cy.assertTable('city-populations-split.json');
   });
 
   it('Should filter data columns correctly', () => {
@@ -168,18 +140,18 @@ describe('App End to End Test', () => {
     cy.get('#1-top').click();
 
     cy.get('input[type=checkbox]').uncheck('state', {force: true});
-    assertTable('city-populations-filtered-out-state-split.json', '[data-testid=table-1]');
+    cy.assertTable('city-populations-filtered-out-state-split.json', '[data-testid=table-1]');
     cy.get('input[type=checkbox]').check({force: true});
 
     cy.get('input[type=checkbox]').uncheck('city', {force: true});
-    assertTable('city-populations-filtered-out-city-split.json', '[data-testid=table-1]');
+    cy.assertTable('city-populations-filtered-out-city-split.json', '[data-testid=table-1]');
     cy.get('input[type=checkbox]').check({force: true});
 
     cy.get('input[type=checkbox]').uncheck(['state', 'city'], {force: true});
-    assertTable('city-populations-filtered-out-state-and-city-split.json', '[data-testid=table-1]');
+    cy.assertTable('city-populations-filtered-out-state-and-city-split.json', '[data-testid=table-1]');
     cy.get('input[type=checkbox]').check({force: true});
 
-    assertTable('city-populations-split.json', '[data-testid=table-1]');
+    cy.assertTable('city-populations-split.json', '[data-testid=table-1]');
   });
 
   it('Should combine the data and display correctly when using the union data component', () => {
@@ -209,9 +181,9 @@ describe('App End to End Test', () => {
     cy.wait(5000);
     cy.get('[data-testid=Upload-2]').find('input[type=file]').selectFile(`${path}state-populations-3.xlsx`, {force: true});
     
-    assertTable('state-populations-1-split.json', '[data-testid=table-0]');
-    assertTable('state-populations-2-split.json', '[data-testid=table-1]');
-    assertTable('state-populations-3-split.json', '[data-testid=table-2]');
-    assertTable('state-populations-all-split.json', '[data-testid=table-3]');
+    cy.assertTable('state-populations-1-split.json', '[data-testid=table-0]');
+    cy.assertTable('state-populations-2-split.json', '[data-testid=table-1]');
+    cy.assertTable('state-populations-3-split.json', '[data-testid=table-2]');
+    cy.assertTable('state-populations-all-split.json', '[data-testid=table-3]');
   });
 });
