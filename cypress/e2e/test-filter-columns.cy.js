@@ -1,7 +1,7 @@
 it('Should filter data columns correctly', () => {
-    cy.get('button').contains('Upload').click();
+    cy.clickNavBarButton('Upload');
     cy.uploadFile('city-populations.xlsx');
-    cy.get('button').contains('Filter Columns').click();
+    cy.clickNavBarButton('Filter Columns');
     cy.get('#0-btm').click();
     cy.get('#1-top').click();
 

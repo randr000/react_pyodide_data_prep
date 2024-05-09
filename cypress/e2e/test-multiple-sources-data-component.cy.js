@@ -1,11 +1,11 @@
 it('Should connect multiple arrows to a component allowing multiple sources without producing duplicate arrows', () => {
-    cy.contains('button', 'Upload').click();
+    cy.clickNavBarButton('Upload');
     cy.get('[data-testid=Upload-0]').trigger('mousedown').trigger('mousemove', {clientX: 600, clientY: 300}).trigger('mouseup');
-    cy.contains('button', 'Upload').click();
+    cy.clickNavBarButton('Upload');
     cy.get('[data-testid=Upload-1]').trigger('mousedown').trigger('mousemove', {clientX: 350, clientY: 300}).trigger('mouseup');
-    cy.contains('button', 'Upload').click();
+    cy.clickNavBarButton('Upload');
     cy.get('[data-testid=Upload-2]').trigger('mousedown').trigger('mousemove', {clientX: 100, clientY: 300}).trigger('mouseup');
-    cy.contains('button', 'Union').click();
+    cy.clickNavBarButton('Union');
     cy.get('[data-testid=Union-3]').trigger('mousedown').trigger('mousemove', {clientX: 350, clientY: 2000}).trigger('mouseup');
 
     cy.get('#0-btm').click({force: true});

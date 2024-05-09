@@ -26,5 +26,5 @@ before(() => {
 });
 
 afterEach(() => {
-    cy.contains('Remove All').click();
+    cy.clickNavBarButton('Remove All');
 });

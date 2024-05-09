@@ -73,3 +73,7 @@ Cypress.Commands.add('assertPyodideIsLoaded', () => {
     // Test if spinner disappears
     cy.get('[data-testid=pyodide-loading-spinner]', {timeout: timeout}).should('not.exist');
 });
+
+Cypress.Commands.add('clickNavBarButton', (title) => {
+    cy.get('nav').contains('button', title).click();
+});

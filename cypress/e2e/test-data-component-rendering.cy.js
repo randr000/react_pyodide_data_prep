@@ -2,7 +2,7 @@ it('Should show correct component after clicking on its corresponding button on 
     
     const dataComponentTitles = ['Upload', 'Download', 'Filter Columns', 'Union'];
     dataComponentTitles.forEach(title => {
-      cy.contains(title).click();
+      cy.clickNavBarButton(title);
       cy.contains('h5', title).should('exist');
       cy.get('.bi-x-circle').trigger('mouseover', {force: true}).click();
       cy.contains('h5', title).should('not.exist');

@@ -1,5 +1,5 @@
 it('Should upload file and alert if it is a valid filetype or not', () => {
-    cy.contains('Upload').click();
+    cy.clickNavBarButton('Upload');
     cy.assertValidUpload('city-populations.csv');
     cy.assertValidUpload('city-populations.txt');
     cy.assertValidUpload('city-populations.xlsx');

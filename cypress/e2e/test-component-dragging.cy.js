@@ -1,6 +1,6 @@
 it('Should drag a data component', () => {
 
-    cy.contains('Upload').click();
+    cy.clickNavBarButton('Upload');
     cy.contains('h5', 'Upload')
       .then(target => {
         const coords = target[0].getBoundingClientRect();
