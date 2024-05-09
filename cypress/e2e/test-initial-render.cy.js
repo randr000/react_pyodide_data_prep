@@ -1,6 +1,7 @@
 import CONSTANTS from "../../src/js/app-constants";
+import { initialRenderTestTitle } from "./cy-constants";
 
-it('Should have all of the initial elements render on the screen',() => {
+it(initialRenderTestTitle,() => {
 
   // Test if App title shows up
   cy.contains(CONSTANTS.APP_TITLE);

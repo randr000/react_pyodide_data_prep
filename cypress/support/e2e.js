@@ -18,9 +18,12 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+import { initialRenderTestTitle } from '../e2e/cy-constants';
+
 before(() => {
     cy.visit('/');
-    if (Cypress.currentTest.title !== 'Should have all of the initial elements render on the screen') {
+    if (Cypress.currentTest.title !== initialRenderTestTitle) {
         cy.assertPyodideIsLoaded();
     }
 });
