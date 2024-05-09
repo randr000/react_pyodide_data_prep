@@ -1,3 +1,4 @@
+import { wait } from "@testing-library/user-event/dist/utils";
 import CONSTANTS from "../../src/js/app-constants";
 
 describe('App End to End Test', () => {
@@ -109,32 +110,23 @@ describe('App End to End Test', () => {
 
   it('Should upload file and alert if it is a valid filetype or not', () => {
     cy.contains('Upload').click();
-
-    function assertValidUpload(fName, isValid=true) {
-      cy.get('input[type=file]').selectFile(`${path}${fName}`, {force: true});
-      if (isValid) cy.contains(fName).should('exist');
-      else cy
-        .contains('Invalid filetype. Please make sure filename extension is equal to .csv, .xlsx, .txt, or .json!')
-        .should('exist');
-    }
-
-    assertValidUpload('city-populations.xlsx');
-    assertValidUpload('city-populations.csv');
-    assertValidUpload('city-populations.txt');
-    assertValidUpload('invalid-file.pdf', false);
-    assertValidUpload('city-populations-records.json');
-    assertValidUpload('city-populations-split.json');
+    cy.assertValidUpload('city-populations.csv');
+    cy.assertValidUpload('city-populations.txt');
+    cy.assertValidUpload('city-populations.xlsx');
+    cy.assertValidUpload('invalid-file.pdf', false);
+    cy.assertValidUpload('city-populations-records.json');
+    cy.assertValidUpload('city-populations-split.json');
   });
 
   it('Should have the data components display the table data correctly', () => {
     cy.get('button').contains('Upload').click();
-    cy.get('input[type=file]').selectFile(`${path}city-populations.xlsx`, {force: true});
+    cy.uploadFile('city-populations.xlsx');
     cy.assertTable('city-populations-split.json');
   });
 
   it('Should filter data columns correctly', () => {
     cy.get('button').contains('Upload').click();
-    cy.get('input[type=file]').selectFile(`${path}city-populations.xlsx`, {force: true});
+    cy.uploadFile('city-populations.xlsx');
     cy.get('button').contains('Filter Columns').click();
     cy.get('#0-btm').click();
     cy.get('#1-top').click();
@@ -175,12 +167,12 @@ describe('App End to End Test', () => {
     cy.get('#2-btm').click({force: true});
     cy.get('#3-top').click({force: true});
 
-    cy.get('[data-testid=Upload-0]').find('input[type=file]').selectFile(`${path}state-populations-1.xlsx`, {force: true});
+    cy.uploadFile('state-populations-1.xlsx', 'Upload-0');
     cy.wait(5000);
-    cy.get('[data-testid=Upload-1]').find('input[type=file]').selectFile(`${path}state-populations-2.xlsx`, {force: true});
+    cy.uploadFile('state-populations-2.xlsx', 'Upload-1');
     cy.wait(5000);
-    cy.get('[data-testid=Upload-2]').find('input[type=file]').selectFile(`${path}state-populations-3.xlsx`, {force: true});
-    
+    cy.uploadFile('state-populations-3.xlsx', 'Upload-2');
+
     cy.assertTable('state-populations-1-split.json', '[data-testid=table-0]');
     cy.assertTable('state-populations-2-split.json', '[data-testid=table-1]');
     cy.assertTable('state-populations-3-split.json', '[data-testid=table-2]');

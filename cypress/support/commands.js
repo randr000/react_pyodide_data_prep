@@ -24,6 +24,8 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+import { wait } from "@testing-library/user-event/dist/utils";
+
 const testDataPath = Cypress.env('testDataPath');
 
 // Asserts that displayed table data is equal to the json data in the test data file whose name was passed
@@ -45,4 +47,18 @@ Cypress.Commands.add('assertTable', (fName, table='table', path=testDataPath) =>
           expect(test).to.equal(rows[rowIdx][colIdx]);
         });
     });
+});
+
+Cypress.Commands.add('uploadFile', (fName, dataTestId=false, path=testDataPath) => {
+    if (dataTestId) {
+        cy.get(`[data-testid=${dataTestId}]`).find('input[type=file]').selectFile(`${path}${fName}`, {force: true});
+    } else cy.get('input[type=file]').selectFile(`${path}${fName}`, {force: true});
+});
+
+Cypress.Commands.add('assertValidUpload', (fName, isValid=true, dataTestId=false, path=testDataPath) => {
+    cy.uploadFile(fName, dataTestId, path);
+    if (isValid) cy.contains(fName).should('exist');
+    else cy
+      .contains('Invalid filetype. Please make sure filename extension is equal to .csv, .xlsx, .txt, or .json!')
+      .should('exist');
 });
