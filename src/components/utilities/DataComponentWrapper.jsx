@@ -29,7 +29,7 @@ const DataComponentWrapper = ({
 }) => {
 
     const {appState, dispatch} = useGetContexts();
-    const {components, isDraggingDisabled} = appState;
+    const {components} = appState;
 
     const [showTable, setShowTable] = useState(true);
 
@@ -70,14 +70,6 @@ const DataComponentWrapper = ({
         transformTargetData &&  targetDataDeps.length && transformTargetData(sourceDataJSONStr, setTargetDataJSONStr);
     }, targetDataDeps);
 
-    function handleDragOnMouseOver() {
-        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: true});
-    }
-
-    function handleDragOnMouseOut() {
-        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: false});
-    }
-
     // Update component output data anytime source data is modified
     useEffect(() => {
 
@@ -102,7 +94,7 @@ const DataComponentWrapper = ({
         <DataComponentDragWrapper>
             <div data-testid={`${cardTitle}-${compID}`} className="card border border-primary border-3" style={{width: "12rem"}}>
                 <div className="card-body text-center">
-                    <DeleteDataComponentPill compID={compID} handleDragOnMouseOver={handleDragOnMouseOver} handleDragOnMouseOut={handleDragOnMouseOut} />
+                    <DeleteDataComponentPill compID={compID} />
                     {
                         canHaveSources && 
                         <DataFlowPill

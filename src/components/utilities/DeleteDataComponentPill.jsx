@@ -1,9 +1,8 @@
-import React, { useState, useContext } from "react";
-// import AppDataContext from "../../context/AppDataContext";
+import React, { useState } from "react";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import useGetContexts from "../../custom-hooks/useGetContexts";
 
-const DeleteDataComponentPill = ({compID, handleDragOnMouseOver, handleDragOnMouseOut}) => {
+const DeleteDataComponentPill = ({compID}) => {
 
     const {appState, dispatch} = useGetContexts();
     const {components, arrows} = appState;
@@ -37,12 +36,12 @@ const DeleteDataComponentPill = ({compID, handleDragOnMouseOver, handleDragOnMou
 
     function handleOnMouseOver() {
         setStyles({...styles, visibility: "visible"});
-        handleDragOnMouseOver();
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: true})
     }
 
     function handleOnMouseOut() {
         setStyles({...styles, visibility: "hidden"});
-        handleDragOnMouseOut();
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: false});
     }
 
     return (
