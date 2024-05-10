@@ -1,15 +1,16 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef } from "react";
 import Draggable from "react-draggable";
 import { useXarrow } from "react-xarrows";
 // import AppDataContext from "../../context/AppDataContext";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import useGetContexts from "../../custom-hooks/useGetContexts";
 
-const DataComponentDragWrapper = ({children, disableDrag = false}) => {
+const DataComponentDragWrapper = ({children}) => {
 
     const updateXarrow = useXarrow();
 
-    const {dispatch} = useGetContexts();
+    const {appState, dispatch} = useGetContexts();
+    const {isDraggingDisabled} = appState;
 
     // To prevent warning when running in React strict mode
     // Followed steps from React-Draggable documentation
@@ -30,7 +31,7 @@ const DataComponentDragWrapper = ({children, disableDrag = false}) => {
 
     return (
         <div className="d-flex" style={{position: "absolute"}}>
-            <Draggable nodeRef={nodeRef} bounds="" onDrag={handleOnDrag} onStop={handleOnStop} disabled={disableDrag}>
+            <Draggable nodeRef={nodeRef} bounds="" onDrag={handleOnDrag} onStop={handleOnStop} disabled={isDraggingDisabled}>
                 <div ref={nodeRef} className="d-flex align-items-start cursor-grab">
                     {children}
                 </div>

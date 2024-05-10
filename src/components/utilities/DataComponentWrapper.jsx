@@ -29,10 +29,9 @@ const DataComponentWrapper = ({
 }) => {
 
     const {appState, dispatch} = useGetContexts();
-    const {components, isDragging} = appState;
+    const {components, isDraggingDisabled} = appState;
 
     const [showTable, setShowTable] = useState(true);
-    const [disableDrag, setDisableDrag] = useState(false);
 
     // A reference to this components properties in the components global state variable
     const thisComponent = components.filter(comp => comp.compID === compID)[0];
@@ -72,11 +71,11 @@ const DataComponentWrapper = ({
     }, targetDataDeps);
 
     function handleDragOnMouseOver() {
-        setDisableDrag(true);
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: true});
     }
 
     function handleDragOnMouseOut() {
-        setDisableDrag(false);
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: false});
     }
 
     // Update component output data anytime source data is modified
@@ -99,32 +98,8 @@ const DataComponentWrapper = ({
     // Filename to use for downloaded file
     const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
 
-    /**
-     * 
-     * Clone the children components and add the correct event handlers to enable and disable dragging on the
-     * specified sub-components.
-     * 
-     * Any child component with the property 'disabledragonhover' will disable dragging when the mouse is over
-     * that sub-component.
-     * 
-     * Any child component with the property 'disabledragdrilldown' will recursively call this function and look
-     * for the 'disabledragonhover' property in the children components of the child.
-     * 
-     * @param {Array} children - An array of React child components
-     * @returns The cloned React children components
-     */
-    function cloneChildren(children) {
-        return Children.map(children, child => {
-            if (child.props.hasOwnProperty("disabledragdrilldown")) {
-                return cloneChildren(child.props.children);
-            } else if(child.props.hasOwnProperty("disabledragonhover")) {
-                return cloneElement(child, {onMouseOver: handleDragOnMouseOver, onMouseOut: handleDragOnMouseOut});
-            } else return child;
-        })
-    }
-
     return (
-        <DataComponentDragWrapper disableDrag={disableDrag}>
+        <DataComponentDragWrapper>
             <div data-testid={`${cardTitle}-${compID}`} className="card border border-primary border-3" style={{width: "12rem"}}>
                 <div className="card-body text-center">
                     <DeleteDataComponentPill compID={compID} handleDragOnMouseOver={handleDragOnMouseOver} handleDragOnMouseOut={handleDragOnMouseOut} />
@@ -151,7 +126,7 @@ const DataComponentWrapper = ({
                         />
                     }
                     <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
-                    {cloneChildren(children)}
+                    {children}
                     {canHaveTargets && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
                 </div>
             </div>

@@ -12,6 +12,7 @@ import sampleStates from "./sampleStates";
 function resetState() {
     return {
         isDragging: false,
+        isDraggingDisabled: false,
         nextID: 0,
         connectComponents: false,
         components: [],
@@ -19,7 +20,7 @@ function resetState() {
     };
 }
 
-export const APP_INITIAL_STATE = {isDragging: false, ...sampleStates.a};
+export const APP_INITIAL_STATE = {...sampleStates.a};
 
 /*
 *   APP INITIAL STATE:
@@ -70,6 +71,8 @@ export const appReducer = (state, action) => {
             return {...state, components: payload};
         case APP_ACTION_TYPES.TOGGLE_IS_DRAGGING:
             return {...state, isDragging: payload};
+        case APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED:
+            return {...state, isDraggingDisabled: payload};
         case APP_ACTION_TYPES.REMOVE_ALL:
             return {...state, ...resetState()}
     }

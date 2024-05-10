@@ -3,6 +3,7 @@ import DATA_COMPONENT_TYPES from "../js/dataComponentTypes";
 const sampleStates = {
     a: {
         isDragging: false,
+        isDraggingDisabled: false,
         nextID: 0,
         connectComponents: false,
         components: [],
