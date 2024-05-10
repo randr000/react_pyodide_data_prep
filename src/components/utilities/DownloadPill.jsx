@@ -20,7 +20,7 @@ const DownloadPill = ({filename, setFilename, targetDataJSONStr}) => {
 
     return (
             <div
-                className="position-absolute mt-5 start-100 translate-middle"
+                className="position-absolute mt-5 start-100 translate-middle download-pill"
                 onClick={handleOnClick}
             >
                 <span
