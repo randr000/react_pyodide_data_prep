@@ -28,6 +28,16 @@ before(() => {
     }
 });
 
+beforeEach(() => {
+    // Delete downloads directory and then recreate it
+    cy.task('deleteDownloads');
+});
+
 afterEach(() => {
     cy.clickNavBarButton('Remove All');
+});
+
+after(() => {
+    // Delete downloads directory and then recreate it
+    cy.task('deleteDownloads');
 });
