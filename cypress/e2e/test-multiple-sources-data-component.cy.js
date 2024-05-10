@@ -8,17 +8,10 @@ it('Should connect multiple arrows to a component allowing multiple sources with
     cy.clickNavBarButton('Union');
     cy.get('[data-testid=Union-3]').trigger('mousedown').trigger('mousemove', {clientX: 350, clientY: 2000}).trigger('mouseup');
 
-    cy.get('#0-btm').click({force: true});
-    cy.get('#3-top').click({force: true});
-
-    cy.get('#0-btm').click({force: true});
-    cy.get('#3-top').click({force: true});
-
-    cy.get('#1-btm').click({force: true});
-    cy.get('#3-top').click({force: true});
-
-    cy.get('#2-btm').click({force: true});
-    cy.get('#3-top').click({force: true});
+    cy.connectDataComponents(0, 3, {force: true});
+    cy.connectDataComponents(0, 3, {force: true});
+    cy.connectDataComponents(1, 3, {force: true});
+    cy.connectDataComponents(2, 3, {force: true});
 
     cy.get('#del-0-btm_3-top').should('exist');
     cy.get('#del-0-btm_3-top').should('have.length', 1);

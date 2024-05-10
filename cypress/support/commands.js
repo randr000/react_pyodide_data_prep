@@ -77,3 +77,9 @@ Cypress.Commands.add('assertPyodideIsLoaded', () => {
 Cypress.Commands.add('clickNavBarButton', (title) => {
     cy.get('nav').contains('button', title).click();
 });
+
+// Connect two data components by passing their component IDs
+Cypress.Commands.add('connectDataComponents', (btm, top, options={}) => {
+  cy.get(`#${btm}-btm`).click(options);
+  cy.get(`#${top}-top`).click(options);
+});

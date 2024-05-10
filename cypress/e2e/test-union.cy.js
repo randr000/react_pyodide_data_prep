@@ -10,14 +10,9 @@ it('Should combine the data and display correctly when using the union data comp
     
     cy.clickNavBarButton('Union');
 
-    cy.get('#0-btm').click({force: true});
-    cy.get('#3-top').click({force: true});
-
-    cy.get('#1-btm').click({force: true});
-    cy.get('#3-top').click({force: true});
-
-    cy.get('#2-btm').click({force: true});
-    cy.get('#3-top').click({force: true});
+    cy.connectDataComponents(0, 3, {force: true});
+    cy.connectDataComponents(1, 3, {force: true});
+    cy.connectDataComponents(2, 3, {force: true});
 
     cy.uploadFile('state-populations-1.xlsx', 'Upload-0');
     cy.wait(5000);
