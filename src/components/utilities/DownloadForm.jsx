@@ -8,8 +8,7 @@ import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 const DownloadForm = ({isDragging, filename, setFilename, handleCustomCheckboxChange=false, includeDownloadBtn=true, targetDataJSONStr}) => {
 
     const {downloadData, updateCheckedFileTypes, isCheckedFileType} = useDownloadData();
-    const {appState, dispatch} = useGetContexts();
-    const {isDraggingDisabled} = appState;
+    const {dispatch} = useGetContexts();
 
     function handleOnClick() {
         if (isDragging) return;
