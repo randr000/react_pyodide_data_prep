@@ -86,9 +86,17 @@ Cypress.Commands.add('connectDataComponents', (btm, top, options={}) => {
 
 // Validate download
 Cypress.Commands.add('validateDownload', (compTitle, compId, fName, fExt) => {
-  cy.get(`[data-testid=${compTitle}-${compId}`).find('.bi-file-earmark-arrow-down').click();
-  cy.get(`[data-testid=${compTitle}-${compId}`).find('.download-pill').find('input[type=text]').clear().type(fName);
-  cy.get(`[data-testid=${compTitle}-${compId}`).find('.download-pill').find('input[type=checkbox]').check(fExt);
-  cy.get(`[data-testid=${compTitle}-${compId}`).find('.bi-box-arrow-down').click();
+  const dataTestId = `[data-testid=${compTitle}-${compId}]`;
+  if (compTitle === 'Download') {
+    cy.get(dataTestId).find('input[type=text]').clear().type(fName);
+    cy.get(dataTestId).find('input[type=checkbox]').check(fExt);
+    cy.get(dataTestId).find('.bi-file-earmark-arrow-down').click();
+
+  } else {
+    cy.get(dataTestId).find('.bi-file-earmark-arrow-down').click();
+    cy.get(dataTestId).find('.download-pill').find('input[type=text]').clear().type(fName);
+    cy.get(dataTestId).find('.download-pill').find('input[type=checkbox]').check(fExt);
+    cy.get(dataTestId).find('.bi-box-arrow-down').click();
+  }
   cy.readFile(`cypress/downloads/${fName}.${fExt}`).should('exist');
 });
