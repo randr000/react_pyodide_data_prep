@@ -83,3 +83,12 @@ Cypress.Commands.add('connectDataComponents', (btm, top, options={}) => {
   cy.get(`#${btm}-btm`).click(options);
   cy.get(`#${top}-top`).click(options);
 });
+
+// Validate download
+Cypress.Commands.add('validateDownload', (compTitle, compId, fName, fExt) => {
+  cy.uploadFile(fName);
+  cy.get(`[data-testid=${compTitle}-${compId}`).find('.bi-file-earmark-arrow-down').click();
+  cy.get(`[data-testid=${compTitle}-${compId}`).find('.download-pill').find('input[type=checkbox]').check(fExt);
+  cy.get(`[data-testid=${compTitle}-${compId}`).find('.bi-box-arrow-down').click();
+  cy.readFile(`cypress/downloads/${compId}-${compTitle}.${fExt}`).should('exist');
+});
