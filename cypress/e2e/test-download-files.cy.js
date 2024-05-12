@@ -13,4 +13,12 @@ describe('Downloading files and verifying contents', () => {
         cy.validateDownload('Download', 1, 'state-populations', 'xlsx');
 
     });
+
+    it.only('Should download files from Filter Columns component', () => {
+        cy.clickNavBarButton('Upload');
+        cy.clickNavBarButton('Filter Columns');
+        cy.connectDataComponents(0, 1, {force: true});
+        cy.uploadFile('city-populations.txt');
+        cy.validateDownload('Filter Columns', 1, 'city-pop', 'csv');
+    });
 });

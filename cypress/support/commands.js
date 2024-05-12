@@ -86,7 +86,7 @@ Cypress.Commands.add('connectDataComponents', (btm, top, options={}) => {
 
 // Validate download
 Cypress.Commands.add('validateDownload', (compTitle, compId, fName, fExt) => {
-  const dataTestId = `[data-testid=${compTitle}-${compId}]`;
+  const dataTestId = `[data-testid="${compTitle}-${compId}"]`;
   if (compTitle === 'Download') {
     cy.get(dataTestId).find('input[type=text]').clear().type(fName);
     cy.get(dataTestId).find('input[type=checkbox]').check(fExt);
