@@ -24,13 +24,18 @@ const DeleteDataComponentPill = ({compID}) => {
             comp.hasOwnProperty('sourceComponents') && comp.sourceComponents.delete(compID);
             comp.hasOwnProperty('outputComponents') && comp.outputComponents.delete(compID);
         });
+
+        // Filters out arrows that reference this components in their compIDs property
+        const a = new Map();
+        Array.from(arrows.values()).filter(a => !a.compIDs.has(compID)).forEach(arrow => {
+            a.set(`${arrow.start}_${arrow.end}`, arrow);
+        });
       
         dispatch({
             type: APP_ACTION_TYPES.REMOVE_DATA_COMPONENT,
             payload: {
                 components: c,
-                // Filters out arrows that reference this components in their compIDs property
-                arrows: arrows.filter(a => !a.compIDs.has(compID))
+                arrows: a
             }
         });
     }

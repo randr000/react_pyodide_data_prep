@@ -26,7 +26,7 @@ const DataFlowPill = ({isOnTop, id, maxSources=0, numOfSourceComponents=0}) => {
             if (maxSources === numOfSourceComponents) return;
 
             // Do not allow duplicate connections
-            if (arrows.filter(arrow => arrow.arrowID === `${connectComponents.pillID}_${id}`).length) {
+            if (arrows.has(`${connectComponents.pillID}_${id}`)) {
                 closeConn();
                 return;
             }
@@ -36,10 +36,13 @@ const DataFlowPill = ({isOnTop, id, maxSources=0, numOfSourceComponents=0}) => {
                 dispatch({
                     type: APP_ACTION_TYPES.ADD_ARROW,
                     payload: {
-                        arrowID: `${connectComponents.pillID}_${id}`,
-                        start: connectComponents.pillID,
-                        end: id,
-                        compIDs: new Set([parseInt(connectComponents.pillID), parseInt(id)])
+                        id: `${connectComponents.pillID}_${id}`,
+                        data: {
+                            arrowID: `${connectComponents.pillID}_${id}`,
+                            start: connectComponents.pillID,
+                            end: id,
+                            compIDs: new Set([parseInt(connectComponents.pillID), parseInt(id)])
+                        }
                     }
                 });
 

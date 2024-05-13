@@ -7,7 +7,7 @@ const sampleStates = {
         nextID: 0,
         connectComponents: false,
         components: new Map(),
-        arrows: []
+        arrows: new Map()
     },
 
     b: {
@@ -27,14 +27,14 @@ const sampleStates = {
                 sourceComponents: new Set([0])
             }]
         ]),
-        arrows: [
-            {
+        arrows: new Map([
+            ['0-btm_1-top', {
                 arrowID: '0-btm_1-top',
                 start: '0-btm',
                 end: '1-top',
                 compIDs: new Set([0, 1])
-            }
-        ]
+            }]
+        ])
     },
     
     c: {
@@ -66,26 +66,26 @@ const sampleStates = {
                 sourceComponents: new Set([0])
             }]
         ]),
-        arrows: [
-            {
+        arrows: new Map([
+            ['0-btm_1-top', {
                 arrowID: '0-btm_1-top',
                 start: '0-btm',
                 end: '1-top',
                 compIDs: new Set([0, 1])
-            },
-            {
+            }],
+            ['0-btm_2-top', {
                 arrowID: '0-btm_2-top',
                 start: '0-btm',
                 end: '2-top',
                 compIDs: new Set([0, 2])
-            },
-            {
+            }],
+            ['0-btm_3-top', {
                 arrowID: '0-btm_3-top',
                 start: '0-btm',
                 end: '3-top',
                 compIDs: new Set([0, 3])
-            }
-        ]
+            }]
+        ])
     },
 
     d: {
@@ -123,32 +123,32 @@ const sampleStates = {
                 sourceComponents: new Set([2])
             }]
         ]),
-        arrows: [
-            {
+        arrows: new Map([
+            ['0-btm_1-top', {
                 arrowID: '0-btm_1-top',
                 start: '0-btm',
                 end: '1-top',
                 compIDs: new Set([0, 1])
-            },
-            {
+            }],
+            ['0-btm_2-top', {
                 arrowID: '0-btm_2-top',
                 start: '0-btm',
                 end: '2-top',
                 compIDs: new Set([0, 2])
-            },
-            {
+            }],
+            ['0-btm_3-top', {
                 arrowID: '0-btm_3-top',
                 start: '0-btm',
                 end: '3-top',
                 compIDs: new Set([0, 3])
-            },
-            {
+            }],
+            ['2-btm_4-top', {
                 arrowID: '2-btm_4-top',
                 start: '2-btm',
                 end: '4-top',
                 compIDs: new Set([2, 4])
-            }
-        ]
+            }]
+        ])
     },
 
     e: {
@@ -173,20 +173,20 @@ const sampleStates = {
                 sourceComponents: new Set([1])
             }]
         ]),
-        arrows: [
-            {
+        arrows: new Map([
+            ['0-btm_1-top', {
                 arrowID: '0-btm_1-top',
                 start: '0-btm',
                 end: '1-top',
                 compIDs: new Set([0, 1])
-            },
-            {
+            }],
+            ['1-btm_2-top', {
                 arrowID: '1-btm_2-top',
                 start: '1-btm',
                 end: '2-top',
                 compIDs: new Set([1, 2])
-            }
-        ]
+            }]
+        ])
     },
 
     f: {
@@ -200,7 +200,7 @@ const sampleStates = {
                 outputComponents: new Set([])
             }]
         ]),
-        arrows: []
+        arrows: new Map()
     }
 };
 

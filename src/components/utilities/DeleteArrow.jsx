@@ -30,11 +30,14 @@ const DeleteArrow = ({start, end, arrowID}) => {
 
         // delete component's target data
         c.set(end, {...c.get(end), data: '{"columns": [], "index": [], "data": []}'});
+        
+        const a = arrows;
+        a.delete(arrowID);
 
         dispatch({
             type: APP_ACTION_TYPES.REMOVE_ARROW,
             payload: {
-                arrows: arrows.filter(a => a.arrowID !== arrowID),
+                arrows: a,
                 components: c
             }
         });
