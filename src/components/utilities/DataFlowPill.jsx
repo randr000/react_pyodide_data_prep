@@ -45,12 +45,10 @@ const DataFlowPill = ({isOnTop, id, maxSources=0, numOfSourceComponents=0}) => {
 
                 const parentID = parseInt(id);
                 const sourceID = parseInt(connectComponents.pillID);
-                const c = [...components];
-                const parentIdx = c.findIndex(comp => comp.compID === parentID);
-                const sourceIdx = c.findIndex(comp => comp.compID === sourceID);
+                const c = components;
 
-                c[parentIdx] = {...c[parentIdx], sourceComponents: new Set([...c[parentIdx].sourceComponents, sourceID])};
-                c[sourceIdx] = {...c[sourceIdx], outputComponents: new Set([...c[sourceIdx].outputComponents, parentID])};
+                c.set(parentID, {...c.get(parentID), sourceComponents: new Set([...c.get(parentID).sourceComponents, sourceID])});
+                c.set(sourceID, {...c.get(sourceID), outputComponents: new Set([...c.get(sourceID).outputComponents, parentID])});
 
                 dispatch({
                     type: APP_ACTION_TYPES.ADD_SOURCE_OUTPUT_REFS,

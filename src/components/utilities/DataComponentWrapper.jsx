@@ -34,8 +34,8 @@ const DataComponentWrapper = ({
     const [showTable, setShowTable] = useState(true);
 
     // A reference to this components properties in the components global state variable
-    const thisComponent = components.filter(comp => comp.compID === compID)[0];
-
+    const thisComponent = components.get(compID);
+    
     useEffect(() => {
 
         // If this component can have a source component, then it loads the source component's JSON data as a string, else null
@@ -43,13 +43,13 @@ const DataComponentWrapper = ({
             if (maxSources === 1) {
                 setSourceDataJSONStr(
                     thisComponent.sourceComponents.size
-                    ? components[components.findIndex(comp => [...thisComponent.sourceComponents][0] === comp.compID)].data
+                    ? components.get([...thisComponent.sourceComponents][0]).data
                     : null
                 );
             } else if (thisComponent.sourceComponents.size) {
                 const sourceDataArray = [];
                 thisComponent.sourceComponents.forEach(id => {
-                    const data = components[components.findIndex(comp => id === comp.compID)].data;
+                    const data = components.get(id).data;
                     data && sourceDataArray.push(JSON.parse(data));
                 });
                 sourceDataArray.length ? setSourceDataJSONStr(JSON.stringify(sourceDataArray)) : setSourceDataJSONStr(null);
@@ -74,11 +74,8 @@ const DataComponentWrapper = ({
     useEffect(() => {
 
         if (targetDataJSONStr && canHaveTargets) {
-            const c = [...components];
-            // Find the current index of this component
-            const idx = c.findIndex(comp => comp.compID === compID);
-            // Updates this component's data property with the targetDataJSONStr JSON string
-            c[idx] = {...c[idx], data: targetDataJSONStr};
+            const c = components;
+            c.set(compID, {...thisComponent, data: targetDataJSONStr});
             // Updates the app state with the modified targetDataJSONStr
             dispatch({
                 type: APP_ACTION_TYPES.MODIFY_COMPONENT_DATA,

@@ -15,7 +15,8 @@ const DeleteDataComponentPill = ({compID}) => {
     function handleOnClick() {
 
         // Filter out component being deleted
-        const c = components.filter(comp => comp.compID !== compID);
+        const c = components;
+        c.delete(compID);
 
         /* Remove references to the component being deleted from the other components' sourceComponents
            and outputComponents properties */

@@ -22,21 +22,14 @@ const DeleteArrow = ({start, end, arrowID}) => {
 
     function handleOnClick() {
         
-        const c = [...components]; // Deep copy of components
-
-        // find index of arrow's source component
-        const sourceIdx = c.findIndex(o => o.compID === start);
-
-        // find index of arrow's output component
-        const outputIdx = c.findIndex(o => o.compID === end);
-
+        const c = components; // Deep copy of components
 
         // remove source and output component references
-        c[sourceIdx].outputComponents.delete(end);
-        c[outputIdx].sourceComponents.delete(start);
+        c.get(start).outputComponents.delete(end);
+        c.get(end).sourceComponents.delete(start);
 
         // delete component's target data
-        c[outputIdx].data = '{"columns": [], "index": [], "data": []}';
+        c.set(end, {...c.get(end), data: '{"columns": [], "index": [], "data": []}'});
 
         dispatch({
             type: APP_ACTION_TYPES.REMOVE_ARROW,
