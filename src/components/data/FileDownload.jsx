@@ -56,7 +56,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
                 filename={filename}
                 setFilename={setFilename}
                 handleCustomCheckboxChange={handleCheckboxChange}
-                targetDataJSONStr={targetDataJSONStr}
+                targetDataJSONStr={sourceDataJSONStr}
                 includeDownloadBtn={false}
             />
        </DataComponentWrapper>

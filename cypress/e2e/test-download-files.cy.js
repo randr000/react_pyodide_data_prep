@@ -3,6 +3,10 @@ describe('Downloading files and verifying contents', () => {
         cy.clickNavBarButton('Upload');
         cy.uploadFile('state-populations-all.xlsx');
         cy.validateDownload('Upload', 0, 'state-populations', ['xlsx']);
+        cy.clickNavBarButton('Remove All');
+        cy.clickNavBarButton('Upload', {force: true});
+        cy.uploadFile('state-populations.xlsx', false, 'cypress/downloads/');
+        cy.assertTable('state-populations-all-split.json');
     });
 
     it('Should download files from Download component', () => {
@@ -11,6 +15,10 @@ describe('Downloading files and verifying contents', () => {
         cy.connectDataComponents(0, 1, {force: true});
         cy.uploadFile('state-populations-all.xlsx');
         cy.validateDownload('Download', 1, 'state-populations', ['xlsx']);
+        cy.clickNavBarButton('Remove All');
+        cy.clickNavBarButton('Upload', {force: true});
+        cy.uploadFile('state-populations.xlsx', false, 'cypress/downloads/');
+        cy.assertTable('state-populations-all-split.json');
 
     });
 
