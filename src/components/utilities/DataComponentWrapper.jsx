@@ -20,8 +20,6 @@ const DataComponentWrapper = ({
     sourceDataJSONStr = null,
     setSourceDataJSONStr = () => {},
     canHaveTargets = true,
-    targetDataJSONStr = null,
-    setTargetDataJSONStr = () => {},
     updateTargetData = false,
     transformTargetData = false,
     targetDataDeps = [],
@@ -32,6 +30,9 @@ const DataComponentWrapper = ({
     const {components} = appState;
 
     const [showTable, setShowTable] = useState(true);
+
+    // A JSON formatted string that can be used to create a pandas dataframe
+    const [targetDataJSONStr, setTargetDataJSONStr] = useState(sourceDataJSONStr);
 
     // A reference to this components properties in the components global state variable
     const thisComponent = components.get(compID);

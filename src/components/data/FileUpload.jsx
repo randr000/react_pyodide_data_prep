@@ -27,9 +27,6 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
         borderColor: "#6c757d"
     });
 
-    // A JSON formatted string that can be used to create a pandas dataframe
-    const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
-
     // A reference to the uploaded file
     const [file, setFile] = useState(null);
 
@@ -154,8 +151,6 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
             iconClassNames={iconClassNames}
             canHaveSources={false}
             sourceDataJSONStr={file}
-            setTargetDataJSONStr={setTargetDataJSONStr}
-            targetDataJSONStr={targetDataJSONStr}
             updateTargetData={updateTargetData}
         >
             <FileUploadDropZone

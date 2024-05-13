@@ -16,9 +16,6 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     // A JSON formatted string containing the source data
     const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
 
-    // A JSON formatted string containing the transformed data
-    const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
-
     const [filteredCols, setFilteredCols] = useState(null);
 
     /**
@@ -110,8 +107,6 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
             iconClassNames={iconClassNames}
             sourceDataJSONStr={sourceDataJSONStr}
             setSourceDataJSONStr={setSourceDataJSONStr}
-            setTargetDataJSONStr={setTargetDataJSONStr}
-            targetDataJSONStr={targetDataJSONStr}
             updateTargetData={updateTargetData}
             transformTargetData={transformTargetData}
             targetDataDeps={[filteredCols]}

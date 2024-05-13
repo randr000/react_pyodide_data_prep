@@ -18,9 +18,6 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
     // A JSON formatted string containing the source data
     const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
 
-    // A JSON formatted string containing the transformed data
-    const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
-
     // Filename to use for downloaded file
     const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
 
@@ -48,7 +45,6 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         sourceDataJSONStr={sourceDataJSONStr}
         setSourceDataJSONStr={setSourceDataJSONStr}
         canHaveTargets={false}
-        targetDataJSONStr={sourceDataJSONStr}
         canHaveDownloadPill={false}
        >
             <DownloadForm

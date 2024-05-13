@@ -14,9 +14,6 @@ const Union = ({compID, cardTitle, iconClassNames}) => {
         // A JSON formatted string containing the source data
         const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
 
-        // A JSON formatted string containing the transformed data
-        const [targetDataJSONStr, setTargetDataJSONStr] = useState(null);
-
         /**
          * 
          * Defines the actions to take when source data changes in order to update target state
@@ -47,8 +44,6 @@ const Union = ({compID, cardTitle, iconClassNames}) => {
             iconClassNames={iconClassNames}
             sourceDataJSONStr={sourceDataJSONStr}
             setSourceDataJSONStr={setSourceDataJSONStr}
-            setTargetDataJSONStr={setTargetDataJSONStr}
-            targetDataJSONStr={targetDataJSONStr}
             updateTargetData={updateTargetData}
             maxSources={Infinity}
         >
