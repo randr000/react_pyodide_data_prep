@@ -26,4 +26,28 @@ describe('Downloading files and verifying contents', () => {
         cy.uploadFile('city-pop.xlsx', false, 'cypress/downloads/');
         cy.assertTable('city-populations-filtered-out-state-split.json');
     });
+
+    it('Should download files from the Union component', () => {
+        cy.clickNavBarButton('Upload');
+        cy.clickNavBarButton('Upload');
+        cy.clickNavBarButton('Upload');
+        cy.clickNavBarButton('Union');
+
+        cy.connectDataComponents(0, 3, {force: true});
+        cy.connectDataComponents(1, 3, {force: true});
+        cy.connectDataComponents(2, 3, {force: true});
+    
+        cy.uploadFile('state-populations-1.xlsx', 'Upload-0');
+        cy.wait(5000);
+        cy.uploadFile('state-populations-2.xlsx', 'Upload-1');
+        cy.wait(5000);
+        cy.uploadFile('state-populations-3.xlsx', 'Upload-2');
+
+        cy.validateDownload('Union', 3, 'state-pop', ['csv', 'xlsx', 'json-split', 'json-records', 'txt']);
+
+        cy.clickNavBarButton('Remove All');
+        cy.clickNavBarButton('Upload', {force: true});
+        cy.uploadFile('state-pop.txt', false, 'cypress/downloads/');
+        cy.assertTable('state-populations-all-split.json');
+    });
 });
