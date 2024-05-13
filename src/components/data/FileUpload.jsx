@@ -20,9 +20,6 @@ import ERROR_MSG from '../../js/error_messages';
 
 const FileUpload = ({compID, cardTitle, iconClassNames}) => {
 
-    const {pyodide, isPyodideLoaded, appState, dispatch} = useGetContexts();
-    const {connectComponents} = appState;
-
     // In order to adjust upload zone styles depending on file state
     const [uploadStyles, setUploadStyles] = useState({
         borderWidth: "3px",
@@ -71,7 +68,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
      * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
      *                                       setState function.
      */
-    function updateTargetData(sourceData, updateTargetState) {
+    function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
 
         /**
          * Converts the data from the uploaded file into a JSON object and sets the targetDataJSONStr state

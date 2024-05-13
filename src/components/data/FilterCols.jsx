@@ -12,8 +12,6 @@ import filter_cols from '../../python_code_js_modules/filter_cols';
 
 
 const FilterCols = ({compID, cardTitle, iconClassNames}) => {
-    
-    const {pyodide, isPyodideLoaded} = useGetContexts();
 
     // A JSON formatted string containing the source data
     const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
@@ -34,7 +32,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
      * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
      *                                       setState function.
      */
-    function updateTargetData(sourceData, updateTargetState) {
+    function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
         if (!sourceData) {
             // Reset filteredCols when source data is removed
             setFilteredCols(null);
@@ -45,7 +43,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
             setFilteredCols(JSON.parse(sourceData)['columns'].map(col => ({label: col, isChecked: true})));
             
             // Update the new targetDataJSONStr using all of the column names
-            filterDF(sourceData, JSON.parse(sourceData)['columns'], updateTargetState);   
+            filterDF(sourceData, JSON.parse(sourceData)['columns'], updateTargetState, pyodide, isPyodideLoaded);   
         }
     }
 
@@ -65,12 +63,14 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
      * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
      *                                setState function.
      */
-    function transformTargetData(sourceData, updateTargetState) {
+    function transformTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
         if (sourceData) {
             filterDF(
                 sourceData,
                 filteredCols.filter(col => col.isChecked).map(col => col.label),
-                updateTargetState
+                updateTargetState,
+                pyodide,
+                isPyodideLoaded
             );
         }
     }
@@ -83,7 +83,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
      * @param {string} jsonStr Data is json format that can be converted to pandas dataframe
      * @param {Array} cols A string array of column names to be filtered for
      */
-    function filterDF(jsonStr, cols, updateTargetState) {
+    function filterDF(jsonStr, cols, updateTargetState, pyodide, isPyodideLoaded) {
         if (isPyodideLoaded) {
             // Load Python function
             pyodide.runPython(filter_cols);

@@ -28,7 +28,7 @@ const DataComponentWrapper = ({
     canHaveDownloadPill = true
 }) => {
 
-    const {appState, dispatch} = useGetContexts();
+    const {appState, dispatch, pyodide, isPyodideLoaded} = useGetContexts();
     const {components} = appState;
 
     const [showTable, setShowTable] = useState(true);
@@ -61,13 +61,13 @@ const DataComponentWrapper = ({
     // Actions to take when source data changes
     useEffect(() => {
         updateTargetData
-        ? updateTargetData(sourceDataJSONStr, setTargetDataJSONStr)
+        ? updateTargetData(sourceDataJSONStr, setTargetDataJSONStr, pyodide, isPyodideLoaded)
         : setTargetDataJSONStr(sourceDataJSONStr);
     }, [sourceDataJSONStr]);
 
     // Actions to take when target data needs to change due to user changing the varaibles used to transform the source data
     useEffect(() => {
-        transformTargetData &&  targetDataDeps.length && transformTargetData(sourceDataJSONStr, setTargetDataJSONStr);
+        transformTargetData &&  targetDataDeps.length && transformTargetData(sourceDataJSONStr, setTargetDataJSONStr, pyodide, isPyodideLoaded);
     }, targetDataDeps);
 
     // Update component output data anytime source data is modified

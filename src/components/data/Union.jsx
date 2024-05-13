@@ -11,8 +11,6 @@ import union from '../../python_code_js_modules/union';
 
 const Union = ({compID, cardTitle, iconClassNames}) => {
 
-        const {pyodide, isPyodideLoaded} = useGetContexts();
-
         // A JSON formatted string containing the source data
         const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
 
@@ -30,7 +28,7 @@ const Union = ({compID, cardTitle, iconClassNames}) => {
          * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
          *                                       setState function.
          */
-        function updateTargetData(sourceData, updateTargetState) {
+        function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
             if (!sourceData) {
                 updateTargetState(null);
             }
