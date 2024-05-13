@@ -19,6 +19,11 @@ describe('Downloading files and verifying contents', () => {
         cy.clickNavBarButton('Filter Columns');
         cy.connectDataComponents(0, 1, {force: true});
         cy.uploadFile('city-populations.txt');
+        cy.get('input[type=checkbox]').uncheck('state', {force: true});
         cy.validateDownload('Filter Columns', 1, 'city-pop', ['csv', 'xlsx', 'json-split']);
+        cy.clickNavBarButton('Remove All');
+        cy.clickNavBarButton('Upload', {force: true});
+        cy.uploadFile('city-pop.xlsx', false, 'cypress/downloads/');
+        cy.assertTable('city-populations-filtered-out-state-split.json');
     });
 });

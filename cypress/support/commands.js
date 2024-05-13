@@ -24,8 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import { wait } from "@testing-library/user-event/dist/utils";
-
 const testDataPath = Cypress.env('testDataPath');
 
 // Asserts that displayed table data is equal to the json data in the test data file whose name was passed
@@ -74,8 +72,8 @@ Cypress.Commands.add('assertPyodideIsLoaded', () => {
     cy.get('[data-testid=pyodide-loading-spinner]', {timeout: timeout}).should('not.exist');
 });
 
-Cypress.Commands.add('clickNavBarButton', (title) => {
-    cy.get('nav').contains('button', title).click();
+Cypress.Commands.add('clickNavBarButton', (title, options={}) => {
+    cy.get('nav').contains('button', title).click(options=options);
 });
 
 // Connect two data components by passing their component IDs
