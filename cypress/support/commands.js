@@ -85,18 +85,34 @@ Cypress.Commands.add('connectDataComponents', (btm, top, options={}) => {
 });
 
 // Validate download
-Cypress.Commands.add('validateDownload', (compTitle, compId, fName, fExt) => {
+Cypress.Commands.add('validateDownload', (compTitle, compId, fName, fExts) => {
   const dataTestId = `[data-testid="${compTitle}-${compId}"]`;
+  const extMap = new Map();
+  extMap.set('csv', 'csv');
+  extMap.set('txt', 'txt');
+  extMap.set('xlsx', 'xlsx');
+  extMap.set('json-split', 'json (split)');
+  extMap.set('json-records', 'json (records)');
+
   if (compTitle === 'Download') {
     cy.get(dataTestId).find('input[type=text]').clear().type(fName);
-    cy.get(dataTestId).find('input[type=checkbox]').check(fExt);
+    fExts.forEach(fExt => {
+      cy.get(dataTestId).find('input[type=checkbox]').check(extMap.get(fExt));
+    });
     cy.get(dataTestId).find('.bi-file-earmark-arrow-down').click();
 
   } else {
     cy.get(dataTestId).find('.bi-file-earmark-arrow-down').click();
     cy.get(dataTestId).find('.download-pill').find('input[type=text]').clear().type(fName);
-    cy.get(dataTestId).find('.download-pill').find('input[type=checkbox]').check(fExt);
+    fExts.forEach(fExt => {
+      cy.get(dataTestId).find('.download-pill').find('input[type=checkbox]').check(extMap.get(fExt));
+    });
     cy.get(dataTestId).find('.bi-box-arrow-down').click();
   }
-  cy.readFile(`cypress/downloads/${fName}.${fExt}`).should('exist');
+
+  fExts.forEach(fExt => {
+    const jsonType = fExt === 'json-split' || fExt === 'json-records' ? `-${fExt.split('-')[1]}` : '';
+    const ext = fExt === 'json-split' || fExt === 'json-records' ? 'json' : fExt;
+    cy.readFile(`cypress/downloads/${fName}${jsonType}.${ext}`).should('exist');
+  });
 });
