@@ -33,7 +33,10 @@ const DeleteArrow = ({start, end, arrowID}) => {
 
         // remove source and output component references
         c[sourceIdx].outputComponents.delete(end);
-        c[outputIdx].sourceComponents.delete(start); 
+        c[outputIdx].sourceComponents.delete(start);
+
+        // delete component's target data
+        c[outputIdx].data = '{"columns": [], "index": [], "data": []}';
 
         dispatch({
             type: APP_ACTION_TYPES.REMOVE_ARROW,
