@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 // import custom hooks
 import useGetContexts from '../../custom-hooks/useGetContexts';
 import useDownloadData from '../../custom-hooks/useDownloadData';
+import useGetComponentSourceData from '../../custom-hooks/useGetComponentSourceData';
 
 // import other utility component(s)
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
@@ -11,12 +12,15 @@ import DownloadForm from '../utilities/DownloadForm';
 const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
     const {appState} = useGetContexts();
-    const {isDragging} = appState;
+    const {components, isDragging} = appState;
 
     const {downloadData, updateCheckedFileTypes, isCheckedFileType} = useDownloadData();
 
     // A JSON formatted string containing the source data
     const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
+
+    // const sourceData = components.get(compID).sourceComponents.size ? components.get([...components.get(compID).sourceComponents][0]).data : null;
+    const sourceData = useGetComponentSourceData(compID);
 
     // Filename to use for downloaded file
     const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
@@ -33,7 +37,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
     function handleIconClick() {
         if (isDragging) return;
-        downloadData(sourceDataJSONStr, filename);
+        downloadData(sourceData, filename);
     }
 
     return (
@@ -52,7 +56,7 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
                 filename={filename}
                 setFilename={setFilename}
                 handleCustomCheckboxChange={handleCheckboxChange}
-                targetDataJSONStr={sourceDataJSONStr}
+                targetDataJSONStr={sourceData}
                 includeDownloadBtn={false}
             />
        </DataComponentWrapper>

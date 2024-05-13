@@ -1,5 +1,6 @@
-import React, { useEffect, useState, Children, cloneElement } from "react";
+import React, { useEffect, useState } from "react";
 import useGetContexts from "../../custom-hooks/useGetContexts";
+import useGetComponentSourceData from "../../custom-hooks/useGetComponentSourceData";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import DataComponentDragWrapper from "./DataComponentDragWrapper";
 import DeleteDataComponentPill from "./DeleteDataComponentPill";
@@ -36,27 +37,13 @@ const DataComponentWrapper = ({
 
     // A reference to this components properties in the components global state variable
     const thisComponent = components.get(compID);
+
+    // This components source data
+    const sourceData = useGetComponentSourceData(compID);
     
     useEffect(() => {
-
         // If this component can have a source component, then it loads the source component's JSON data as a string, else null
-        if (canHaveSources) {
-            if (maxSources === 1) {
-                setSourceDataJSONStr(
-                    thisComponent.sourceComponents.size
-                    ? components.get([...thisComponent.sourceComponents][0]).data
-                    : null
-                );
-            } else if (thisComponent.sourceComponents.size) {
-                const sourceDataArray = [];
-                thisComponent.sourceComponents.forEach(id => {
-                    const data = components.get(id).data;
-                    data && sourceDataArray.push(JSON.parse(data));
-                });
-                sourceDataArray.length ? setSourceDataJSONStr(JSON.stringify(sourceDataArray)) : setSourceDataJSONStr(null);
-
-            } else setSourceDataJSONStr(null);
-        }
+        if (canHaveSources) setSourceDataJSONStr(sourceData);
     });
 
     // Actions to take when source data changes

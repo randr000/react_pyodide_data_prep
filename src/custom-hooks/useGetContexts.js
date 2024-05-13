@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import AppDataContext from '../context/AppDataContext';
 import { PyodideContext } from '../context/PyodideContext';
 
