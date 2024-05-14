@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 
-// import custom hooks
-import useGetContexts from '../../custom-hooks/useGetContexts';
-
 // import other utility component(s)
 import Checkboxes from '../utilities/Checkboxes';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
@@ -12,9 +9,6 @@ import filter_cols from '../../python_code_js_modules/filter_cols';
 
 
 const FilterCols = ({compID, cardTitle, iconClassNames}) => {
-
-    // A JSON formatted string containing the source data
-    const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
 
     const [filteredCols, setFilteredCols] = useState(null);
 
@@ -105,8 +99,6 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
             compID={compID}
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
-            sourceDataJSONStr={sourceDataJSONStr}
-            setSourceDataJSONStr={setSourceDataJSONStr}
             updateTargetData={updateTargetData}
             transformTargetData={transformTargetData}
             targetDataDeps={[filteredCols]}

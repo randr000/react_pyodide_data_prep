@@ -17,9 +17,8 @@ const DataComponentWrapper = ({
     iconClassNames = '',
     iconOnClick = () => {},
     canHaveSources = true,
+    file = null,
     maxSources = 1,
-    sourceDataJSONStr = null,
-    setSourceDataJSONStr = () => {},
     canHaveTargets = true,
     updateTargetData = false,
     transformTargetData = false,
@@ -31,6 +30,9 @@ const DataComponentWrapper = ({
     const {components} = appState;
 
     const [showTable, setShowTable] = useState(true);
+
+    // A JSON formatted string containing the source data
+    const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
 
     // A JSON formatted string that can be used to create a pandas dataframe
     const [targetDataJSONStr, setTargetDataJSONStr] = useState(sourceDataJSONStr);
@@ -49,9 +51,11 @@ const DataComponentWrapper = ({
     // Actions to take when source data changes
     useEffect(() => {
         updateTargetData
-        ? updateTargetData(sourceDataJSONStr, setTargetDataJSONStr, pyodide, isPyodideLoaded)
+        ? canHaveSources
+            ? updateTargetData(sourceDataJSONStr, setTargetDataJSONStr, pyodide, isPyodideLoaded)
+            : updateTargetData(file, setTargetDataJSONStr, pyodide, isPyodideLoaded)
         : setTargetDataJSONStr(sourceDataJSONStr);
-    }, [sourceDataJSONStr]);
+    }, [sourceDataJSONStr, file]);
 
     // Actions to take when target data needs to change due to user changing the varaibles used to transform the source data
     useEffect(() => {

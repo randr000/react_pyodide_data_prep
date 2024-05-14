@@ -12,12 +12,9 @@ import DownloadForm from '../utilities/DownloadForm';
 const FileDownload = ({compID, cardTitle, iconClassNames}) => {
 
     const {appState} = useGetContexts();
-    const {components, isDragging} = appState;
+    const {isDragging} = appState;
 
     const {downloadData, updateCheckedFileTypes, isCheckedFileType} = useDownloadData();
-
-    // A JSON formatted string containing the source data
-    const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
 
     // const sourceData = components.get(compID).sourceComponents.size ? components.get([...components.get(compID).sourceComponents][0]).data : null;
     const sourceData = useGetComponentSourceData(compID);
@@ -46,8 +43,6 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         cardTitle={cardTitle}
         iconClassNames={iconClassNames}
         iconOnClick={handleIconClick}
-        sourceDataJSONStr={sourceDataJSONStr}
-        setSourceDataJSONStr={setSourceDataJSONStr}
         canHaveTargets={false}
         canHaveDownloadPill={false}
        >

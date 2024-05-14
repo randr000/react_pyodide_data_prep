@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import { utils, read } from 'xlsx';
-
-// import custom hooks
-import useGetContexts from '../../custom-hooks/useGetContexts';
 
 // import other utility component(s)
 import FileUploadDropZone from '../utilities/FileUploadDropZone';
@@ -150,7 +147,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
             canHaveSources={false}
-            sourceDataJSONStr={file}
+            file={file}
             updateTargetData={updateTargetData}
         >
             <FileUploadDropZone

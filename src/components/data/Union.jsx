@@ -1,8 +1,5 @@
 import React, { useState, useContext } from "react";
 
-// import custom hooks
-import useGetContexts from '../../custom-hooks/useGetContexts';
-
 // import other utility component(s)
 import DataComponentWrapper from "../utilities/DataComponentWrapper";
 
@@ -10,9 +7,6 @@ import DataComponentWrapper from "../utilities/DataComponentWrapper";
 import union from '../../python_code_js_modules/union';
 
 const Union = ({compID, cardTitle, iconClassNames}) => {
-
-        // A JSON formatted string containing the source data
-        const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
 
         /**
          * 
@@ -42,8 +36,6 @@ const Union = ({compID, cardTitle, iconClassNames}) => {
             compID={compID}
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
-            sourceDataJSONStr={sourceDataJSONStr}
-            setSourceDataJSONStr={setSourceDataJSONStr}
             updateTargetData={updateTargetData}
             maxSources={Infinity}
         >
