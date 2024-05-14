@@ -10,7 +10,7 @@ import filter_cols from '../../python_code_js_modules/filter_cols';
 
 const FilterCols = ({compID, cardTitle, iconClassNames}) => {
 
-    const [filteredCols, setFilteredCols] = useState(null);
+    const [filteredCols, setFilteredCols] = useState([]);
 
     /**
      * 
@@ -26,12 +26,15 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
         if (!sourceData) {
             // Reset filteredCols when source data is removed
-            setFilteredCols(null);
+            setFilteredCols([]);
             updateTargetState(null);
         }
         else {
             // Update filteredCols for the new column names
-            setFilteredCols(JSON.parse(sourceData)['columns'].map(col => ({label: col, isChecked: true})));
+            setFilteredCols(JSON.parse(sourceData)['columns'].map(col => {
+                const columnArr = filteredCols.filter(colObj => colObj.label === col);
+                return {label: col, isChecked: columnArr.length ? columnArr[0].isChecked : true}
+            }));
             
             // Update the new targetDataJSONStr using all of the column names
             filterDF(sourceData, JSON.parse(sourceData)['columns'], updateTargetState, pyodide, isPyodideLoaded);   
@@ -103,7 +106,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
             transformTargetData={transformTargetData}
             targetDataDeps={[filteredCols]}
         >
-            {filteredCols && <Checkboxes checkboxes={filteredCols} onChange={filterCol} />}
+            {filteredCols.length ? <Checkboxes checkboxes={filteredCols} onChange={filterCol}/> : null}
         </DataComponentWrapper>
 
     );
