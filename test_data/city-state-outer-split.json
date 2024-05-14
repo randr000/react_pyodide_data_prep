@@ -1,0 +1,124 @@
+{
+    "columns": [
+        "state",
+        "city",
+        "population_left",
+        "population_right"
+    ],
+    "index": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+    ],
+    "data": [
+        [
+            "California",
+            "Los Angeles",
+            3850000,
+            38965193
+        ],
+        [
+            "California",
+            "San Diego",
+            1400000,
+            38965193
+        ],
+        [
+            "California",
+            "San Jose",
+            986300,
+            38965193
+        ],
+        [
+            "California",
+            "San Francisco",
+            815201,
+            38965193
+        ],
+        [
+            "Florida",
+            "Jacksonville",
+            990931,
+            22610726
+        ],
+        [
+            "Florida",
+            "Miami",
+            456229,
+            22610726
+        ],
+        [
+            "Florida",
+            "Tampa",
+            408438,
+            22610726
+        ],
+        [
+            "Florida",
+            "Orlando",
+            324429,
+            22610726
+        ],
+        [
+            "New York",
+            "New York City",
+            7931147,
+            19571216
+        ],
+        [
+            "New York",
+            "Buffalo",
+            275352,
+            19571216
+        ],
+        [
+            "New York",
+            "Rochester",
+            207537,
+            19571216
+        ],
+        [
+            "New York",
+            "Yonkers",
+            205253,
+            19571216
+        ],
+        [
+            "Texas",
+            "Houston",
+            2296253,
+            30503301
+        ],
+        [
+            "Texas",
+            "San Antonio",
+            1445662,
+            30503301
+        ],
+        [
+            "Texas",
+            "Dallas",
+            1300642,
+            30503301
+        ],
+        [
+            "Texas",
+            "Austin",
+            958202,
+            30503301
+        ]
+    ]
+}

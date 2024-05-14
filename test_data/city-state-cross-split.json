@@ -1,0 +1,525 @@
+{
+    "columns": [
+        "state_left",
+        "city",
+        "population_left",
+        "state_right",
+        "population_right"
+    ],
+    "index": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+    ],
+    "data": [
+        [
+            "California",
+            "Los Angeles",
+            3850000,
+            "California",
+            38965193
+        ],
+        [
+            "California",
+            "Los Angeles",
+            3850000,
+            "Texas",
+            30503301
+        ],
+        [
+            "California",
+            "Los Angeles",
+            3850000,
+            "Florida",
+            22610726
+        ],
+        [
+            "California",
+            "Los Angeles",
+            3850000,
+            "New York",
+            19571216
+        ],
+        [
+            "California",
+            "San Diego",
+            1400000,
+            "California",
+            38965193
+        ],
+        [
+            "California",
+            "San Diego",
+            1400000,
+            "Texas",
+            30503301
+        ],
+        [
+            "California",
+            "San Diego",
+            1400000,
+            "Florida",
+            22610726
+        ],
+        [
+            "California",
+            "San Diego",
+            1400000,
+            "New York",
+            19571216
+        ],
+        [
+            "California",
+            "San Jose",
+            986300,
+            "California",
+            38965193
+        ],
+        [
+            "California",
+            "San Jose",
+            986300,
+            "Texas",
+            30503301
+        ],
+        [
+            "California",
+            "San Jose",
+            986300,
+            "Florida",
+            22610726
+        ],
+        [
+            "California",
+            "San Jose",
+            986300,
+            "New York",
+            19571216
+        ],
+        [
+            "California",
+            "San Francisco",
+            815201,
+            "California",
+            38965193
+        ],
+        [
+            "California",
+            "San Francisco",
+            815201,
+            "Texas",
+            30503301
+        ],
+        [
+            "California",
+            "San Francisco",
+            815201,
+            "Florida",
+            22610726
+        ],
+        [
+            "California",
+            "San Francisco",
+            815201,
+            "New York",
+            19571216
+        ],
+        [
+            "Texas",
+            "Houston",
+            2296253,
+            "California",
+            38965193
+        ],
+        [
+            "Texas",
+            "Houston",
+            2296253,
+            "Texas",
+            30503301
+        ],
+        [
+            "Texas",
+            "Houston",
+            2296253,
+            "Florida",
+            22610726
+        ],
+        [
+            "Texas",
+            "Houston",
+            2296253,
+            "New York",
+            19571216
+        ],
+        [
+            "Texas",
+            "San Antonio",
+            1445662,
+            "California",
+            38965193
+        ],
+        [
+            "Texas",
+            "San Antonio",
+            1445662,
+            "Texas",
+            30503301
+        ],
+        [
+            "Texas",
+            "San Antonio",
+            1445662,
+            "Florida",
+            22610726
+        ],
+        [
+            "Texas",
+            "San Antonio",
+            1445662,
+            "New York",
+            19571216
+        ],
+        [
+            "Texas",
+            "Dallas",
+            1300642,
+            "California",
+            38965193
+        ],
+        [
+            "Texas",
+            "Dallas",
+            1300642,
+            "Texas",
+            30503301
+        ],
+        [
+            "Texas",
+            "Dallas",
+            1300642,
+            "Florida",
+            22610726
+        ],
+        [
+            "Texas",
+            "Dallas",
+            1300642,
+            "New York",
+            19571216
+        ],
+        [
+            "Texas",
+            "Austin",
+            958202,
+            "California",
+            38965193
+        ],
+        [
+            "Texas",
+            "Austin",
+            958202,
+            "Texas",
+            30503301
+        ],
+        [
+            "Texas",
+            "Austin",
+            958202,
+            "Florida",
+            22610726
+        ],
+        [
+            "Texas",
+            "Austin",
+            958202,
+            "New York",
+            19571216
+        ],
+        [
+            "Florida",
+            "Jacksonville",
+            990931,
+            "California",
+            38965193
+        ],
+        [
+            "Florida",
+            "Jacksonville",
+            990931,
+            "Texas",
+            30503301
+        ],
+        [
+            "Florida",
+            "Jacksonville",
+            990931,
+            "Florida",
+            22610726
+        ],
+        [
+            "Florida",
+            "Jacksonville",
+            990931,
+            "New York",
+            19571216
+        ],
+        [
+            "Florida",
+            "Miami",
+            456229,
+            "California",
+            38965193
+        ],
+        [
+            "Florida",
+            "Miami",
+            456229,
+            "Texas",
+            30503301
+        ],
+        [
+            "Florida",
+            "Miami",
+            456229,
+            "Florida",
+            22610726
+        ],
+        [
+            "Florida",
+            "Miami",
+            456229,
+            "New York",
+            19571216
+        ],
+        [
+            "Florida",
+            "Tampa",
+            408438,
+            "California",
+            38965193
+        ],
+        [
+            "Florida",
+            "Tampa",
+            408438,
+            "Texas",
+            30503301
+        ],
+        [
+            "Florida",
+            "Tampa",
+            408438,
+            "Florida",
+            22610726
+        ],
+        [
+            "Florida",
+            "Tampa",
+            408438,
+            "New York",
+            19571216
+        ],
+        [
+            "Florida",
+            "Orlando",
+            324429,
+            "California",
+            38965193
+        ],
+        [
+            "Florida",
+            "Orlando",
+            324429,
+            "Texas",
+            30503301
+        ],
+        [
+            "Florida",
+            "Orlando",
+            324429,
+            "Florida",
+            22610726
+        ],
+        [
+            "Florida",
+            "Orlando",
+            324429,
+            "New York",
+            19571216
+        ],
+        [
+            "New York",
+            "New York City",
+            7931147,
+            "California",
+            38965193
+        ],
+        [
+            "New York",
+            "New York City",
+            7931147,
+            "Texas",
+            30503301
+        ],
+        [
+            "New York",
+            "New York City",
+            7931147,
+            "Florida",
+            22610726
+        ],
+        [
+            "New York",
+            "New York City",
+            7931147,
+            "New York",
+            19571216
+        ],
+        [
+            "New York",
+            "Buffalo",
+            275352,
+            "California",
+            38965193
+        ],
+        [
+            "New York",
+            "Buffalo",
+            275352,
+            "Texas",
+            30503301
+        ],
+        [
+            "New York",
+            "Buffalo",
+            275352,
+            "Florida",
+            22610726
+        ],
+        [
+            "New York",
+            "Buffalo",
+            275352,
+            "New York",
+            19571216
+        ],
+        [
+            "New York",
+            "Rochester",
+            207537,
+            "California",
+            38965193
+        ],
+        [
+            "New York",
+            "Rochester",
+            207537,
+            "Texas",
+            30503301
+        ],
+        [
+            "New York",
+            "Rochester",
+            207537,
+            "Florida",
+            22610726
+        ],
+        [
+            "New York",
+            "Rochester",
+            207537,
+            "New York",
+            19571216
+        ],
+        [
+            "New York",
+            "Yonkers",
+            205253,
+            "California",
+            38965193
+        ],
+        [
+            "New York",
+            "Yonkers",
+            205253,
+            "Texas",
+            30503301
+        ],
+        [
+            "New York",
+            "Yonkers",
+            205253,
+            "Florida",
+            22610726
+        ],
+        [
+            "New York",
+            "Yonkers",
+            205253,
+            "New York",
+            19571216
+        ]
+    ]
+}

@@ -10,6 +10,7 @@ from test1 import mult
 from input_to_df import input_to_df
 from filter_cols import filter_cols
 from df_to_output import df_to_output
+from join import join
 from union import union
 
 def read_file(path):
@@ -31,6 +32,11 @@ state_populations_1 = '../test_data/state-populations-1-split.json'
 state_populations_2 = '../test_data/state-populations-2-split.json'
 state_populations_3 = '../test_data/state-populations-3-split.json'
 state_populations_all = '../test_data/state-populations-all-split.json'
+city_state_inner_split = '../test_data/city-state-inner-split.json'
+city_state_outer_split = '../test_data/city-state-outer-split.json'
+city_state_left_split = '../test_data/city-state-left-split.json'
+city_state_right_split = '../test_data/city-state-right-split.json'
+city_state_cross_split = '../test_data/city-state-cross-split.json'
 
 class TestAll(unittest.TestCase):
 
@@ -112,14 +118,51 @@ class TestAll(unittest.TestCase):
         expected_value = {'csv_txt': csv_expected, 'xlsx_json': json_records_expected}
         self.assertEqual(test_value, expected_value)
 
+    def test_join(self):
+        city_data = load_json(city_populations_json_split)
+        state_data = load_json(state_populations_all)
+
+        # single table test - city data
+        test_value = json.loads(join(json.dumps([city_data]), 'state', 'left'))
+        expected_value = load_json(city_populations_json_split)
+        self.assertEqual(test_value, expected_value)
+
+        # single table test - state data
+        test_value = json.loads(join(json.dumps([state_data]), 'state', 'left'))
+        expected_value = load_json(state_populations_all)
+        self.assertEqual(test_value, expected_value)
+
+        # inner join
+        test_value = json.loads(join(json.dumps([city_data, state_data]), 'state', 'inner'))
+        expected_value = load_json(city_state_inner_split)
+        self.assertEqual(test_value, expected_value)
+
+        # outer join
+        test_value = json.loads(join(json.dumps([city_data, state_data]), 'state', 'outer'))
+        expected_value = load_json(city_state_outer_split)
+        self.assertEqual(test_value, expected_value)
+
+        # left join
+        test_value = json.loads(join(json.dumps([city_data, state_data]), 'state', 'left'))
+        expected_value = load_json(city_state_left_split)
+        self.assertEqual(test_value, expected_value)
+
+        # right join
+        test_value = json.loads(join(json.dumps([city_data, state_data]), 'state', 'right'))
+        expected_value = load_json(city_state_right_split)
+        self.assertEqual(test_value, expected_value)
+
+        # cross join
+        test_value = json.loads(join(json.dumps([city_data, state_data]), 'state', 'cross'))
+        expected_value = load_json(city_state_cross_split)
+        self.assertEqual(test_value, expected_value)
+
     def test_union(self):
         file_list = [state_populations_1, state_populations_2, state_populations_3]
         data_list = [load_json(data) for data in file_list]
         test_value = json.loads(union(json.dumps(data_list)))
         expected_value = load_json(state_populations_all)
         self.assertEqual(test_value, expected_value)
-
-
 
 if __name__ == 'main':
     unittest.main()
