@@ -2,6 +2,7 @@ import DATA_COMPONENT_TYPES from "./dataComponentTypes";
 import FileUpload from "../components/data/FileUpload";
 import FileDownload from "../components/data/FileDownload";
 import FilterCols from "../components/data/FilterCols";
+import Join from "../components/data/Join";
 import Union from "../components/data/Union";
 import { utils, writeFileXLSX } from 'xlsx';
 import df_to_output from "../python_code_js_modules/df_to_output";
@@ -51,6 +52,13 @@ export function dataComponentMaker(obj) {
                 cardTitle="Filter Columns"
                 iconClassNames="bi bi-funnel"
             />;
+
+        case DATA_COMPONENT_TYPES.JOIN:
+            return <Join
+                compID={compID}
+                cardTitle={"Join"}
+                iconClassNames={"bi bi-intersect"}
+            />
 
         case DATA_COMPONENT_TYPES.UNION:
             return <Union

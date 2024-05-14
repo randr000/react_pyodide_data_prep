@@ -36,7 +36,7 @@ const NavBar = () => {
                     <NavBarComponentButton btnText="Download" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_DOWNLOAD)}/>
                     <NavBarComponentButton btnText="Filter Columns" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILTER_COLS)}/>
                     <NavBarComponentButton btnText="Filter Rows" />
-                    <NavBarComponentButton btnText="Join" />
+                    <NavBarComponentButton btnText="Join" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.JOIN)}/>
                     <NavBarComponentButton btnText="Union" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.UNION)}/>
                 </div>
                 <div className="d-flex justify-content-end">
