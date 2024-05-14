@@ -19,9 +19,6 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
     // Column to join data on
     const [onCol, setOnCol] = useState(null);
 
-    useEffect(() => console.log(`joinType: ${joinType}`), [joinType]);
-    useEffect(() => console.log(`onCol: ${onCol}`), [onCol]);
-
     /**
      * 
      * Defines the actions to take when source data changes in order to update target state
@@ -33,23 +30,13 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
      * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
      *                                       setState function.
      */
-    function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
+    function updateTargetData(sourceData, updateTargetState) {
         if (!sourceData) {
             setColumns(null);
             setOnCol(null);
             updateTargetState(null);
         } else {
             const sourceArray = JSON.parse(sourceData);
-            // console.log(`sourceArray: ${sourceArray}`)
-            // console.log(`sourceArray: ${JSON.stringify(sourceArray)}`)
-            // const columnsA = sourceArray[0]['columns'];
-            // console.log(`colA: ${columnsA}`)
-            // let columnsB = [];
-            // if (sourceArray.length === 2) columnsB = sourceArray[1]['columns'];
-            // console.log(`colB: ${columnsB}`)
-            // setColumns([...new Set(...columnsA, ...columnsB)]);
-            // console.log(`sourceArray0: ${sourceArray[0]}`)
-            // console.log(`sourceArray1: ${sourceArray.length === 2 && sourceArray[1]}`)
 
             if (!Array.isArray(sourceArray)) setColumns(sourceArray.columns);
             else {
