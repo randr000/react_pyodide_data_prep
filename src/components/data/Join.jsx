@@ -5,19 +5,19 @@ import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import { Form } from 'react-bootstrap';
 
 // import Python function(s)
-// import filter_cols from '../../python_code_js_modules/filter_cols';
+import join from '../../python_code_js_modules/join';
 
 
 const Join = ({compID, cardTitle, iconClassNames}) => {
 
     // Type of Join
-    const [joinType, setJoinType] = useState('left');
+    const [joinType, setJoinType] = useState('inner');
 
     // Common columns between both dataframes
     const [columns, setColumns] = useState(null);
 
     // Column to join data on
-    const [onCol, setOnCol] = useState(null);
+    const [onCol, setOnCol] = useState('');
 
     /**
      * 
@@ -30,21 +30,48 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
      * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
      *                                       setState function.
      */
-    function updateTargetData(sourceData, updateTargetState) {
+    function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
         if (!sourceData) {
             setColumns(null);
-            setOnCol(null);
+            setOnCol('');
             updateTargetState(null);
         } else {
+
             const sourceArray = JSON.parse(sourceData);
 
-            if (!Array.isArray(sourceArray)) setColumns(sourceArray.columns);
-            else {
+            // Load Python function
+            if (isPyodideLoaded) pyodide.runPython(join);
+            else return;
+
+            if (!Array.isArray(sourceArray)) {
+                setColumns(sourceArray.columns);
+
+                const onColumn = !sourceArray.columns.includes(onCol) ? sourceArray.columns[0] : onCol;
+                setOnCol(onColumn);
+
+                // Call python function and sets new targetDataJSONStr state
+                updateTargetState(pyodide.globals.get('join')(`[${JSON.stringify(sourceArray)}]`, onColumn, joinType));
+
+            } else {
                 const columnsA = sourceArray[0].columns;
                 let columnsB = [];
-                if (sourceArray.length === 2) columnsB = sourceArray[1].columns;
-                setColumns([...new Set([...columnsA, ...columnsB])]);
+                let onColumn = onCol;
+
+                if (sourceArray.length === 2) {
+                    columnsB = sourceArray[1].columns;
+                    const updatedColumns = [...new Set(columnsA.filter(col => columnsB.includes(col)))]
+                    setColumns(updatedColumns);
+                    onColumn = updatedColumns.includes(onCol) ? onCol : updatedColumns[0];
+
+                } else {
+                    setColumns(columnsA);
+                    onColumn = columnsA.includes(onCol) ? onCol : columnsA[0];
+                };
+
+                // Call python function and sets new targetDataJSONStr state
+                updateTargetState(pyodide.globals.get('join')(sourceData, onColumn, joinType));
             }
+
         }
     }
 
@@ -65,7 +92,22 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
      *                                setState function.
      */
     function transformTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
-        return;
+        if(sourceData) {
+            const sourceArray = JSON.parse(sourceData);
+
+            // Load Python function
+            if (isPyodideLoaded) pyodide.runPython(join);
+            else return;
+
+            if (!Array.isArray(sourceArray)) {
+                // Call python function and sets new targetDataJSONStr state
+                updateTargetState(pyodide.globals.get('join')(`[${JSON.stringify(sourceArray)}]`, onCol, joinType));
+
+            } else {
+                // Call python function and sets new targetDataJSONStr state
+                updateTargetState(pyodide.globals.get('join')(sourceData, onCol, joinType));
+            }
+        }
     }
 
     return (
@@ -82,7 +124,7 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
             <div className="d-flex">
                 <Form.Label className="align-self-start" htmlFor={`type-join-select-${compID}`}>Type of Join:</Form.Label>
             </div>
-            <Form.Select id={`type-join-select-${compID}`} onChange={e => setJoinType(e.target.value)} className="mb-2">
+            <Form.Select id={`type-join-select-${compID}`} value={joinType} onChange={e => setJoinType(e.target.value)} className="mb-2">
                 <option value="left">Left</option>
                 <option value="right">Right</option>
                 <option value="outer">Outer</option>
@@ -96,7 +138,7 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
                     <div className="d-flex">
                         <Form.Label className="align-self-start" htmlFor={`on-col-select-${compID}`}>Join On:</Form.Label>
                     </div>
-                    <Form.Select id={`on-col-select-${compID}`} className="mb-2" onChange={e => setOnCol(e.target.value)}>
+                    <Form.Select id={`on-col-select-${compID}`} value={onCol} className="mb-2" onChange={e => setOnCol(e.target.value)}>
                         {columns.map(col => <option key={col} value={col}>{col}</option>)}
                     </Form.Select>
                 </div>
