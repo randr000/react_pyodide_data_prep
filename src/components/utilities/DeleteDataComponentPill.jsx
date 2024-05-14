@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import useGetContexts from "../../custom-hooks/useGetContexts";
+import CONSTANTS from "../../js/app-constants";
 
 const DeleteDataComponentPill = ({compID}) => {
 
@@ -14,8 +15,17 @@ const DeleteDataComponentPill = ({compID}) => {
 
     function handleOnClick() {
 
-        // Filter out component being deleted
         const c = components;
+        const thisComp = c.get(compID);
+        
+        // Reset table data for sources that were output components of this component
+        if (thisComp.hasOwnProperty('outputComponents')) {
+            thisComp.outputComponents.forEach(id => {
+                c.set(id, {...c.get(id), data: CONSTANTS.BLANK_TABLE_DATA_STR});
+            })
+        }
+
+        // Filter out component being deleted
         c.delete(compID);
 
         /* Remove references to the component being deleted from the other components' sourceComponents

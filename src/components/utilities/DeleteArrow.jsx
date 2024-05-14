@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import AppDataContext from "../../context/AppDataContext";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
+import CONSTANTS from "../../js/app-constants";
 
 const DeleteArrow = ({start, end, arrowID}) => {
 
@@ -29,7 +30,7 @@ const DeleteArrow = ({start, end, arrowID}) => {
         c.get(end).sourceComponents.delete(start);
 
         // delete component's target data
-        c.set(end, {...c.get(end), data: '{"columns": [], "index": [], "data": []}'});
+        c.set(end, {...c.get(end), data: CONSTANTS.BLANK_TABLE_DATA_STR});
         
         const a = arrows;
         a.delete(arrowID);
