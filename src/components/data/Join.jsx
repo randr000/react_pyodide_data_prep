@@ -39,7 +39,25 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
             setOnCol(null);
             updateTargetState(null);
         } else {
-            setColumns(['state', 'city', 'population']);
+            const sourceArray = JSON.parse(sourceData);
+            // console.log(`sourceArray: ${sourceArray}`)
+            // console.log(`sourceArray: ${JSON.stringify(sourceArray)}`)
+            // const columnsA = sourceArray[0]['columns'];
+            // console.log(`colA: ${columnsA}`)
+            // let columnsB = [];
+            // if (sourceArray.length === 2) columnsB = sourceArray[1]['columns'];
+            // console.log(`colB: ${columnsB}`)
+            // setColumns([...new Set(...columnsA, ...columnsB)]);
+            // console.log(`sourceArray0: ${sourceArray[0]}`)
+            // console.log(`sourceArray1: ${sourceArray.length === 2 && sourceArray[1]}`)
+
+            if (!Array.isArray(sourceArray)) setColumns(sourceArray.columns);
+            else {
+                const columnsA = sourceArray[0].columns;
+                let columnsB = [];
+                if (sourceArray.length === 2) columnsB = sourceArray[1].columns;
+                setColumns([...new Set([...columnsA, ...columnsB])]);
+            }
         }
     }
 
