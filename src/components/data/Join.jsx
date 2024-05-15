@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // import other utility component(s)
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
@@ -68,6 +68,7 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
                     onColumn = columnsA.includes(onCol) ? onCol : columnsA[0];
                 };
 
+                setOnCol(onColumn);
                 // Call python function and sets new targetDataJSONStr state
                 updateTargetState(pyodide.globals.get('join')(sourceData, onColumn, joinType));
             }
@@ -82,7 +83,8 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
      * Pass as prop to DataComponentWrapper if necessary
      * 
      * Write here which variables that when their value is changed will trigger the data to be transformed:
-     *  - filteredCols
+     *  - joinType
+     *  - onCol
      * Pass these variables as an array using the targetDataDeps prop to DataComponentWrapper
      * 
      * 
@@ -124,7 +126,7 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
             <div className="d-flex">
                 <Form.Label className="align-self-start" htmlFor={`type-join-select-${compID}`}>Type of Join:</Form.Label>
             </div>
-            <Form.Select id={`type-join-select-${compID}`} value={joinType} onChange={e => setJoinType(e.target.value)} className="mb-2">
+            <Form.Select id={`join-type-select-${compID}`} value={joinType} onChange={e => setJoinType(e.target.value)} className="mb-2">
                 <option value="left">Left</option>
                 <option value="right">Right</option>
                 <option value="outer">Outer</option>

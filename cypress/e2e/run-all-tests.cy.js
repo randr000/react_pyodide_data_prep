@@ -6,5 +6,6 @@ import './test-multiple-sources-data-component.cy';
 import './test-display-table-data.cy';
 import './test-upload-file.cy';
 import './test-filter-columns.cy';
+import './test-join.cy';
 import './test-union.cy';
 import './test-download-files.cy';
