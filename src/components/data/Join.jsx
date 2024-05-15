@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import useGetContexts from '../../custom-hooks/useGetContexts';
+import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
 // import other utility component(s)
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
@@ -10,6 +12,8 @@ import join from '../../python_code_js_modules/join';
 
 const Join = ({compID, cardTitle, iconClassNames}) => {
 
+    const {dispatch} = useGetContexts();
+
     // Type of Join
     const [joinType, setJoinType] = useState('inner');
 
@@ -18,6 +22,10 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
 
     // Column to join data on
     const [onCol, setOnCol] = useState('');
+
+    // Left and Right suffixes for joined columns with same name
+    const [leftSuffix, setLeftSuffix] = useState('left');
+    const [rightSuffix, setRightSuffix] = useState('right');
 
     /**
      * 
@@ -50,7 +58,7 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
                 setOnCol(onColumn);
 
                 // Call python function and sets new targetDataJSONStr state
-                updateTargetState(pyodide.globals.get('join')(`[${JSON.stringify(sourceArray)}]`, onColumn, joinType));
+                updateTargetState(pyodide.globals.get('join')(`[${JSON.stringify(sourceArray)}]`, onColumn, joinType, leftSuffix, rightSuffix));
 
             } else {
                 const columnsA = sourceArray[0].columns;
@@ -70,7 +78,7 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
 
                 setOnCol(onColumn);
                 // Call python function and sets new targetDataJSONStr state
-                updateTargetState(pyodide.globals.get('join')(sourceData, onColumn, joinType));
+                updateTargetState(pyodide.globals.get('join')(sourceData, onColumn, joinType, leftSuffix, rightSuffix));
             }
 
         }
@@ -103,13 +111,21 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
 
             if (!Array.isArray(sourceArray)) {
                 // Call python function and sets new targetDataJSONStr state
-                updateTargetState(pyodide.globals.get('join')(`[${JSON.stringify(sourceArray)}]`, onCol, joinType));
+                updateTargetState(pyodide.globals.get('join')(`[${JSON.stringify(sourceArray)}]`, onCol, joinType, leftSuffix, rightSuffix));
 
             } else {
                 // Call python function and sets new targetDataJSONStr state
-                updateTargetState(pyodide.globals.get('join')(sourceData, onCol, joinType));
+                updateTargetState(pyodide.globals.get('join')(sourceData, onCol, joinType, leftSuffix, rightSuffix));
             }
         }
+    }
+
+    function handleOnMouseOver() {
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: true});
+    }
+
+    function handleOnMouseOut() {
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: false});
     }
 
     return (
@@ -120,13 +136,20 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
             iconClassNames={iconClassNames}
             updateTargetData={updateTargetData}
             transformTargetData={transformTargetData}
-            targetDataDeps={[joinType, onCol]}
+            targetDataDeps={[joinType, onCol, leftSuffix, rightSuffix]}
             maxSources={2}
         >   
             <div className="d-flex">
-                <Form.Label className="align-self-start" htmlFor={`type-join-select-${compID}`}>Type of Join:</Form.Label>
+                <Form.Label className="align-self-start" htmlFor={`join-type-select-${compID}`}>Type of Join:</Form.Label>
             </div>
-            <Form.Select id={`join-type-select-${compID}`} value={joinType} onChange={e => setJoinType(e.target.value)} className="mb-2">
+            <Form.Select
+                id={`join-type-select-${compID}`}
+                value={joinType}
+                onChange={e => setJoinType(e.target.value)}
+                className="mb-2"
+                onMouseOver={handleOnMouseOver}
+                onMouseOut={handleOnMouseOut}
+            >
                 <option value="left">Left</option>
                 <option value="right">Right</option>
                 <option value="outer">Outer</option>
@@ -140,9 +163,39 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
                     <div className="d-flex">
                         <Form.Label className="align-self-start" htmlFor={`on-col-select-${compID}`}>Join On:</Form.Label>
                     </div>
-                    <Form.Select id={`on-col-select-${compID}`} value={onCol} className="mb-2" onChange={e => setOnCol(e.target.value)}>
+                    <Form.Select
+                        id={`on-col-select-${compID}`}
+                        value={onCol} className="mb-2"
+                        onChange={e => setOnCol(e.target.value)}
+                        onMouseOver={handleOnMouseOver}
+                        onMouseOut={handleOnMouseOut}
+                    >
                         {columns.map(col => <option key={col} value={col}>{col}</option>)}
                     </Form.Select>
+
+                    <div className="d-flex">
+                        <Form.Label className="align-self-start" htmlFor={`left-suffix-${compID}`}>Left Suffix:</Form.Label>
+                    </div>
+                    <Form.Control 
+                        type="text"
+                        id={`left-suffix-${compID}`}
+                        value={leftSuffix} 
+                        onChange={e => setLeftSuffix(e.target.value)}
+                        onMouseOver={handleOnMouseOver}
+                        onMouseOut={handleOnMouseOut}
+                    />
+
+                    <div className="d-flex mt-2">
+                        <Form.Label className="align-self-start" htmlFor={`right-suffix-${compID}`}>Right Suffix:</Form.Label>
+                    </div>
+                    <Form.Control   
+                        type="text"
+                        id={`right-suffix-${compID}`}
+                        value={rightSuffix}
+                        onChange={e => setRightSuffix(e.target.value)}
+                        onMouseOver={handleOnMouseOver}
+                        onMouseOut={handleOnMouseOut}
+                    />
                 </div>
             }
             
