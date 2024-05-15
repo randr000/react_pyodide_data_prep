@@ -133,6 +133,11 @@ class TestAll(unittest.TestCase):
         expected_value = load_json(city_populations_filtered_pop_gte_456229)
         self.assertEqual(test_value, expected_value)
 
+        # test when error
+        test_value = json.loads(filter_rows(input, 'sdgrgerg', '==', 'dsg'))
+        expected_value = load_json(city_populations_json_split)
+        self.assertEqual(test_value, expected_value)
+
     def test_df_to_output(self):
 
         # test input is formatted correctly for output file types
