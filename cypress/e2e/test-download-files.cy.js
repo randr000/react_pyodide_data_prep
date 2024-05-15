@@ -35,6 +35,21 @@ describe('Downloading files and verifying contents', () => {
         cy.assertTable('city-populations-filtered-out-state-split.json');
     });
 
+    it('Should download files from Filter Rows component', () => {
+        cy.clickNavBarButton('Upload');
+        cy.clickNavBarButton('Filter Rows');
+        cy.connectDataComponents(0, 1, {force: true});
+        cy.uploadFile('city-populations.csv');
+        cy.get('#filter-row-col-sel-1').select('state');
+        cy.get('#filter-row-op-sel-1').select('!=');
+        cy.get('#filter-row-value-1').clear().type('California');
+        cy.validateDownload('Filter Rows', 1, 'city-pop', ['csv', 'xlsx', 'json-split']);
+        cy.clickNavBarButton('Remove All');
+        cy.clickNavBarButton('Upload', {force: true});
+        cy.uploadFile('city-pop.csv', false, 'cypress/downloads/');
+        cy.assertTable('city-populations-filtered-out-California-split.json');
+    });
+
     it("Should download files from the Join component", () => {
         cy.clickNavBarButton('Upload');
         cy.clickNavBarButton('Upload');
