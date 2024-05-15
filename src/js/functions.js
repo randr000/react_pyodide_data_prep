@@ -2,10 +2,9 @@ import DATA_COMPONENT_TYPES from "./dataComponentTypes";
 import FileUpload from "../components/data/FileUpload";
 import FileDownload from "../components/data/FileDownload";
 import FilterCols from "../components/data/FilterCols";
+import FilterRows from "../components/data/FilterRows";
 import Join from "../components/data/Join";
 import Union from "../components/data/Union";
-import { utils, writeFileXLSX } from 'xlsx';
-import df_to_output from "../python_code_js_modules/df_to_output";
 
 /**
  * Creates a URL string pointing to the file passed as the argument 
@@ -50,6 +49,13 @@ export function dataComponentMaker(obj) {
             return <FilterCols 
                 compID={compID}
                 cardTitle="Filter Columns"
+                iconClassNames="bi bi-funnel"
+            />;
+
+        case DATA_COMPONENT_TYPES.FILTER_ROWS:
+            return <FilterRows 
+                compID={compID}
+                cardTitle="Filter Rows"
                 iconClassNames="bi bi-funnel"
             />;
 

@@ -35,7 +35,7 @@ const NavBar = () => {
                     <NavBarComponentButton btnText="Upload" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_UPLOAD, false)}/>
                     <NavBarComponentButton btnText="Download" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILE_DOWNLOAD)}/>
                     <NavBarComponentButton btnText="Filter Columns" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILTER_COLS)}/>
-                    <NavBarComponentButton btnText="Filter Rows" />
+                    <NavBarComponentButton btnText="Filter Rows" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILTER_ROWS)}/>
                     <NavBarComponentButton btnText="Join" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.JOIN)}/>
                     <NavBarComponentButton btnText="Union" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.UNION)}/>
                 </div>
