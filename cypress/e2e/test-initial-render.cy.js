@@ -1,5 +1,5 @@
 import CONSTANTS from "../../src/js/app-constants";
-import { initialRenderTestTitle } from "./cy-constants";
+import { initialRenderTestTitle, navbarComponentBtns, navbarUtilityBtns } from "./cy-constants";
 
 it(initialRenderTestTitle,() => {
 
@@ -12,7 +12,7 @@ it(initialRenderTestTitle,() => {
   // Test if spinner shows up
   cy.get('[data-testid=pyodide-loading-spinner]').should('exist');
 
-  const elements = ['Upload', 'Download', 'Filter Columns', 'Filter Rows', 'Join', 'Union', 'Remove All'];
+  const elements = [...navbarComponentBtns, ...navbarUtilityBtns];
   elements.forEach(name => cy.get('nav').contains('button', name).should('exist'));
 
   cy.assertPyodideIsLoaded();

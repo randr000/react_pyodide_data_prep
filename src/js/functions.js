@@ -5,6 +5,7 @@ import FilterCols from "../components/data/FilterCols";
 import FilterRows from "../components/data/FilterRows";
 import Join from "../components/data/Join";
 import Union from "../components/data/Union";
+import Script from "../components/data/Script";
 
 /**
  * Creates a URL string pointing to the file passed as the argument 
@@ -34,7 +35,6 @@ export function dataComponentMaker(obj) {
             return <FileUpload
                 compID={compID}
                 cardTitle="Upload"
-                fileExtension="csv"
                 iconClassNames={false}
             />;
 
@@ -71,6 +71,13 @@ export function dataComponentMaker(obj) {
                 compID={compID}
                 cardTitle={"Union"}
                 iconClassNames={"bi bi-union"}
+            />;
+
+        case DATA_COMPONENT_TYPES.SCRIPT:
+            return <Script
+                compID={compID}
+                cardTitle={"Script"}
+                iconClassNames={"bi bi-filetype-py"}
             />;
     }
 }

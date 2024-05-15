@@ -38,6 +38,7 @@ const NavBar = () => {
                     <NavBarComponentButton btnText="Filter Rows" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.FILTER_ROWS)}/>
                     <NavBarComponentButton btnText="Join" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.JOIN)}/>
                     <NavBarComponentButton btnText="Union" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.UNION)}/>
+                    <NavBarComponentButton btnText="Script" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.SCRIPT)}/>
                 </div>
                 <div className="d-flex justify-content-end">
                     <button className="btn btn-danger mx-1" onClick={handleOnclickRemoveAll}>Remove All</button>
