@@ -1,0 +1,47 @@
+{
+    "columns": [
+        "state",
+        "city",
+        "population"
+    ],
+    "index": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+    ],
+    "data": [
+        [
+            "Florida",
+            "Miami",
+            456229
+        ],
+        [
+            "Florida",
+            "Tampa",
+            408438
+        ],
+        [
+            "Florida",
+            "Orlando",
+            324429
+        ],
+        [
+            "New York",
+            "Buffalo",
+            275352
+        ],
+        [
+            "New York",
+            "Rochester",
+            207537
+        ],
+        [
+            "New York",
+            "Yonkers",
+            205253
+        ]
+    ]
+}

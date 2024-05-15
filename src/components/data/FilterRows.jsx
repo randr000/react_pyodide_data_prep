@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // import other utility component(s)
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
@@ -7,6 +7,14 @@ import DataComponentWrapper from '../utilities/DataComponentWrapper';
 // import filter_cols from '../../python_code_js_modules/filter_cols';
 
 const FilterRows = ({compID, cardTitle, iconClassNames}) => {
+
+    const [columns, setColumns] = useState(['state', 'city', 'population']);
+
+    const [col, setCol] = useState(columns[0])
+
+    const [operator, setOperator] = useState('==');
+
+    const [colValue, setColValue] = useState(null);
 
     /**
      * 
@@ -21,7 +29,10 @@ const FilterRows = ({compID, cardTitle, iconClassNames}) => {
      */
     function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
         if (!sourceData) {
-            return;
+            setColumns([]);
+            setCol('');
+            setOperator('==');
+            setColValue(null);
         }
         else {
             return;   
@@ -58,7 +69,7 @@ const FilterRows = ({compID, cardTitle, iconClassNames}) => {
             iconClassNames={iconClassNames}
             updateTargetData={updateTargetData}
             transformTargetData={transformTargetData}
-            targetDataDeps={[]}
+            targetDataDeps={[col, operator, colValue]}
         >
             
         </DataComponentWrapper>

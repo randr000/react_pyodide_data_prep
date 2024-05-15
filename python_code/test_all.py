@@ -9,6 +9,7 @@ sys.modules['pyodide'] = MagicMock()
 from test1 import mult
 from input_to_df import input_to_df
 from filter_cols import filter_cols
+from filter_rows import filter_rows
 from df_to_output import df_to_output
 from join import join
 from union import union
@@ -37,6 +38,15 @@ city_state_outer_split = '../test_data/city-state-outer-split.json'
 city_state_left_split = '../test_data/city-state-left-split.json'
 city_state_right_split = '../test_data/city-state-right-split.json'
 city_state_cross_split = '../test_data/city-state-cross-split.json'
+city_populations_filtered_out_California = '../test_data/city-populations-filtered-out-California-split.json'
+city_populations_filtered_for_California = '../test_data/city-populations-filtered-for-California-split.json'
+city_populations_filtered_for_pop_456229 = '../test_data/city-populations-filtered-for-pop-456229-split.json'
+city_populations_filtered_out_pop_456229 = '../test_data/city-populations-filtered-out-pop-456229-split.json'
+
+city_populations_filtered_pop_lt_456229 = '../test_data/city-populations-filtered-pop-lt-456229-split.json'
+city_populations_filtered_pop_gt_456229 = '../test_data/city-populations-filtered-pop-gt-456229-split.json'
+city_populations_filtered_pop_lte_456229 = '../test_data/city-populations-filtered-pop-lte-456229-split.json'
+city_populations_filtered_pop_gte_456229 = '../test_data/city-populations-filtered-pop-gte-456229-split.json'
 
 class TestAll(unittest.TestCase):
 
@@ -78,6 +88,49 @@ class TestAll(unittest.TestCase):
         # test when state and city are filtered out
         test_value = json.loads(filter_cols(input, ['population']))
         expected_value = load_json(city_populations_filtered_out_state_and_city)
+        self.assertEqual(test_value, expected_value)
+
+    def test_filter_rows(self):
+        input = read_file(city_populations_json_split)
+
+        # test when filtering for California
+        test_value = json.loads(filter_rows(input, 'state', '==', 'California'))
+        expected_value = load_json(city_populations_filtered_for_California)
+        self.assertEqual(test_value, expected_value)
+
+        # test when filtering when population is 456229
+        test_value = json.loads(filter_rows(input, 'population', '==', 456_229))
+        expected_value = load_json(city_populations_filtered_for_pop_456229)
+        self.assertEqual(test_value, expected_value)
+
+        # test when California is filtered out
+        test_value = json.loads(filter_rows(input, 'state', '!=', 'California'))
+        expected_value = load_json(city_populations_filtered_out_California)
+        self.assertEqual(test_value, expected_value)
+
+        # test when filtering when population does not equal 456229
+        test_value = json.loads(filter_rows(input, 'population', '!=', 456_229))
+        expected_value = load_json(city_populations_filtered_out_pop_456229)
+        self.assertEqual(test_value, expected_value)
+
+        # test when filtering when population is less than 456229
+        test_value = json.loads(filter_rows(input, 'population', '<', 456_229))
+        expected_value = load_json(city_populations_filtered_pop_lt_456229)
+        self.assertEqual(test_value, expected_value)
+
+        # test when filtering when population is more than 456229
+        test_value = json.loads(filter_rows(input, 'population', '>', 456_229))
+        expected_value = load_json(city_populations_filtered_pop_gt_456229)
+        self.assertEqual(test_value, expected_value)
+
+        # test when filtering when population is less than or equal 456229
+        test_value = json.loads(filter_rows(input, 'population', '<=', 456_229))
+        expected_value = load_json(city_populations_filtered_pop_lte_456229)
+        self.assertEqual(test_value, expected_value)
+
+        # test when filtering when population is more than or equal 456229
+        test_value = json.loads(filter_rows(input, 'population', '>=', 456_229))
+        expected_value = load_json(city_populations_filtered_pop_gte_456229)
         self.assertEqual(test_value, expected_value)
 
     def test_df_to_output(self):

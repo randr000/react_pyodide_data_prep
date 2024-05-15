@@ -1,0 +1,35 @@
+{
+    "columns": [
+        "state",
+        "city",
+        "population"
+    ],
+    "index": [
+        0,
+        1,
+        2,
+        3
+    ],
+    "data": [
+        [
+            "California",
+            "Los Angeles",
+            3850000
+        ],
+        [
+            "California",
+            "San Diego",
+            1400000
+        ],
+        [
+            "California",
+            "San Jose",
+            986300
+        ],
+        [
+            "California",
+            "San Francisco",
+            815201
+        ]
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "columns": [
+        "state",
+        "city",
+        "population"
+    ],
+    "index": [
+        0
+    ],
+    "data": [
+        [
+            "Florida",
+            "Miami",
+            456229
+        ]
+    ]
+}
