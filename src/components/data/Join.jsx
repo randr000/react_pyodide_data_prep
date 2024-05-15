@@ -103,20 +103,12 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
      */
     function transformTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
         if(sourceData) {
-            const sourceArray = JSON.parse(sourceData);
-
+            
             // Load Python function
             if (isPyodideLoaded) pyodide.runPython(join);
             else return;
 
-            if (!Array.isArray(sourceArray)) {
-                // Call python function and sets new targetDataJSONStr state
-                updateTargetState(pyodide.globals.get('join')(`[${JSON.stringify(sourceArray)}]`, onCol, joinType, leftSuffix, rightSuffix));
-
-            } else {
-                // Call python function and sets new targetDataJSONStr state
-                updateTargetState(pyodide.globals.get('join')(sourceData, onCol, joinType, leftSuffix, rightSuffix));
-            }
+            updateTargetState(pyodide.globals.get('join')(sourceData.charAt(0) === '{' ? `[${sourceData}]`: sourceData, onCol, joinType, leftSuffix, rightSuffix));
         }
     }
 
