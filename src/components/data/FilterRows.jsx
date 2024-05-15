@@ -1,20 +1,25 @@
 import React, { useState } from "react";
+import useGetContexts from '../../custom-hooks/useGetContexts';
+import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
 // import other utility component(s)
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
+import { Form } from "react-bootstrap";
 
 // import Python function(s)
-// import filter_cols from '../../python_code_js_modules/filter_cols';
+import filter_rows from '../../python_code_js_modules/filter_rows';
 
 const FilterRows = ({compID, cardTitle, iconClassNames}) => {
 
-    const [columns, setColumns] = useState(['state', 'city', 'population']);
+    const {dispatch} = useGetContexts();
 
-    const [col, setCol] = useState(columns[0])
+    const [columns, setColumns] = useState([]);
 
-    const [operator, setOperator] = useState('==');
+    const [col, setCol] = useState(null)
 
-    const [colValue, setColValue] = useState(null);
+    const [operator, setOperator] = useState('');
+
+    const [colValue, setColValue] = useState('');
 
     /**
      * 
@@ -31,11 +36,20 @@ const FilterRows = ({compID, cardTitle, iconClassNames}) => {
         if (!sourceData) {
             setColumns([]);
             setCol('');
-            setOperator('==');
-            setColValue(null);
+            setOperator('');
+            setColValue('');
+            updateTargetState(null);
         }
         else {
-            return;   
+            const columns = JSON.parse(sourceData).columns;
+            setColumns(columns);
+            setCol(columns[0]);
+
+            // Load Python function
+            if (isPyodideLoaded) pyodide.runPython(filter_rows);
+            else return;
+
+            updateTargetState(pyodide.globals.get('filter_rows')(sourceData, columns[0], operator, prepareColValue(colValue)));
         }
     }
 
@@ -57,8 +71,30 @@ const FilterRows = ({compID, cardTitle, iconClassNames}) => {
      */
     function transformTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
         if (sourceData) {
-            return;
+            
+            // Load Python function
+            if (isPyodideLoaded) pyodide.runPython(filter_rows);
+            else return;
+
+            updateTargetState(pyodide.globals.get('filter_rows')(sourceData, col, operator, prepareColValue(colValue)));
         }
+    }
+
+    /**
+     * 
+     * @param {string} value - converts colValue to number if appropriate
+     * @returns number or string
+     */
+    function prepareColValue(value) {
+        return Number.isNaN(+value) ? value : Number(value);
+    }
+
+    function handleOnMouseOver() {
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: true});
+    }
+
+    function handleOnMouseOut() {
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: false});
     }
 
     return (
@@ -71,7 +107,58 @@ const FilterRows = ({compID, cardTitle, iconClassNames}) => {
             transformTargetData={transformTargetData}
             targetDataDeps={[col, operator, colValue]}
         >
-            
+            {
+                columns.length ?
+
+                <>
+                    <div className="d-flex">
+                        <Form.Label className="align-self-start" htmlFor={`filter-row-col-sel-${compID}`}>Column:</Form.Label>
+                    </div>
+                    <Form.Select
+                        id={`filter-row-col-sel-${compID}`}
+                        value={col}
+                        onChange={e => setCol(e.target.value)}
+                        className="mb-2"
+                        onMouseOver={handleOnMouseOver}
+                        onMouseOut={handleOnMouseOut}
+                    >
+                        {columns.map(c => <option key={c} value={c}>{c}</option>)}
+                    </Form.Select>
+
+                    <div className="d-flex">
+                        <Form.Label className="align-self-start" htmlFor={`filter-row-op-sel-${compID}`}>Operator:</Form.Label>
+                    </div>
+                    <Form.Select
+                        id={`filter-row-op-sel-${compID}`}
+                        value={operator}
+                        onChange={e => setOperator(e.target.value)}
+                        className="mb-2"
+                        onMouseOver={handleOnMouseOver}
+                        onMouseOut={handleOnMouseOut}
+                    >
+                        <option value=""></option>
+                        <option value="==">==</option>
+                        <option value="!=">!=</option>
+                        <option value="<">&lt;</option>
+                        <option value="<=">&le;</option>
+                        <option value=">">&gt;</option>
+                        <option value=">=">&ge;</option>
+                    </Form.Select>
+
+                    <div className="d-flex mt-2">
+                        <Form.Label className="align-self-start" htmlFor={`filter-row-value-${compID}`}>Filter Value:</Form.Label>
+                    </div>
+                    <Form.Control   
+                        type="text"
+                        id={`filter-row-value-${compID}`}
+                        value={colValue}
+                        onChange={e => setColValue(e.target.value)}
+                        onMouseOver={handleOnMouseOver}
+                        onMouseOut={handleOnMouseOut}
+                    />
+
+                </> : null
+            }
         </DataComponentWrapper>
 
     );
