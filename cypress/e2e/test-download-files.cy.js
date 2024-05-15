@@ -35,6 +35,27 @@ describe('Downloading files and verifying contents', () => {
         cy.assertTable('city-populations-filtered-out-state-split.json');
     });
 
+    it("Should download files from the Join component", () => {
+        cy.clickNavBarButton('Upload');
+        cy.clickNavBarButton('Upload');
+        cy.clickNavBarButton('Join');
+        
+        cy.connectDataComponents(0, 2, {force: true});
+        cy.connectDataComponents(1, 2, {force: true});
+       
+        cy.uploadFile('city-populations.csv', 'Upload-0');
+        cy.wait(3000);
+        cy.uploadFile('state-populations-all.txt', 'Upload-1');
+
+        cy.validateDownload('Join', 2, 'city-state-join', ['csv', 'xlsx', 'json-split', 'json-records', 'txt']);
+
+        cy.clickNavBarButton('Remove All');
+        cy.clickNavBarButton('Upload', {force: true});
+        cy.uploadFile('city-state-join.csv', false, 'cypress/downloads/');
+        cy.assertTable('city-state-inner-split.json');
+
+    });
+
     it('Should download files from the Union component', () => {
         cy.clickNavBarButton('Upload');
         cy.clickNavBarButton('Upload');
