@@ -27,7 +27,7 @@ const Union = ({compID, cardTitle, iconClassNames}) => {
                 // Load Python function
                 pyodide.runPython(union);
                 // Call python function and sets new targetDataJSONStr state
-                updateTargetState(pyodide.globals.get('union')(sourceData));
+                updateTargetState(pyodide.globals.get('union')(sourceData.charAt(0) === '{' ? `[${sourceData}]` : sourceData));
             }
         }
 
