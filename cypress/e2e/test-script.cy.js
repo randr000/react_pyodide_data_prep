@@ -128,4 +128,31 @@ describe('Script Component', () => {
         cy.assertTable('script-state-pop-concat-split.json', '[data-testid=table-2]');       
     });
 
+    testName = 'Should show when there is an error in the Python script'
+    it(`${testName} ${uploadFirst}`, () => {
+        cy.clickNavBarButton('Upload');
+        cy.clickNavBarButton('Script');
+
+        cy.uploadFile('city-populations.xlsx', 'Upload-0');
+        cy.connectDataComponents(0, 1, {force: true});
+
+        cy.get('.bi-filetype-py').click();
+        cy.get('#python-script-1').clear().type('df=;', {parseSpecialCharSequences: false});
+        cy.contains('button', 'Save Changes').click();
+
+        cy.get('.bi-filetype-py.text-danger').should('exist');
+        cy.contains('button', 'See Python Error').click();
+        cy.contains(/^PythonError:.*/).should('exist');
+        cy.contains('button', 'Close').click();
+        cy.assertTable('city-populations-split.json', '[data-testid=table-1]');
+        
+        cy.get('.bi-filetype-py').click();
+        cy.get('#python-script-1').clear().type('df=df', {parseSpecialCharSequences: false});
+        cy.contains('button', 'Save Changes').click();
+
+        cy.get('.bi-filetype-py.text-success').should('exist');
+        cy.contains('button', 'See Python Error').should('not.exist');
+        cy.contains(/^PythonError:.*/).should('not.exist');
+        cy.assertTable('city-populations-split.json', '[data-testid=table-1]');
+    });
 });
