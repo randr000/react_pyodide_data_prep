@@ -18,28 +18,25 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
     const [showPythonErrModal, setShowPythonErrModal] = useState(false);
     const [pythonError, setPythonError] = useState(false);
 
-    const prefix = `
-    import pandas as pd
-    from io import StringIO
-    import json
-
-    df_list = [pd.read_json(path_or_buf=StringIO(json.dumps(data)), orient="split") for data in json.loads(jsonStr)]
-    df = df_list[0]
-    `;
+    const prefix = [
+    'import pandas as pd',
+    'from io import StringIO',
+    'import json',
+    'df_list = [pd.read_json(path_or_buf=StringIO(json.dumps(data)), orient="split") for data in json.loads(jsonStr)]',
+    'df = df_list[0]',
+    ];
 
     // The users custom script
     const [body, setBody] = useState('');
 
-    const postfix = `
-    df = df.reset_index(drop=True).to_json(orient='split')
-    `
+    const postfix = ['df = df.reset_index(drop=True).to_json(orient="split")']
 
     // The combined full script
-    const [pyScript, setPyScript] = useState(`${prefix}${body}${postfix}`);
+    const [pyScript, setPyScript] = useState(`${prefix.join('\n')}\n${body}\n${postfix.join('\n')}`);
 
     // Create the full python script whenever body changes
     useEffect(() => {
-        setPyScript(`${prefix}${body}${postfix}`);
+        setPyScript(`${prefix.join('\n')}\n${body}\n${postfix.join('\n')}`);
     }, [body]);
 
     /**
@@ -63,10 +60,12 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
                 let myNamespace = pyodide.toPy({jsonStr: sourceData.charAt(0) === '{' ? `[${sourceData}]` : sourceData});
                 pyodide.runPython(pyScript, {globals: myNamespace});
                 updateTargetState(myNamespace.get('df'));
-                setPythonError(false);             
+                setPythonError(false);
+                // console.log(`pyScript:\n${pyScript}`);  
             } catch (error) {
                 updateTargetState(sourceData.charAt(0) === '{' ? sourceData : JSON.parse(sourceData)[0]);
                 setPythonError(error);
+                // console.log(`pyScript:\n${pyScript}`);
             }
         }
     }
@@ -95,9 +94,11 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
                 pyodide.runPython(pyScript, {globals: myNamespace});
                 updateTargetState(myNamespace.get('df'));
                 setPythonError(false);
+                // console.log(`pyScript:\n${pyScript}`);
             } catch (error) {
                 updateTargetState(sourceData.charAt(0) === '{' ? sourceData : JSON.parse(sourceData)[0]);
                 setPythonError(error);
+                // console.log(`pyScript:\n${pyScript}`);
             }
             
         }
