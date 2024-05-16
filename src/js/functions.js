@@ -77,7 +77,7 @@ export function dataComponentMaker(obj) {
             return <Script
                 compID={compID}
                 cardTitle={"Script"}
-                iconClassNames={"bi bi-filetype-py"}
+                iconClassNames={"bi bi-filetype-py cursor-pointer"}
             />;
     }
 }

@@ -4,7 +4,13 @@ import React, { useEffect, useState } from "react";
 import DataComponentWrapper from "../utilities/DataComponentWrapper";
 import ScriptInputModal from "../utilities/ScriptInputModal";
 
+// import custom hooks
+import useGetContexts from "../../custom-hooks/useGetContexts";
+
 const Script = ({compID, cardTitle, iconClassNames}) => {
+
+    const {appState} = useGetContexts();
+    const {isDragging} = appState;
 
     const [showModal, setShowModal] = useState(false);
 
@@ -59,7 +65,7 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
             updateTargetData={updateTargetData}
-            iconOnClick={() => setShowModal(true)}
+            iconOnClick={() => !isDragging && setShowModal(true)}
             maxSources={Infinity}
         >
             <ScriptInputModal
