@@ -29,6 +29,13 @@ const ScriptInputModal = ({compID, body, setBody, showModal, setShowModal}) => {
         handleClose();
     }
 
+    function handleOnKeyDown(event) {
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            setPythonCode(prev => `${prev}\t`);
+        }
+    }
+
     return (
         <div className="modal show" style={{display: "block", position: "initial"}}>
             <Modal show={showModal} onHide={handleDiscardChanges} size="xl">
@@ -44,6 +51,7 @@ const ScriptInputModal = ({compID, body, setBody, showModal, setShowModal}) => {
                         onChange={e => setPythonCode(e.target.value)}
                         onMouseOver={handleOnMouseOver}
                         onMouseOut={handleOnMouseOut}
+                        onKeyDown={handleOnKeyDown}
                         spellCheck={false}
                     />
                 </Modal.Body>
