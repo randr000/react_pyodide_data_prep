@@ -24,7 +24,7 @@ const NavBar = () => {
     }
 
     return (
-        <>
+        <div className="fixed-top">
             <nav className="navbar bg-light">
                 <div className="container-fluid">
                     <h1 className="navbar-brand">{CONSTANTS.APP_TITLE}</h1>
@@ -44,7 +44,7 @@ const NavBar = () => {
                     <button className="btn btn-danger mx-1" onClick={handleOnclickRemoveAll}>Remove All</button>
                 </div>
             </nav>
-        </>
+        </div>
     );
 };
 

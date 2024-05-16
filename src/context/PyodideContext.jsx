@@ -27,7 +27,9 @@ export const PyodideContextWrapper = ({children, toLoadPyodide=true}) => {
             {
                 isPyodideLoaded ?
                 children :
-                <p className="text-center fs-1 fw-bold">Pyodide is Loading<span data-testid="pyodide-loading-spinner" className="spinner-border" role="status"></span></p>
+                <div className="d-flex align-items-center justify-content-center" style={{height: "100vh"}}>
+                    <p className="text-center fs-1 fw-bold">Pyodide is Loading<span data-testid="pyodide-loading-spinner" className="spinner-border" role="status"></span></p>
+                </div>
             }
             
         </PyodideContext.Provider>
