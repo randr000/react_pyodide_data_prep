@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 // import other utility component(s)
 import DataComponentWrapper from "../utilities/DataComponentWrapper";
 import ScriptInputModal from "../utilities/ScriptInputModal";
+import PythonErrorModal from "../utilities/PythonErrorModal";
+import { Button } from "react-bootstrap";
 
 // import custom hooks
 import useGetContexts from "../../custom-hooks/useGetContexts";
@@ -12,7 +14,9 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
     const {appState} = useGetContexts();
     const {isDragging} = appState;
 
-    const [showModal, setShowModal] = useState(false);
+    const [showScriptModal, setShowScriptModal] = useState(false);
+    const [showPythonErrModal, setShowPythonErrModal] = useState(false);
+    const [pythonError, setPythonError] = useState(false);
 
     const prefix = `
     import pandas as pd
@@ -30,8 +34,10 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
     df = df.reset_index(drop=True).to_json(orient='split')
     `
 
+    // The combined full script
     const [pyScript, setPyScript] = useState(`${prefix}${body}${postfix}`);
 
+    // Create the full python script whenever body changes
     useEffect(() => {
         setPyScript(`${prefix}${body}${postfix}`);
     }, [body]);
@@ -50,12 +56,50 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
     function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
         if (!sourceData) {
             updateTargetState(null);
+            setPythonError(false);
         }
         else if (isPyodideLoaded) {
-            let myNamespace = pyodide.toPy({jsonStr: sourceData.charAt(0) === '{' ? `[${sourceData}]` : sourceData});
-            pyodide.runPython(pyScript, {globals: myNamespace});
-            // console.log(`myNamespace: ${myNamespace.get('df')}`);
-            updateTargetState(myNamespace.get('df'));
+            try {
+                let myNamespace = pyodide.toPy({jsonStr: sourceData.charAt(0) === '{' ? `[${sourceData}]` : sourceData});
+                pyodide.runPython(pyScript, {globals: myNamespace});
+                updateTargetState(myNamespace.get('df'));
+                setPythonError(false);             
+            } catch (error) {
+                updateTargetState(sourceData.charAt(0) === '{' ? sourceData : JSON.parse(sourceData)[0]);
+                setPythonError(error);
+            }
+        }
+    }
+
+    /**
+     * 
+     * Defines the actions to take when the user changes the varaibles of transforming the source data such
+     * as changing which columns to filter, changing which rows to filter, etc.
+     * Pass as prop to DataComponentWrapper if necessary
+     * 
+     * Write here which variables that when their value is changed will trigger the data to be transformed:
+     *  - pyScript
+     * Pass these variables as an array using the targetDataDeps prop to DataComponentWrapper
+     * 
+     * 
+     * 
+     * @param {String} sourceData - A JSON formatted string containing the data to be transformed
+     * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
+     *                                setState function.
+     */
+    function transformTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
+        
+        if(sourceData && isPyodideLoaded) {
+            try {
+                let myNamespace = pyodide.toPy({jsonStr: sourceData.charAt(0) === '{' ? `[${sourceData}]` : sourceData});
+                pyodide.runPython(pyScript, {globals: myNamespace});
+                updateTargetState(myNamespace.get('df'));
+                setPythonError(false);
+            } catch (error) {
+                updateTargetState(sourceData.charAt(0) === '{' ? sourceData : JSON.parse(sourceData)[0]);
+                setPythonError(error);
+            }
+            
         }
     }
 
@@ -63,17 +107,26 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
         <DataComponentWrapper
             compID={compID}
             cardTitle={cardTitle}
-            iconClassNames={iconClassNames}
+            iconClassNames={!pyScript || body === '' ? iconClassNames : pythonError ? `${iconClassNames} text-danger` : `${iconClassNames} text-success`}
             updateTargetData={updateTargetData}
-            iconOnClick={() => !isDragging && setShowModal(true)}
+            transformTargetData={transformTargetData}
+            iconOnClick={() => !isDragging && setShowScriptModal(true)}
+            targetDataDeps={[pyScript]}
             maxSources={Infinity}
-        >
+        >   
+            {pythonError && <Button variant="danger" className="my-2" onClick={() => setShowPythonErrModal(true)}>See Python Error</Button>}
             <ScriptInputModal
                 compID={compID}
                 body={body}
                 setBody={setBody}
-                showModal={showModal}
-                setShowModal={setShowModal}
+                showModal={showScriptModal}
+                setShowModal={setShowScriptModal}
+            />
+            <PythonErrorModal
+                compID={compID}
+                error={pythonError}
+                showModal={showPythonErrModal}
+                setShowModal={setShowPythonErrModal}
             />
         </DataComponentWrapper>
     );

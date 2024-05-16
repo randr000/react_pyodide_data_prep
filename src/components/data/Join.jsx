@@ -93,6 +93,8 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
      * Write here which variables that when their value is changed will trigger the data to be transformed:
      *  - joinType
      *  - onCol
+     *  - leftSuffix
+     *  - rightSuffix
      * Pass these variables as an array using the targetDataDeps prop to DataComponentWrapper
      * 
      * 

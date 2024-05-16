@@ -37,7 +37,7 @@ const ScriptInputModal = ({compID, body, setBody, showModal, setShowModal}) => {
     }
 
     return (
-        <div className="modal show" style={{display: "block", position: "initial"}}>
+        <div id={`script-modal-${compID}`} className="modal show" style={{display: "block", position: "initial"}}>
             <Modal show={showModal} onHide={handleDiscardChanges} size="xl">
                 <Modal.Body>
                     <div className="d-flex mt-2">
