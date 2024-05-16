@@ -31,13 +31,14 @@ const ScriptInputModal = ({compID, body, setBody, showModal, setShowModal}) => {
 
     return (
         <div className="modal show" style={{display: "block", position: "initial"}}>
-            <Modal show={showModal} onHide={handleDiscardChanges}>
+            <Modal show={showModal} onHide={handleDiscardChanges} size="xl">
                 <Modal.Body>
                     <div className="d-flex mt-2">
-                        <Form.Label className="align-self-start" htmlFor={`python-script-${compID}`}>Python Code:</Form.Label>
+                        <Form.Label className="align-self-start" htmlFor={`python-script-${compID}`}>Enter Python Code:</Form.Label>
                     </div>
                     <Form.Control   
                         as="textarea"
+                        rows="25"
                         id={`python-script-${compID}`}
                         value={pythonCode}
                         onChange={e => setPythonCode(e.target.value)}
