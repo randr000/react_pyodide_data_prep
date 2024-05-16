@@ -31,7 +31,7 @@ const ScriptInputModal = ({compID, body, setBody, showModal, setShowModal}) => {
 
     return (
         <div className="modal show" style={{display: "block", position: "initial"}}>
-            <Modal show={showModal} onHide={handleClose}>
+            <Modal show={showModal} onHide={handleDiscardChanges}>
                 <Modal.Body>
                     <div className="d-flex mt-2">
                         <Form.Label className="align-self-start" htmlFor={`python-script-${compID}`}>Python Code:</Form.Label>
@@ -48,7 +48,7 @@ const ScriptInputModal = ({compID, body, setBody, showModal, setShowModal}) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handleSaveChanges}>Save Changes</Button>
-                    <Button variant="danger" onClick={handleDiscardChanges}>Close</Button>
+                    <Button variant="danger" onClick={handleDiscardChanges}>Discard Changes</Button>
                 </Modal.Footer>
             </Modal>
         </div>
