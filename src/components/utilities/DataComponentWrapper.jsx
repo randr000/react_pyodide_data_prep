@@ -9,6 +9,7 @@ import ToggleTablePill from "./ToggleTablePill";
 import DownloadPill from "./DownloadPill";
 import CardSummary from "./CardSummary";
 import Table from "./Table";
+import CONSTANTS from "../../js/app-constants";
 
 const DataComponentWrapper = ({
     children,
@@ -111,7 +112,11 @@ const DataComponentWrapper = ({
                     {canHaveTargets && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
                 </div>
             </div>
-            {targetDataJSONStr && targetDataJSONStr.length > 40 && <Table tableData={targetDataJSONStr} show={showTable} compID={compID} />}
+            {
+                targetDataJSONStr
+                && targetDataJSONStr.length > CONSTANTS.BLANK_TABLE_DATA_STR.length
+                && <Table tableData={targetDataJSONStr} show={showTable} compID={compID} />
+            }
         </DataComponentDragWrapper>
     );
 };

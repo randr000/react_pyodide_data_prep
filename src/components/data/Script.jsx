@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 
 // import other utility component(s)
 import DataComponentWrapper from "../utilities/DataComponentWrapper";
+import ScriptInputModal from "../utilities/ScriptInputModal";
 
 const Script = ({compID, cardTitle, iconClassNames}) => {
+
+    const [showModal, setShowModal] = useState(false);
 
     const prefix = `
     import pandas as pd
@@ -56,8 +59,16 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
             updateTargetData={updateTargetData}
+            iconOnClick={() => setShowModal(true)}
             maxSources={Infinity}
         >
+            <ScriptInputModal
+                compID={compID}
+                body={body}
+                setBody={setBody}
+                showModal={showModal}
+                setShowModal={setShowModal}
+            />
         </DataComponentWrapper>
     );
 };
