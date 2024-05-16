@@ -32,7 +32,6 @@ const ScriptInputModal = ({compID, body, setBody, showModal, setShowModal}) => {
     return (
         <div className="modal show" style={{display: "block", position: "initial"}}>
             <Modal show={showModal} onHide={handleClose}>
-                <Modal.Header closeButton/>
                 <Modal.Body>
                     <div className="d-flex mt-2">
                         <Form.Label className="align-self-start" htmlFor={`python-script-${compID}`}>Python Code:</Form.Label>
