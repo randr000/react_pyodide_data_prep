@@ -1,3 +1,5 @@
+import { pythonScripts } from "./cy-constants";
+
 describe('Downloading files and verifying contents', () => {
     it('Should download files from Upload component', () => {
         cy.clickNavBarButton('Upload');
@@ -93,5 +95,28 @@ describe('Downloading files and verifying contents', () => {
         cy.clickNavBarButton('Upload', {force: true});
         cy.uploadFile('state-pop.txt', false, 'cypress/downloads/');
         cy.assertTable('state-populations-all-split.json');
+    });
+
+    it('Should download files from Script Component', () => {
+        cy.clickNavBarButton('Upload');
+        cy.clickNavBarButton('Upload');
+        cy.clickNavBarButton('Script');
+
+        cy.uploadFile('state-populations-2.xlsx', 'Upload-0');
+        cy.uploadFile('state-populations-3.xlsx', 'Upload-1');
+        cy.connectDataComponents(0, 2, {force: true});
+        cy.connectDataComponents(1, 2, {force: true});
+
+        cy.get('.bi-filetype-py').click();
+        cy.get('#python-script-2').clear().type(pythonScripts.concatByIndex, {parseSpecialCharSequences: false});
+        cy.contains('button', 'Save Changes').click();
+
+        cy.validateDownload('Script', 2, 'script-test', ['csv', 'xlsx']);
+
+        cy.clickNavBarButton('Remove All');
+        cy.clickNavBarButton('Upload', {force: true});
+        cy.uploadFile('script-test.xlsx', false, 'cypress/downloads/');
+
+        cy.assertTable('script-state-pop-concat-split.json');
     });
 });

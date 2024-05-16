@@ -1,4 +1,3 @@
-import { wait } from "@testing-library/user-event/dist/utils";
 import { pythonScripts } from "./cy-constants";
 
 const {capitalizeColumns, applyStateUppercase, multiplyPopByTwo, concatByIndex} = pythonScripts;
