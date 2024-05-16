@@ -10,3 +10,4 @@ import './test-filter-rows.cy';
 import './test-join.cy';
 import './test-union.cy';
 import './test-download-files.cy';
+import './test-script.cy';

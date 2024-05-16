@@ -1,0 +1,19 @@
+{
+    "columns": [
+        "state-1",
+        "population-1",
+        "state-2",
+        "population-2"
+    ],
+    "index": [
+        0
+    ],
+    "data": [
+        [
+            "Florida",
+            22610726,
+            "New York",
+            19571216
+        ]
+    ]
+}

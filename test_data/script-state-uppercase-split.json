@@ -1,0 +1,107 @@
+{
+    "columns": [
+        "state",
+        "city",
+        "population"
+    ],
+    "index": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+    ],
+    "data": [
+        [
+            "CALIFORNIA",
+            "Los Angeles",
+            3850000
+        ],
+        [
+            "CALIFORNIA",
+            "San Diego",
+            1400000
+        ],
+        [
+            "CALIFORNIA",
+            "San Jose",
+            986300
+        ],
+        [
+            "CALIFORNIA",
+            "San Francisco",
+            815201
+        ],
+        [
+            "TEXAS",
+            "Houston",
+            2296253
+        ],
+        [
+            "TEXAS",
+            "San Antonio",
+            1445662
+        ],
+        [
+            "TEXAS",
+            "Dallas",
+            1300642
+        ],
+        [
+            "TEXAS",
+            "Austin",
+            958202
+        ],
+        [
+            "FLORIDA",
+            "Jacksonville",
+            990931
+        ],
+        [
+            "FLORIDA",
+            "Miami",
+            456229
+        ],
+        [
+            "FLORIDA",
+            "Tampa",
+            408438
+        ],
+        [
+            "FLORIDA",
+            "Orlando",
+            324429
+        ],
+        [
+            "NEW YORK",
+            "New York City",
+            7931147
+        ],
+        [
+            "NEW YORK",
+            "Buffalo",
+            275352
+        ],
+        [
+            "NEW YORK",
+            "Rochester",
+            207537
+        ],
+        [
+            "NEW YORK",
+            "Yonkers",
+            205253
+        ]
+    ]
+}
