@@ -3,13 +3,14 @@ import Draggable from "react-draggable";
 import { useXarrow } from "react-xarrows";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import useGetContexts from "../../custom-hooks/useGetContexts";
+import CONSTANTS from "../../js/app-constants";
 
 const DataComponentDragWrapper = ({children}) => {
 
     const updateXarrow = useXarrow();
 
     const {appState, dispatch} = useGetContexts();
-    const {isDraggingDisabled} = appState;
+    const {isDraggingDisabled, defaultX, defaultY} = appState;
 
     // To prevent warning when running in React strict mode
     // Followed steps from React-Draggable documentation
@@ -27,7 +28,7 @@ const DataComponentDragWrapper = ({children}) => {
             dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING, payload: false});
         }, 0);
     }
-
+ 
     return (
         <div className="d-flex" style={{position: "absolute"}}>
             <Draggable
@@ -36,7 +37,7 @@ const DataComponentDragWrapper = ({children}) => {
                 onDrag={handleOnDrag}
                 onStop={handleOnStop}
                 disabled={isDraggingDisabled}
-                defaultPosition={{x: 2, y: 150}}
+                defaultPosition={{x: defaultX + CONSTANTS.DEFAULT_X_OFFSET, y: defaultY + CONSTANTS.DEFAULT_Y_OFFSET}}
             >
                 <div ref={nodeRef} className="d-flex align-items-start cursor-grab">
                     {children}

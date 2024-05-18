@@ -67,5 +67,7 @@ export const appReducer = (state, action) => {
             return {...state, isDraggingDisabled: payload};
         case APP_ACTION_TYPES.REMOVE_ALL:
             return {...state, ...resetState()}
+        case APP_ACTION_TYPES.UPDATE_DEFAULT_COORDINATES:
+            return {...state, ...payload};
     }
 };

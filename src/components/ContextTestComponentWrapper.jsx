@@ -1,31 +1,40 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppDataContext from '../context/AppDataContext';
 import { dataComponentMaker } from '../js/functions';
 import Xarrow, { useXarrow } from 'react-xarrows';
 import DeleteArrow from './utilities/DeleteArrow';
-import FileUpload from './data/FileUpload';
-import Filter from './data/FilterCols';
-import FileDownload from './data/FileDownload';
+import APP_ACTION_TYPES from '../action-types/appActionTypes';
 
 const ContextTestComponentWrapper = () => {
 
-    // const [uploadedFile, setUploadedFile] = useState(null);
-    // const [filteredData, setFilteredData] = useState(null);
     const {appState, dispatch} = useContext(AppDataContext);
     const {components, arrows} = appState;
     const updateXarrow = useXarrow();
 
     useEffect(() => {
-        // Debugging purposes only
-        // console.log(`nextID: ${appState.nextID}`);
-        // console.log('connectComponents:', appState.connectComponents);
-        // console.log('components:', appState.components);
-        // console.log('arrows:', appState.arrows);
         updateXarrow();
     }, [appState]);
+    
+    /**
+     * Adjust the default x and y coordinates for a new data component when the user scrolls the page.
+     * This allows a new component to appear on the top left of the current viewport regardless of where the user has
+     * scrolled to.
+     * 
+     */
+    function handleScroll() {
+        dispatch({
+            type: APP_ACTION_TYPES.UPDATE_DEFAULT_COORDINATES,
+            payload: {defaultX: window.scrollX, defaultY: window.scrollY}
+        });
+    }
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll); 
+    }, []);
 
     return (
-        <>
+        <div>
             {Array.from(components.values()).map(c => <div key={c.compID}>{dataComponentMaker({type: c.type, compID: c.compID})}</div>)}
             {Array.from(arrows.values()).map(a => <Xarrow 
                 key={a.arrowID}
@@ -35,7 +44,7 @@ const ContextTestComponentWrapper = () => {
                 endAnchor='top'
                 zIndex={0}
                 labels={<DeleteArrow start={parseInt(a.start)} end={parseInt(a.end)} arrowID={a.arrowID}/>} />)}
-        </>
+        </div>
     );
 };
 

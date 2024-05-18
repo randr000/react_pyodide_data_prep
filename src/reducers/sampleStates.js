@@ -7,7 +7,10 @@ const sampleStates = {
         nextID: 0,
         connectComponents: false,
         components: new Map(),
-        arrows: new Map()
+        arrows: new Map(),
+
+        defaultX: 0,
+        defaultY: 0
     },
 
     b: {
