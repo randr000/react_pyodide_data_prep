@@ -14,7 +14,6 @@ import { createObjectURL } from '../../js/functions';
 // import error messages
 import ERROR_MSG from '../../js/error_messages';
 
-
 const FileUpload = ({compID, cardTitle, iconClassNames}) => {
 
     // In order to adjust upload zone styles depending on file state

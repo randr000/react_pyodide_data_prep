@@ -7,7 +7,6 @@ import DataComponentWrapper from '../utilities/DataComponentWrapper';
 // import Python function(s)
 import filter_cols from '../../python_code_js_modules/filter_cols';
 
-
 const FilterCols = ({compID, cardTitle, iconClassNames}) => {
 
     const [filteredCols, setFilteredCols] = useState([]);
