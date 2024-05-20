@@ -19,7 +19,6 @@ const TestComponentWrapper = () => {
                 />
                 {
                     uploadedFile &&
-                    // true &&
                     <>
                         <Filter
                             jsonData={uploadedFile}
