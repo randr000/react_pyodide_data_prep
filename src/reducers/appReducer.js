@@ -56,7 +56,7 @@ export const appReducer = (state, action) => {
         case APP_ACTION_TYPES.ADD_ARROW:
             return {...state, arrows: new Map([...arrows, [payload.id, payload.data]])};
         case APP_ACTION_TYPES.REMOVE_ARROW:
-            return {...state, components: payload.components, arrows: payload.arrows}
+            return {...state, components: payload.components, arrows: payload.arrows};
         case APP_ACTION_TYPES.MODIFY_COMPONENT_DATA:
             return {...state, components: payload};
         case APP_ACTION_TYPES.ADD_SOURCE_OUTPUT_REFS:
