@@ -12,7 +12,7 @@ function resetState() {
     };
 }
 
-export const APP_INITIAL_STATE = {...sampleStates.a};
+export const APP_INITIAL_STATE = {...sampleStates.b};
 
 /*
 *   APP INITIAL STATE:

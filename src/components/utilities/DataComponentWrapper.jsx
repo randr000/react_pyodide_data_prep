@@ -81,7 +81,7 @@ const DataComponentWrapper = ({
     const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
 
     return (
-        <DataComponentDragWrapper>
+        <DataComponentDragWrapper coordinates={thisComponent.coordinates}>
             <div data-testid={`${cardTitle}-${compID}`} className="card border border-primary border-3" style={{width: "12rem"}}>
                 <div className="card-body text-center">
                     <DeleteDataComponentPill compID={compID} />

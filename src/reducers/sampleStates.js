@@ -21,13 +21,15 @@ const sampleStates = {
             [0, {
                 type: DATA_COMPONENT_TYPES.FILE_UPLOAD,
                 compID: 0,
-                outputComponents: new Set([1])
+                outputComponents: new Set([1]),
+                coordinates: {x: 300, y: 100}
             }],
             [1, {
                 type: DATA_COMPONENT_TYPES.FILTER_COLS,
                 compID: 1,
                 outputComponents: new Set([]),
-                sourceComponents: new Set([0])
+                sourceComponents: new Set([0]),
+                coordinates: {x: 1000, y: 1000}
             }]
         ]),
         arrows: new Map([
@@ -37,7 +39,10 @@ const sampleStates = {
                 end: '1-top',
                 compIDs: new Set([0, 1])
             }]
-        ])
+        ]),
+
+        defaultX: 0,
+        defaultY: 0
     },
     
     c: {
