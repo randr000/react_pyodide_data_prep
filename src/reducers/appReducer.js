@@ -70,6 +70,6 @@ export const appReducer = (state, action) => {
         case APP_ACTION_TYPES.UPDATE_DEFAULT_COORDINATES:
             return {...state, ...payload};
         case APP_ACTION_TYPES.UPDATE_COMPONENT_LAST_COORDINATES:
-            return {...state, components: new Map([...components, [payload.compID, {...components.get(payload.compID), coordinates: {...payload.coords}}]])}
+            return {...state, components: new Map([...components, [payload.compID, {...components.get(payload.compID), coordinates: {...payload.coords}}]])};
     }
 };
