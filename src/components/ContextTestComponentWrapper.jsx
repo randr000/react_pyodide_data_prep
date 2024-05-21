@@ -13,6 +13,7 @@ const ContextTestComponentWrapper = () => {
 
     useEffect(() => {
         updateXarrow();
+        console.log(`components: ${JSON.stringify(Object.fromEntries([...appState.components]),null,4)}`);
     }, [appState]);
     
     /**

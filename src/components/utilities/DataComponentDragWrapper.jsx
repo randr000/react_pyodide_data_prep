@@ -5,7 +5,7 @@ import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import useGetContexts from "../../custom-hooks/useGetContexts";
 import CONSTANTS from "../../js/app-constants";
 
-const DataComponentDragWrapper = ({children, coordinates}) => {
+const DataComponentDragWrapper = ({children, compID, coordinates}) => {
 
     const updateXarrow = useXarrow();
 
@@ -38,6 +38,14 @@ const DataComponentDragWrapper = ({children, coordinates}) => {
         setTimeout(() => {
             dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING, payload: false});
         }, 0);
+
+        /* Updates the x and y coordinates of where the element was dragged to in order to be used
+        if the app state is ever loaded from memory or file */
+        const rect = nodeRef.current.getBoundingClientRect();
+        dispatch({
+            type: APP_ACTION_TYPES.UPDATE_COMPONENT_LAST_COORDINATES,
+            payload: {compID: compID, coords: {x: rect.left, y: rect.top}}
+        })
     }
  
     return (

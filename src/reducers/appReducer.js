@@ -12,7 +12,7 @@ function resetState() {
     };
 }
 
-export const APP_INITIAL_STATE = {...sampleStates.b};
+export const APP_INITIAL_STATE = {...sampleStates.a};
 
 /*
 *   APP INITIAL STATE:
@@ -43,7 +43,7 @@ export const APP_INITIAL_STATE = {...sampleStates.b};
 
 export const appReducer = (state, action) => {
     const {type, payload} = action;
-    const {nextID, connectComponents, components, arrows} = state;
+    const {nextID, components, arrows} = state;
     switch(type) {
         case APP_ACTION_TYPES.ADD_DATA_COMPONENT:
             return {...state, nextID: nextID + 1, components: new Map([...components, [nextID, payload]])};
@@ -69,5 +69,7 @@ export const appReducer = (state, action) => {
             return {...state, ...resetState()}
         case APP_ACTION_TYPES.UPDATE_DEFAULT_COORDINATES:
             return {...state, ...payload};
+        case APP_ACTION_TYPES.UPDATE_COMPONENT_LAST_COORDINATES:
+            return {...state, components: new Map([...components, [payload.compID, {...components.get(payload.compID), coordinates: {...payload.coords}}]])}
     }
 };
