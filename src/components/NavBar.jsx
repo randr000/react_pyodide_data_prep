@@ -36,8 +36,13 @@ const NavBar = () => {
             isDragging: appState.isDragging,
             isDraggingDisabled: appState.isDraggingDisabled,
             nextID: appState.nextID,
-            components: [...appState.components],
-            arrows: [...appState.arrows]
+            components: [...appState.components].map(comp => {
+                let compData = comp[1];
+                if (compData.hasOwnProperty('outputComponents')) compData = {...compData, outputComponents: [...compData.outputComponents]};
+                if (compData.hasOwnProperty('sourceComponents')) compData = {...compData, sourceComponents: [...compData.sourceComponents]};
+                return [comp[0], compData];
+            }),
+            arrows: [...appState.arrows].map(arrow => [arrow[0], {...arrow[1], compIDs: [...arrow[1].compIDs]}])
         }, null, 4);
         
         const blob = new Blob([downloadState], {type: 'application/json'});
