@@ -7,7 +7,7 @@ describe('Downloading files and verifying contents', () => {
         cy.validateDownload('Upload', 0, 'state-populations', ['xlsx']);
         cy.clickNavBarButton('Remove All');
         cy.clickNavBarButton('Upload', {force: true});
-        cy.uploadFile('state-populations.xlsx', false, 'cypress/downloads/');
+        cy.uploadFile('state-populations.xlsx', 'Upload-0', 'cypress/downloads/');
         cy.assertTable('state-populations-all-split.json');
     });
 
@@ -19,7 +19,7 @@ describe('Downloading files and verifying contents', () => {
         cy.validateDownload('Download', 1, 'state-populations', ['xlsx']);
         cy.clickNavBarButton('Remove All');
         cy.clickNavBarButton('Upload', {force: true});
-        cy.uploadFile('state-populations.xlsx', false, 'cypress/downloads/');
+        cy.uploadFile('state-populations.xlsx', 'Upload-0', 'cypress/downloads/');
         cy.assertTable('state-populations-all-split.json');
 
     });
@@ -33,7 +33,7 @@ describe('Downloading files and verifying contents', () => {
         cy.validateDownload('Filter Columns', 1, 'city-pop', ['csv', 'xlsx', 'json-split']);
         cy.clickNavBarButton('Remove All');
         cy.clickNavBarButton('Upload', {force: true});
-        cy.uploadFile('city-pop.xlsx', false, 'cypress/downloads/');
+        cy.uploadFile('city-pop.xlsx', 'Upload-0', 'cypress/downloads/');
         cy.assertTable('city-populations-filtered-out-state-split.json');
     });
 
@@ -48,7 +48,7 @@ describe('Downloading files and verifying contents', () => {
         cy.validateDownload('Filter Rows', 1, 'city-pop', ['csv', 'xlsx', 'json-split']);
         cy.clickNavBarButton('Remove All');
         cy.clickNavBarButton('Upload', {force: true});
-        cy.uploadFile('city-pop.csv', false, 'cypress/downloads/');
+        cy.uploadFile('city-pop.csv', 'Upload-0', 'cypress/downloads/');
         cy.assertTable('city-populations-filtered-out-California-split.json');
     });
 
@@ -68,7 +68,7 @@ describe('Downloading files and verifying contents', () => {
 
         cy.clickNavBarButton('Remove All');
         cy.clickNavBarButton('Upload', {force: true});
-        cy.uploadFile('city-state-join.csv', false, 'cypress/downloads/');
+        cy.uploadFile('city-state-join.csv', 'Upload-0', 'cypress/downloads/');
         cy.assertTable('city-state-inner-split.json');
 
     });
@@ -93,7 +93,7 @@ describe('Downloading files and verifying contents', () => {
 
         cy.clickNavBarButton('Remove All');
         cy.clickNavBarButton('Upload', {force: true});
-        cy.uploadFile('state-pop.txt', false, 'cypress/downloads/');
+        cy.uploadFile('state-pop.txt', 'Upload-0', 'cypress/downloads/');
         cy.assertTable('state-populations-all-split.json');
     });
 
@@ -115,7 +115,7 @@ describe('Downloading files and verifying contents', () => {
 
         cy.clickNavBarButton('Remove All');
         cy.clickNavBarButton('Upload', {force: true});
-        cy.uploadFile('script-test.xlsx', false, 'cypress/downloads/');
+        cy.uploadFile('script-test.xlsx', 'Upload-0', 'cypress/downloads/');
 
         cy.assertTable('script-state-pop-concat-split.json');
     });

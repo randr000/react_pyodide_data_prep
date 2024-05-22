@@ -47,13 +47,11 @@ Cypress.Commands.add('assertTable', (fName, table='table', path=testDataPath) =>
     });
 });
 
-Cypress.Commands.add('uploadFile', (fName, dataTestId=false, path=testDataPath) => {
-    if (dataTestId) {
-        cy.get(`[data-testid=${dataTestId}]`).find('input[type=file]').selectFile(`${path}${fName}`, {force: true});
-    } else cy.get('input[type=file]').selectFile(`${path}${fName}`, {force: true});
+Cypress.Commands.add('uploadFile', (fName, dataTestId='Upload-0', path=testDataPath) => {
+    cy.get(`[data-testid=${dataTestId}]`).find('input[type=file]').selectFile(`${path}${fName}`, {force: true});
 });
 
-Cypress.Commands.add('assertValidUpload', (fName, isValid=true, dataTestId=false, path=testDataPath) => {
+Cypress.Commands.add('assertValidUpload', (fName, isValid=true, dataTestId='Upload-0', path=testDataPath) => {
     cy.uploadFile(fName, dataTestId, path);
     if (isValid) cy.contains(fName).should('exist');
     else cy

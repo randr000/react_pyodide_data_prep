@@ -1,9 +1,12 @@
 import React, {useContext} from 'react';
 import NavBarComponentButton from './NavBarComponentButton';
+import PipelineUpload from './PipelineUpload';
 import AppDataContext from '../context/AppDataContext';
 import APP_ACTION_TYPES from '../action-types/appActionTypes';
 import DATA_COMPONENT_TYPES from '../js/dataComponentTypes';
 import CONSTANTS from '../js/app-constants';
+import { Button } from 'react-bootstrap';
+import { createObjectURL } from '../js/functions';
 
 const NavBar = () => {
 
@@ -24,8 +27,39 @@ const NavBar = () => {
         });
     }
 
-    function handleOnclickRemoveAll() {
+    function handleOnClickRemoveAll() {
         dispatch({type: APP_ACTION_TYPES.REMOVE_ALL});
+    }
+
+    function handleOnClickDownloadState() {
+        const downloadState = JSON.stringify({
+            isDragging: appState.isDragging,
+            isDraggingDisabled: appState.isDraggingDisabled,
+            nextID: appState.nextID,
+            components: [...appState.components],
+            arrows: [...appState.arrows]
+        }, null, 4);
+        
+        const blob = new Blob([downloadState], {type: 'application/json'});
+        // console.log(`appState str: ${JSON.stringify(appState, null, 4)}`);
+        // console.log(`appState obj: ${appState}`);
+        // return;
+        (async () => {
+            if (window.showSaveFilePicker) {
+                const handle = await window.showSaveFilePicker({suggestedName: 'state.json'});
+                const writable = await handle.createWritable();
+                await writable.write(blob);
+                await writable.close();
+
+            } else {
+                const a = document.createElement('a');
+                a.href = createObjectURL(blob);
+                a.setAttribute('download', 'state.json');
+                a.click();
+                a.remove();
+            }
+        })();
+        return;
     }
 
     return (
@@ -45,8 +79,10 @@ const NavBar = () => {
                     <NavBarComponentButton btnText="Union" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.UNION)}/>
                     <NavBarComponentButton btnText="Script" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.SCRIPT)}/>
                 </div>
+                <PipelineUpload/>
                 <div className="d-flex justify-content-end">
-                    <button className="btn btn-danger mx-1" onClick={handleOnclickRemoveAll}>Remove All</button>
+                    <Button variant="info" className="mx-1" onClick={handleOnClickDownloadState}>Download State</Button>
+                    <Button variant="danger" className="mx-1" onClick={handleOnClickRemoveAll}>Remove All</Button>
                 </div>
             </nav>
         </div>
