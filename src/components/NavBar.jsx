@@ -46,9 +46,7 @@ const NavBar = () => {
         }, null, 4);
         
         const blob = new Blob([downloadState], {type: 'application/json'});
-        // console.log(`appState str: ${JSON.stringify(appState, null, 4)}`);
-        // console.log(`appState obj: ${appState}`);
-        // return;
+
         (async () => {
             if (window.showSaveFilePicker) {
                 const handle = await window.showSaveFilePicker({suggestedName: 'state.json'});
