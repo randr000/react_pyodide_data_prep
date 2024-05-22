@@ -13,7 +13,7 @@ const ContextTestComponentWrapper = () => {
 
     useEffect(() => {
         updateXarrow();
-        console.log(`components: ${JSON.stringify(Object.fromEntries([...appState.components]),null,4)}`);
+        // console.log(`components: ${JSON.stringify(Object.fromEntries([...appState.components]),null,4)}`);
     }, [appState]);
     
     /**
@@ -35,7 +35,7 @@ const ContextTestComponentWrapper = () => {
     }, []);
 
     return (
-        <div>
+        <div id="data-components-container">
             {Array.from(components.values()).map(c => <div key={c.compID}>{dataComponentMaker({type: c.type, compID: c.compID})}</div>)}
             {Array.from(arrows.values()).map(a => <Xarrow 
                 key={a.arrowID}

@@ -42,9 +42,10 @@ const DataComponentDragWrapper = ({children, compID, coordinates}) => {
         /* Updates the x and y coordinates of where the element was dragged to in order to be used
         if the app state is ever loaded from memory or file */
         const rect = nodeRef.current.getBoundingClientRect();
+
         dispatch({
             type: APP_ACTION_TYPES.UPDATE_COMPONENT_LAST_COORDINATES,
-            payload: {compID: compID, coords: {x: rect.left, y: rect.top}}
+            payload: {compID: compID, coords: {x: rect.left + window.scrollX, y: rect.top + window.scrollY}}
         })
     }
  
