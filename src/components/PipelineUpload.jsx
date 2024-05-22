@@ -38,7 +38,7 @@ const PipelineUpload = () => {
         fr.onload = () => {
             try {
                 const jsonObj = JSON.parse(fr.result);
-                console.log(JSON.stringify(jsonObj, null, 4));
+                // console.log(JSON.stringify(jsonObj, null, 4));
                 processInitialState(jsonObj);
                 setInputTextColor('text-success');
             } catch (error) {
@@ -55,10 +55,40 @@ const PipelineUpload = () => {
      * @param {Object} state - The state to be loaded as initial state for app
      */
     function processInitialState(state) {
-        return;
+        // console.log(`state: ${state}`);
+        // console.log(`components: ${new Map(state.components)}`)
+        // return;
+        state.components = state.components.map(comp => {
+            if (comp[1].hasOwnProperty('sourceComponents')) comp[1].sourceComponents = new Set(comp[1].sourceComponents);
+            if (comp[1].hasOwnProperty('outputComponents')) comp[1].outputComponents = new Set(comp[1].outputComponents);
+            return comp;
+        });
+
+        state.arrows = state.arrows.map(arrow => [arrow[0], {...arrow[1], compIDs: new Set(arrow[1].compIDs)}]);
+
+        const stateObj = {
+            ...state,
+            connectComponents: false,
+            defaultX: 0,
+            defaultY: 0,
+            components: new Map(state.components),
+            arrows: new Map(state.arrows)
+
+        };
+
+        // console.log(stateObj);
+
+        // console.log(`components: ${console.log(Array.from(stateObj.components.values()))}`)
+        // console.log(stateObj.arrows);
+
         dispatch({
             type: APP_ACTION_TYPES.LOAD_INITIAL_STATE,
-            payload: state
+            payload: {
+                ...state,
+                ...stateObj
+                // components: new Map(state.components),
+                // arrows: new Map(state.arrows)
+            }
         });
     }
 

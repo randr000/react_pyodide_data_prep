@@ -46,7 +46,7 @@ export const appReducer = (state, action) => {
     const {nextID, components, arrows} = state;
     switch(type) {
         case APP_ACTION_TYPES.LOAD_INITIAL_STATE:
-            return {payload};
+            return payload;
         case APP_ACTION_TYPES.ADD_DATA_COMPONENT:
             return {...state, nextID: nextID + 1, components: new Map([...components, [nextID, payload]])};
         case APP_ACTION_TYPES.REMOVE_DATA_COMPONENT:
