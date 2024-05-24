@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 import AppDataContext from "../context/AppDataContext";
 import APP_ACTION_TYPES from "../action-types/appActionTypes";
 
-const PipelineUpload = () => {
+const PipelineUpload = ({pipelineUploadFormId}) => {
 
     const {dispatch} = useContext(AppDataContext);
 
@@ -23,8 +23,7 @@ const PipelineUpload = () => {
      * @param {event} event - DOM event
      */
     function handleDrop(event) {
-        const uploadedFile = event.dataTransfer.files[0];
-        processUploadedFile(uploadedFile);
+        handleChange(event);
     }
 
     /**
@@ -83,7 +82,7 @@ const PipelineUpload = () => {
     }
 
     return (
-        <Form>
+        <Form id={pipelineUploadFormId} onReset={() => setInputTextColor('')}>
             <Form.Group>
                 <Form.Label className="fs-5 fw-bold" htmlFor="pipeline-upload">Upload Saved Data Pipeline (Drag or Click):</Form.Label>
                 <Form.Control className={`${inputTextColor} fw-bold`} id="pipeline-upload" type="file" onChange={handleChange} onDrop={handleDrop} />

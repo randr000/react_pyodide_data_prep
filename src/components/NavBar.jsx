@@ -12,6 +12,7 @@ const NavBar = () => {
 
     const {appState, dispatch} = useContext(AppDataContext);
     const {nextID} = appState;
+    const pipelineUploadFormId = 'pipeline-upload-form';
 
     function handleOnClick(compType, hasSourceComps=true) {
         const payload = {
@@ -30,6 +31,7 @@ const NavBar = () => {
 
     function handleOnClickRemoveAll() {
         dispatch({type: APP_ACTION_TYPES.REMOVE_ALL});
+        document.getElementById(pipelineUploadFormId).reset();
     }
 
     function handleOnClickDownloadState() {
@@ -83,7 +85,7 @@ const NavBar = () => {
                     <NavBarComponentButton btnText="Union" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.UNION)}/>
                     <NavBarComponentButton btnText="Script" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.SCRIPT)}/>
                 </div>
-                <PipelineUpload/>
+                <PipelineUpload pipelineUploadFormId={pipelineUploadFormId} />
                 <div className="d-flex justify-content-end">
                     <Button variant="info" className="mx-1" onClick={handleOnClickDownloadState}>Download State</Button>
                     <Button variant="danger" className="mx-1" onClick={handleOnClickRemoveAll}>Remove All</Button>
