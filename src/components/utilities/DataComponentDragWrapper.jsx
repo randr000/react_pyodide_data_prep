@@ -50,7 +50,7 @@ const DataComponentDragWrapper = ({children, compID, coordinates}) => {
     }
  
     return (
-        <div className="d-flex" style={{position: "absolute"}}>
+        <div className="d-flex" style={{position: "absolute", maxHeight: "0px"}}>
             <Draggable
                 nodeRef={nodeRef}
                 bounds=""
