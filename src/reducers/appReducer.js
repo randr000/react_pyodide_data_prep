@@ -47,6 +47,8 @@ export const appReducer = (state, action) => {
     switch(type) {
         case APP_ACTION_TYPES.LOAD_INITIAL_STATE:
             return payload;
+        case APP_ACTION_TYPES.UPDATE_DATA_COMPONENT_LOCAL_STATE:
+            return {...state, components: payload};
         case APP_ACTION_TYPES.ADD_DATA_COMPONENT:
             return {...state, nextID: nextID + 1, components: new Map([...components, [nextID, payload]])};
         case APP_ACTION_TYPES.REMOVE_DATA_COMPONENT:

@@ -19,6 +19,7 @@ const DataComponentWrapper = ({
     iconOnClick = () => {},
     canHaveSources = true,
     file = null,
+    uploadFileName = '',
     maxSources = 1,
     canHaveTargets = true,
     updateTargetData = false,

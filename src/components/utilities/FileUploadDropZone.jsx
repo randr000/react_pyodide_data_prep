@@ -1,9 +1,16 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import useGetContexts from '../../custom-hooks/useGetContexts';
-// import AppDataContext from '../../context/AppDataContext';
+import useGetDataComponentLocalState from '../../custom-hooks/useGetDataComponentLocalState';
 
 const FileUploadDropZone = ({
-    file, setFile, updateInvalidFileState, isInvalidFile, invalidFileMsg, uploadStyles, setUploadStyles}) => {
+    file,
+    setFile,
+    isInvalidFile,
+    invalidFileMsg,
+    uploadStyles,
+    updateUploadStyles,
+    updateLocalState
+}) => {
 
     const {appState} = useGetContexts();
     const {isDragging} = appState;
@@ -17,7 +24,7 @@ const FileUploadDropZone = ({
      */
     function handleDragOver(event) {
         event.preventDefault();
-        setUploadStyles(styles => ({...styles, borderColor: "#0d6efd", borderStyle: "dashed"}));
+        updateUploadStyles({borderColor: "#0d6efd", borderStyle: "dashed"});
     }
 
     /**
@@ -28,8 +35,8 @@ const FileUploadDropZone = ({
      */
     function handleDragLeave(event) {
         event.preventDefault();
-        if (file) return setUploadStyles(styles => ({...styles, borderColor: "#28a745", borderStyle: "solid"}));
-        setUploadStyles(styles => ({...styles, borderColor: "#6c757d"}));
+        if (file) updateUploadStyles({borderColor: "#28a745", borderStyle: "solid"});
+        else updateUploadStyles({borderColor: "#6c757d"});
     }
 
     /**
@@ -63,12 +70,20 @@ const FileUploadDropZone = ({
         // Check if file is of correct type based on file extension
         if (regex.test(file.name)) {
             setFile(file);
-            setUploadStyles(styles => ({...styles, borderColor: "#28a745", borderStyle: "solid"}));
-            updateInvalidFileState();
+            updateLocalState({
+                isInvalidFile: false,
+                invalidFileMsg: '',
+                uploadStyles: {...uploadStyles, borderColor: "#28a745", borderStyle: "solid"},
+                fileMetaData: {name: file.name}
+            });
         } else {
             setFile(null);
-            setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "dashed"}));
-            updateInvalidFileState(true, 'Invalid filetype. Please make sure filename extension is equal to .csv, .xlsx, .txt, or .json!');
+            updateLocalState({
+                isInvalidFile: true,
+                invalidFileMsg: 'Invalid filetype. Please make sure filename extension is equal to .csv, .xlsx, .txt, or .json!',
+                uploadStyles: {...uploadStyles, borderColor: "#dc3545", borderStyle: "dashed"},
+                fileMetaData: {name: file.name}
+            });
         }
     }
 

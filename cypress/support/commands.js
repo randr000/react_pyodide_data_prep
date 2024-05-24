@@ -95,15 +95,15 @@ Cypress.Commands.add('validateDownload', (compTitle, compId, fName, fExts) => {
     fExts.forEach(fExt => {
       cy.get(dataTestId).find('input[type=checkbox]').check(extMap.get(fExt), {force: true});
     });
-    cy.get(dataTestId).find('.bi-file-earmark-arrow-down').click();
+    cy.get(dataTestId).find('.bi-file-earmark-arrow-down').click({force: true});
 
   } else {
-    cy.get(dataTestId).find('.bi-file-earmark-arrow-down').click();
+    cy.get(dataTestId).find('.bi-file-earmark-arrow-down').click({force: true});
     cy.get(dataTestId).find('.download-pill').find('input[type=text]').clear().type(fName);
     fExts.forEach(fExt => {
       cy.get(dataTestId).find('.download-pill').find('input[type=checkbox]').check(extMap.get(fExt), {force: true});
     });
-    cy.get(dataTestId).find('.bi-box-arrow-down').click();
+    cy.get(dataTestId).find('.bi-box-arrow-down').click({force: true});
   }
 
   fExts.forEach(fExt => {

@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import { utils, read } from 'xlsx';
 
 // import other utility component(s)
 import FileUploadDropZone from '../utilities/FileUploadDropZone';
+
+// import custom hooks
+import useGetDataComponentLocalState from '../../custom-hooks/useGetDataComponentLocalState';
+import useGetComponentTargetData from '../../custom-hooks/useGetComponentTargetData';
 
 // import Python function(s)
 import input_to_df from '../../python_code_js_modules/input_to_df';
@@ -16,21 +20,32 @@ import ERROR_MSG from '../../js/error_messages';
 
 const FileUpload = ({compID, cardTitle, iconClassNames}) => {
 
-    // In order to adjust upload zone styles depending on file state
-    const [uploadStyles, setUploadStyles] = useState({
-        borderWidth: "3px",
-        borderStyle: "dashed",
-        borderColor: "#6c757d"
-    });
+    const {localState, updateLocalState} = useGetDataComponentLocalState(compID);
+    const {uploadStyles, fileMetaData, isInvalidFile, invalidFileMsg} = localState;
+    
+    /**
+     * 
+     * Updates file upload zone styles depending on file upload status
+     * 
+     * @param {object} updatedStyles - Contains updated CSS styles
+     */
+    function updateUploadStyles(updatedStyles) {
+        updateLocalState({uploadStyles: {...uploadStyles, ...updatedStyles}})
+    }
 
     // A reference to the uploaded file
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState(fileMetaData || null);
 
-    // True if uploaded file is not a valid file or there is an error processing it
-    const [isInvalidFile, setIsInvalidFile] = useState(false);
+    // Saved in a separate state variable in order to remember the filename when state is loaded from memory
+    const [uploadFileName, setUploadFileName] = useState('');
 
-    // Message to be displayed if there is an error uploading or processing the file
-    const [invalidFileMsg, setInvalidFileMsg] = useState('');
+    // If state is being loaded from memory, this will be used to load the initial data
+    const targetData = useGetComponentTargetData(compID);
+
+    // useEffect(() => {
+    //     updateLocalState(file ? {fileMetaData: {name: uploadFileName}} : null);
+    // }, [file]);
+
 
     /**
      * 
@@ -40,8 +55,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
      * @param {String} msg - The message to display to the user if there was an error uploading or processing the file
      */
     function updateInvalidFileState(bool=false, msg='') {
-        setIsInvalidFile(bool);
-        setInvalidFileMsg(msg);
+        updateLocalState({isInvalidFile: bool, invalidFileMsg: msg});
     }
 
     // Error messages for different filetypes to be displayed to the user
@@ -80,13 +94,22 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
 
         if (sourceData) {
 
+            // This is to load data for state that is loaded from memory
+            if (sourceData.hasOwnProperty('name')) {
+                updateTargetState(targetData);
+                setUploadFileName(sourceData.name);
+                return;
+            }
+            
+
+            // This is to load data that was uploaded with a file
             if (sourceData.name.toLowerCase().endsWith('.csv') || sourceData.name.toLowerCase().endsWith('.txt')) {
                 try {
                     const url = createObjectURL(sourceData);
                     readFileToDF(url, 'csv');
                 } catch (e) {
                     updateInvalidFileState(true, sourceData.name.toLowerCase().endsWith('csv') ? csvErrorMsg : txtErrorMsg);
-                    setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "solid"}));
+                    updateUploadStyles({borderColor: "#dc3545", borderStyle: "solid"});
                     console.log(e);
                 }
             
@@ -115,7 +138,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
                     fr.readAsText(sourceData);
                 } catch (e) {
                     updateInvalidFileState(true, jsonErrorMsg);
-                    setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "solid"}));
+                    updateUploadStyles({borderColor: "#dc3545", borderStyle: "solid"});
                     console.log(e);
                 }
             } else if (sourceData.name.toLowerCase().endsWith('.xlsx')) {
@@ -130,7 +153,7 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
 
                 } catch (e) {
                     updateInvalidFileState(true, excelErrorMsg);
-                    setUploadStyles(styles => ({...styles, borderColor: "#dc3545", borderStyle: "solid"}));
+                    updateUploadStyles({borderColor: "#dc3545", borderStyle: "solid"});
                     console.log(e);
                 }
             }
@@ -152,11 +175,11 @@ const FileUpload = ({compID, cardTitle, iconClassNames}) => {
             <FileUploadDropZone
                 file={file}
                 setFile={setFile}
-                updateInvalidFileState={updateInvalidFileState}
                 isInvalidFile={isInvalidFile}
                 invalidFileMsg={invalidFileMsg}
                 uploadStyles={uploadStyles}
-                setUploadStyles={setUploadStyles}
+                updateUploadStyles={updateUploadStyles}
+                updateLocalState={updateLocalState}
             />
         </DataComponentWrapper>
 

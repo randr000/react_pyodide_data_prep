@@ -8,11 +8,20 @@ import { Button } from "react-bootstrap";
 
 // import custom hooks
 import useGetContexts from "../../custom-hooks/useGetContexts";
+import useGetDataComponentLocalState from '../../custom-hooks/useGetDataComponentLocalState';
 
 const Script = ({compID, cardTitle, iconClassNames}) => {
 
     const {appState} = useGetContexts();
     const {isDragging} = appState;
+
+    const {localState, updateLocalState} = useGetDataComponentLocalState(compID);
+    const {body} = localState;
+
+    // The users custom script
+    function updateBody(updated) {
+        updateLocalState({body: updated});
+    }
 
     const [showScriptModal, setShowScriptModal] = useState(false);
     const [showPythonErrModal, setShowPythonErrModal] = useState(false);
@@ -25,9 +34,6 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
     'df_list = [pd.read_json(path_or_buf=StringIO(json.dumps(data)), orient="split") for data in json.loads(jsonStr)]',
     'df = df_list[0]',
     ];
-
-    // The users custom script
-    const [body, setBody] = useState('');
 
     const postfix = ['df = df.reset_index(drop=True).to_json(orient="split")']
 
@@ -61,11 +67,11 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
                 pyodide.runPython(pyScript, {globals: myNamespace});
                 updateTargetState(myNamespace.get('df'));
                 setPythonError(false);
-                // console.log(`pyScript:\n${pyScript}`);  
+                 
             } catch (error) {
                 updateTargetState(sourceData.charAt(0) === '{' ? sourceData : JSON.parse(sourceData)[0]);
                 setPythonError(error);
-                // console.log(`pyScript:\n${pyScript}`);
+                
             }
         }
     }
@@ -119,7 +125,7 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
             <ScriptInputModal
                 compID={compID}
                 body={body}
-                setBody={setBody}
+                updateBody={updateBody}
                 showModal={showScriptModal}
                 setShowModal={setShowScriptModal}
             />

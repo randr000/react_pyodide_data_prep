@@ -6,7 +6,7 @@ import APP_ACTION_TYPES from '../action-types/appActionTypes';
 import DATA_COMPONENT_TYPES from '../js/dataComponentTypes';
 import CONSTANTS from '../js/app-constants';
 import { Button } from 'react-bootstrap';
-import { createObjectURL } from '../js/functions';
+import { createLocalState, createObjectURL } from '../js/functions';
 
 const NavBar = () => {
 
@@ -17,6 +17,7 @@ const NavBar = () => {
         const payload = {
             type: compType,
             compID: nextID,
+            localState: createLocalState(compType),
             outputComponents: new Set([]),
             coordinates: {x: 0, y: 0}
         };

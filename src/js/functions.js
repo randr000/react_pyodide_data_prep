@@ -6,6 +6,7 @@ import FilterRows from "../components/data/FilterRows";
 import Join from "../components/data/Join";
 import Union from "../components/data/Union";
 import Script from "../components/data/Script";
+import { upload } from "@testing-library/user-event/dist/upload";
 
 /**
  * Creates a URL string pointing to the file passed as the argument 
@@ -81,3 +82,54 @@ export function dataComponentMaker(obj) {
             />;
     }
 }
+
+/**
+ * 
+ * Takes in the type of component and then returns the default local state values
+ * 
+ * @param {string} type - A string containing the type of data component
+ * @returns {object} - A JSON formated object containing the default local state values for the type of component passed
+ */
+export function createLocalState(type) {
+    switch(type) {
+        case DATA_COMPONENT_TYPES.FILE_UPLOAD:
+            return {
+                uploadStyles: {borderWidth: '3px', borderStyle: 'dashed', borderColor: '#6c757d'},
+                fileMetaData: null,
+                isInvalidFile: false,
+                invalidFileMsg: ''
+            };
+
+        case DATA_COMPONENT_TYPES.FILE_DOWNLOAD:
+            return;
+        case DATA_COMPONENT_TYPES.FILTER_COLS:
+            return {
+                filteredCols: []
+            };
+        case DATA_COMPONENT_TYPES.FILTER_ROWS:
+            return {
+                columns: [],
+                col: '',
+                operator: '',
+                colValue: ''
+            };
+        case DATA_COMPONENT_TYPES.JOIN:
+            return {
+                joinType: 'inner',
+                columns: null,
+                onCol: '',
+                leftSuffix: 'left',
+                rightSuffix: 'right'
+            };
+        case DATA_COMPONENT_TYPES.UNION:
+            return;
+        case DATA_COMPONENT_TYPES.SCRIPT:
+            return {
+                body: ''
+            };
+        
+        
+    }
+}
+
+// function dispatchLocalStateUpdate()

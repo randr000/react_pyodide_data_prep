@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import useGetContexts from '../../custom-hooks/useGetContexts';
+import React, { useEffect, useState } from "react";
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
 // import other utility component(s)
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import { Form } from "react-bootstrap";
+
+// import custom hooks
+import useGetContexts from '../../custom-hooks/useGetContexts';
+import useGetDataComponentLocalState from '../../custom-hooks/useGetDataComponentLocalState';
 
 // import Python function(s)
 import filter_rows from '../../python_code_js_modules/filter_rows';
@@ -13,13 +16,24 @@ const FilterRows = ({compID, cardTitle, iconClassNames}) => {
 
     const {dispatch} = useGetContexts();
 
-    const [columns, setColumns] = useState([]);
+    const {localState, updateLocalState} = useGetDataComponentLocalState(compID);
+    const {columns, col, operator, colValue} = localState;
 
-    const [col, setCol] = useState(null)
+    function resetLocalState() {
+        return {columns: [], col: '', operator: '', colValue: ''};
+    }
 
-    const [operator, setOperator] = useState('');
+    function updateCol(updated) {
+        updateLocalState({col: updated});
+    }
 
-    const [colValue, setColValue] = useState('');
+    function updateOperator(updated) {
+        updateLocalState({operator: updated});
+    }
+
+    function updateColValue(updated) {
+        updateLocalState({colValue: updated});
+    }
 
     /**
      * 
@@ -34,16 +48,12 @@ const FilterRows = ({compID, cardTitle, iconClassNames}) => {
      */
     function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
         if (!sourceData) {
-            setColumns([]);
-            setCol('');
-            setOperator('');
-            setColValue('');
+            updateLocalState(resetLocalState());
             updateTargetState(null);
         }
         else {
             const columns = JSON.parse(sourceData).columns;
-            setColumns(columns);
-            setCol(columns[0]);
+            updateLocalState({columns: columns, col: columns[0]});
 
             // Load Python function
             if (isPyodideLoaded) pyodide.runPython(filter_rows);
@@ -117,7 +127,7 @@ const FilterRows = ({compID, cardTitle, iconClassNames}) => {
                     <Form.Select
                         id={`filter-row-col-sel-${compID}`}
                         value={col}
-                        onChange={e => setCol(e.target.value)}
+                        onChange={e => updateCol(e.target.value)}
                         className="mb-2"
                         onMouseOver={handleOnMouseOver}
                         onMouseOut={handleOnMouseOut}
@@ -131,7 +141,7 @@ const FilterRows = ({compID, cardTitle, iconClassNames}) => {
                     <Form.Select
                         id={`filter-row-op-sel-${compID}`}
                         value={operator}
-                        onChange={e => setOperator(e.target.value)}
+                        onChange={e => updateOperator(e.target.value)}
                         className="mb-2"
                         onMouseOver={handleOnMouseOver}
                         onMouseOut={handleOnMouseOut}
@@ -152,7 +162,7 @@ const FilterRows = ({compID, cardTitle, iconClassNames}) => {
                         type="text"
                         id={`filter-row-value-${compID}`}
                         value={colValue}
-                        onChange={e => setColValue(e.target.value)}
+                        onChange={e => updateColValue(e.target.value)}
                         onMouseOver={handleOnMouseOver}
                         onMouseOut={handleOnMouseOut}
                     />

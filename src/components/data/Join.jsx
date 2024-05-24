@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import useGetContexts from '../../custom-hooks/useGetContexts';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
 // import other utility component(s)
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import { Form } from 'react-bootstrap';
+
+// import custom hooks
+import useGetContexts from '../../custom-hooks/useGetContexts';
+import useGetDataComponentLocalState from '../../custom-hooks/useGetDataComponentLocalState';
 
 // import Python function(s)
 import join from '../../python_code_js_modules/join';
@@ -14,18 +17,27 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
 
     const {dispatch} = useGetContexts();
 
-    // Type of Join
-    const [joinType, setJoinType] = useState('inner');
+    const {localState, updateLocalState} = useGetDataComponentLocalState(compID);
+    const {joinType, columns, onCol, leftSuffix, rightSuffix} = localState;
 
-    // Common columns between both dataframes
-    const [columns, setColumns] = useState(null);
+    // Type of Join
+    function updateJoinType(updated) {
+        updateLocalState({joinType: updated});
+    }
 
     // Column to join data on
-    const [onCol, setOnCol] = useState('');
+    function updateOnCol(updated) {
+        updateLocalState({onCol: updated});
+    }
 
     // Left and Right suffixes for joined columns with same name
-    const [leftSuffix, setLeftSuffix] = useState('left');
-    const [rightSuffix, setRightSuffix] = useState('right');
+    function updateLeftSuffix(updated) {
+        updateLocalState({leftSuffix: updated});
+    }
+
+    function updateRightSuffix(updated) {
+        updateLocalState({rightSuffix: updated});
+    }
 
     /**
      * 
@@ -40,8 +52,7 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
      */
     function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
         if (!sourceData) {
-            setColumns(null);
-            setOnCol('');
+            updateLocalState({columns: null, onCol: ''});
             updateTargetState(null);
         } else {
 
@@ -52,10 +63,9 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
             else return;
 
             if (!Array.isArray(sourceArray)) {
-                setColumns(sourceArray.columns);
 
                 const onColumn = !sourceArray.columns.includes(onCol) ? sourceArray.columns[0] : onCol;
-                setOnCol(onColumn);
+                updateLocalState({columns: sourceArray.columns, onCol: onColumn});
 
                 // Call python function and sets new targetDataJSONStr state
                 updateTargetState(pyodide.globals.get('join')(`[${JSON.stringify(sourceArray)}]`, onColumn, joinType, leftSuffix, rightSuffix));
@@ -63,20 +73,21 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
             } else {
                 const columnsA = sourceArray[0].columns;
                 let columnsB = [];
+                let updatedColumns = [];
                 let onColumn = onCol;
 
                 if (sourceArray.length === 2) {
                     columnsB = sourceArray[1].columns;
-                    const updatedColumns = [...new Set(columnsA.filter(col => columnsB.includes(col)))]
-                    setColumns(updatedColumns);
+                    updatedColumns = [...new Set(columnsA.filter(col => columnsB.includes(col)))]
                     onColumn = updatedColumns.includes(onCol) ? onCol : updatedColumns[0];
 
                 } else {
-                    setColumns(columnsA);
+                    updatedColumns = [...columnsA];
                     onColumn = columnsA.includes(onCol) ? onCol : columnsA[0];
                 };
 
-                setOnCol(onColumn);
+                
+                updateLocalState({columns: updatedColumns, onCol: onColumn});
                 // Call python function and sets new targetDataJSONStr state
                 updateTargetState(pyodide.globals.get('join')(sourceData, onColumn, joinType, leftSuffix, rightSuffix));
             }
@@ -139,7 +150,7 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
             <Form.Select
                 id={`join-type-select-${compID}`}
                 value={joinType}
-                onChange={e => setJoinType(e.target.value)}
+                onChange={e => updateJoinType(e.target.value)}
                 className="mb-2"
                 onMouseOver={handleOnMouseOver}
                 onMouseOut={handleOnMouseOut}
@@ -160,7 +171,7 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
                     <Form.Select
                         id={`on-col-select-${compID}`}
                         value={onCol} className="mb-2"
-                        onChange={e => setOnCol(e.target.value)}
+                        onChange={e => updateOnCol(e.target.value)}
                         onMouseOver={handleOnMouseOver}
                         onMouseOut={handleOnMouseOut}
                     >
@@ -174,7 +185,7 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
                         type="text"
                         id={`left-suffix-${compID}`}
                         value={leftSuffix} 
-                        onChange={e => setLeftSuffix(e.target.value)}
+                        onChange={e => updateLeftSuffix(e.target.value)}
                         onMouseOver={handleOnMouseOver}
                         onMouseOut={handleOnMouseOut}
                     />
@@ -186,7 +197,7 @@ const Join = ({compID, cardTitle, iconClassNames}) => {
                         type="text"
                         id={`right-suffix-${compID}`}
                         value={rightSuffix}
-                        onChange={e => setRightSuffix(e.target.value)}
+                        onChange={e => updateRightSuffix(e.target.value)}
                         onMouseOver={handleOnMouseOver}
                         onMouseOut={handleOnMouseOut}
                     />

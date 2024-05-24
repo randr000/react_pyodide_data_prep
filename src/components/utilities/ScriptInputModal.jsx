@@ -3,7 +3,7 @@ import useGetContexts from "../../custom-hooks/useGetContexts";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import { Modal, Button, Form } from "react-bootstrap";
 
-const ScriptInputModal = ({compID, body, setBody, showModal, setShowModal}) => {
+const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal}) => {
 
     const {dispatch} = useGetContexts();
 
@@ -20,7 +20,7 @@ const ScriptInputModal = ({compID, body, setBody, showModal, setShowModal}) => {
     }
 
     function handleSaveChanges() {
-        setBody(pythonCode);
+        updateBody(pythonCode);
         handleClose();
     }
 

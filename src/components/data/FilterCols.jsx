@@ -4,12 +4,21 @@ import React, { useState } from 'react';
 import Checkboxes from '../utilities/Checkboxes';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 
+// import custom hooks
+import useGetDataComponentLocalState from '../../custom-hooks/useGetDataComponentLocalState';
+
 // import Python function(s)
 import filter_cols from '../../python_code_js_modules/filter_cols';
 
 const FilterCols = ({compID, cardTitle, iconClassNames}) => {
 
-    const [filteredCols, setFilteredCols] = useState([]);
+    const {localState, updateLocalState} = useGetDataComponentLocalState(compID);
+    const {filteredCols} = localState;
+
+    function updateFilteredCols(updated) {
+        updateLocalState({filteredCols: updated})
+    }
+
 
     /**
      * 
@@ -25,12 +34,12 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
         if (!sourceData) {
             // Reset filteredCols when source data is removed
-            setFilteredCols([]);
+            updateFilteredCols([]);
             updateTargetState(null);
         }
         else {
             // Update filteredCols for the new column names
-            setFilteredCols(JSON.parse(sourceData)['columns'].map(col => {
+            updateFilteredCols(JSON.parse(sourceData)['columns'].map(col => {
                 const columnArr = filteredCols.filter(colObj => colObj.label === col);
                 return {label: col, isChecked: columnArr.length ? columnArr[0].isChecked : true}
             }));
@@ -92,7 +101,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
      * @param {boolean} isChecked 
      */
     function filterCol(colName, isChecked) {
-        setFilteredCols(prevState => prevState.map(col => col.label === colName ? ({label: colName, isChecked: isChecked}) : col));
+        updateFilteredCols(filteredCols.map(col => col.label === colName ? ({label: colName, isChecked: isChecked}) : col));
     }
 
     return (
