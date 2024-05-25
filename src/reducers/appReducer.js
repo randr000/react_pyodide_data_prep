@@ -3,6 +3,7 @@ import sampleStates from "./sampleStates";
 
 function resetState() {
     return {
+        isLoadingInitialState: false,
         isDragging: false,
         isDraggingDisabled: false,
         nextID: 0,
@@ -46,8 +47,9 @@ export const appReducer = (state, action) => {
     const {nextID, components, arrows} = state;
     switch(type) {
         case APP_ACTION_TYPES.LOAD_INITIAL_STATE:
-            console.log(JSON.stringify(payload, null, 4))
             return payload;
+        case APP_ACTION_TYPES.IS_LOADING_INITIAL_STATE:
+            return {...state, isLoadingInitialState: payload};
         case APP_ACTION_TYPES.UPDATE_DATA_COMPONENT_LOCAL_STATE:
             return {...state, components: payload};
         case APP_ACTION_TYPES.ADD_DATA_COMPONENT:

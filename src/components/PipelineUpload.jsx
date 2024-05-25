@@ -1,21 +1,36 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Form } from 'react-bootstrap';
 import AppDataContext from "../context/AppDataContext";
 import APP_ACTION_TYPES from "../action-types/appActionTypes";
 
 const PipelineUpload = ({pipelineUploadFormId}) => {
 
-    const {dispatch} = useContext(AppDataContext);
+    const {appState, dispatch} = useContext(AppDataContext);
+    const {isLoadingInitialState} = appState;
 
     const [inputTextColor, setInputTextColor] = useState('');
+    const [file, setFile] = useState(null);
+
+
+    useEffect(() => {
+       if(isLoadingInitialState) {
+            processUploadedFile(file);
+            // dispatch({type: APP_ACTION_TYPES.IS_LOADING_INITIAL_STATE, payload: false});
+       }
+    // }, [isLoadingInitialState]);
+    }, [file]);
+
+    useEffect(() => {
+        console.log(`isLoadingInitialState: ${isLoadingInitialState}`)
+    }, [isLoadingInitialState])
 
     /**
      * Handles when file is uploaded through browsing insted of drag and drop
      * @param {event} event - DOM event
      */
     function handleChange(event) {
-        const uploadedFile = event.target.files[0];
-        processUploadedFile(uploadedFile);
+        setFile(event.target.files[0]);
+        dispatch({type: APP_ACTION_TYPES.IS_LOADING_INITIAL_STATE, payload: true});
     }
 
     /**
@@ -23,8 +38,8 @@ const PipelineUpload = ({pipelineUploadFormId}) => {
      * @param {event} event - DOM event
      */
     function handleDrop(event) {
-        const uploadedFile = event.dataTransfer.files[0];
-        processUploadedFile(uploadedFile);
+        setFile(event.dataTransfer.files[0]);
+        dispatch({type: APP_ACTION_TYPES.IS_LOADING_INITIAL_STATE, payload: true});
     }
 
     /**
@@ -37,6 +52,7 @@ const PipelineUpload = ({pipelineUploadFormId}) => {
         const fr = new FileReader();
         fr.onload = () => {
             try {
+                // console.log(`state2: ${JSON.stringify(fr.result, null, 4)}`)
                 const jsonObj = JSON.parse(fr.result);
                 processInitialState(jsonObj);
                 setInputTextColor('text-success');
@@ -65,13 +81,14 @@ const PipelineUpload = ({pipelineUploadFormId}) => {
 
         const stateObj = {
             ...state,
+            isLoadingInitialState: false,
             connectComponents: false,
             defaultX: 0,
             defaultY: 0,
             components: new Map(state.components),
             arrows: new Map(state.arrows)
-
         };
+
 
         dispatch({
             type: APP_ACTION_TYPES.LOAD_INITIAL_STATE,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
 // import other utility component(s)
 import Checkboxes from '../utilities/Checkboxes';
@@ -6,6 +6,8 @@ import DataComponentWrapper from '../utilities/DataComponentWrapper';
 
 // import custom hooks
 import useGetDataComponentLocalState from '../../custom-hooks/useGetDataComponentLocalState';
+import useGetComponentSourceData from '../../custom-hooks/useGetComponentSourceData';
+import useGetComponentTargetData from '../../custom-hooks/useGetComponentTargetData';
 
 // import Python function(s)
 import filter_cols from '../../python_code_js_modules/filter_cols';
@@ -15,6 +17,26 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     const {localState, updateLocalState} = useGetDataComponentLocalState(compID);
     const {filteredCols} = localState;
 
+    const sourceData = useGetComponentSourceData(compID);
+    const targetData = useGetComponentTargetData(compID);
+
+    // When loading state from memory, prevent filtered out columns from appearing downstream in local state checkboxes
+    useEffect(() => {
+        if (!sourceData) return;
+        const jsonObj = JSON.parse(sourceData);
+        if (!jsonObj.hasOwnProperty('columns')) return;
+        const sDataCols = JSON.parse(sourceData).columns;
+        if (sDataCols.length < filteredCols.length) {
+            updateFilteredCols(filteredCols.filter(col => sDataCols.includes(col.label)));
+        }
+    }, [targetData]);
+
+    /**
+     * 
+     * Updates the check status of the columns to filter for
+     * 
+     * @param {object} updated 
+     */
     function updateFilteredCols(updated) {
         updateLocalState({filteredCols: updated})
     }

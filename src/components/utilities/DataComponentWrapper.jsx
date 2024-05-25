@@ -28,18 +28,25 @@ const DataComponentWrapper = ({
 }) => {
 
     const {appState, dispatch, pyodide, isPyodideLoaded} = useGetContexts();
-    const {components} = appState;
+    const {isLoadingInitialState, components} = appState;
 
     const [showTable, setShowTable] = useState(true);
+
+    // A reference to this components properties in the components global state variable
+    const thisComponent = components.get(compID);
+    // console.log(`data before: ${JSON.stringify(thisComponent, null, 4)}`);
 
     // A JSON formatted string containing the source data
     const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
 
     // A JSON formatted string that can be used to create a pandas dataframe
-    const [targetDataJSONStr, setTargetDataJSONStr] = useState(sourceDataJSONStr);
+    // const [targetDataJSONStr, setTargetDataJSONStr] = useState(sourceDataJSONStr);
 
-    // A reference to this components properties in the components global state variable
-    const thisComponent = components.get(compID);
+    const [
+        targetDataJSONStr,
+        setTargetDataJSONStr
+    ] = useState(thisComponent.hasOwnProperty('data') ? thisComponent.data : sourceDataJSONStr);
+
 
     // This components source data
     const sourceData = useGetComponentSourceData(compID);
@@ -63,9 +70,8 @@ const DataComponentWrapper = ({
         transformTargetData &&  targetDataDeps.length && transformTargetData(sourceDataJSONStr, setTargetDataJSONStr, pyodide, isPyodideLoaded);
     }, targetDataDeps);
 
-    // Update component output data anytime source data is modified
+    // Update component output data anytime target data is modified
     useEffect(() => {
-
         if (targetDataJSONStr && canHaveTargets) {
             const c = components;
             c.set(compID, {...thisComponent, data: targetDataJSONStr});
@@ -74,9 +80,9 @@ const DataComponentWrapper = ({
                 type: APP_ACTION_TYPES.MODIFY_COMPONENT_DATA,
                 payload: c
             });
-        };
+        }
     }, [targetDataJSONStr]);
-
+    
 
     return (
         <DataComponentDragWrapper compID={compID} coordinates={thisComponent.coordinates}>
