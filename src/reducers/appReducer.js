@@ -46,6 +46,7 @@ export const appReducer = (state, action) => {
     const {nextID, components, arrows} = state;
     switch(type) {
         case APP_ACTION_TYPES.LOAD_INITIAL_STATE:
+            console.log(JSON.stringify(payload, null, 4))
             return payload;
         case APP_ACTION_TYPES.UPDATE_DATA_COMPONENT_LOCAL_STATE:
             return {...state, components: payload};

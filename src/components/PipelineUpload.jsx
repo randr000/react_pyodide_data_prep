@@ -23,7 +23,8 @@ const PipelineUpload = ({pipelineUploadFormId}) => {
      * @param {event} event - DOM event
      */
     function handleDrop(event) {
-        handleChange(event);
+        const uploadedFile = event.dataTransfer.files[0];
+        processUploadedFile(uploadedFile);
     }
 
     /**
