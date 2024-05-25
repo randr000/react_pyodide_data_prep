@@ -13,7 +13,7 @@ const DownloadForm = ({compID, cardTitle, isDragging, handleCustomCheckboxChange
 
     // Update default download fileName on first render if there is no fileName
     useEffect(() => {
-        fileName && updateFileName(`${compID}-${cardTitle}`);
+        !fileName && updateFileName(`${compID}-${cardTitle}`);
     }, []);
 
     function handleOnClick() {
