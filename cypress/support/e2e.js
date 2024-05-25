@@ -31,6 +31,9 @@ before(() => {
 beforeEach(() => {
     // Delete downloads directory and then recreate it
     cy.task('deleteDownloads');
+
+    // Adjust viewport size
+    cy.viewport(1600, 898);
 });
 
 afterEach(() => {
