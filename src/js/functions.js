@@ -91,9 +91,23 @@ export function dataComponentMaker(obj) {
  * @returns {object} - A JSON formated object containing the default local state values for the type of component passed
  */
 export function createLocalState(type) {
+
+    const defaultDownloadValues = {
+        fileName: '',
+        // Keeps track of which download file type checkboxes are clicked
+        isCheckedFileType: [
+            {label: "csv", isChecked: false},
+            {label: "xlsx", isChecked: false},
+            {label: "txt", isChecked: false},
+            {label: "json (split)", isChecked: false},
+            {label: "json (records)", isChecked: false},
+        ]
+    };
+
     switch(type) {
         case DATA_COMPONENT_TYPES.FILE_UPLOAD:
             return {
+                downloadProps: {...defaultDownloadValues},
                 uploadStyles: {borderWidth: '3px', borderStyle: 'dashed', borderColor: '#6c757d'},
                 fileMetaData: null,
                 isInvalidFile: false,
@@ -101,13 +115,17 @@ export function createLocalState(type) {
             };
 
         case DATA_COMPONENT_TYPES.FILE_DOWNLOAD:
-            return;
+            return {
+                downloadProps: {...defaultDownloadValues}
+            };
         case DATA_COMPONENT_TYPES.FILTER_COLS:
             return {
+                downloadProps: {...defaultDownloadValues},
                 filteredCols: []
             };
         case DATA_COMPONENT_TYPES.FILTER_ROWS:
             return {
+                downloadProps: {...defaultDownloadValues},
                 columns: [],
                 col: '',
                 operator: '',
@@ -115,6 +133,7 @@ export function createLocalState(type) {
             };
         case DATA_COMPONENT_TYPES.JOIN:
             return {
+                downloadProps: {...defaultDownloadValues},
                 joinType: 'inner',
                 columns: null,
                 onCol: '',
@@ -122,9 +141,12 @@ export function createLocalState(type) {
                 rightSuffix: 'right'
             };
         case DATA_COMPONENT_TYPES.UNION:
-            return;
+            return {
+                downloadProps: {...defaultDownloadValues}
+            };
         case DATA_COMPONENT_TYPES.SCRIPT:
             return {
+                downloadProps: {...defaultDownloadValues},
                 body: ''
             };
         

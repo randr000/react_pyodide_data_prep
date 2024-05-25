@@ -4,7 +4,7 @@ import { Dropdown } from 'react-bootstrap';
 import DownloadForm from './DownloadForm';
 import useGetContexts from '../../custom-hooks/useGetContexts';
 
-const DownloadPill = ({filename, setFilename, targetDataJSONStr}) => {
+const DownloadPill = ({compID, cardTitle, targetDataJSONStr}) => {
 
     const [showDropdown, setShowDropdown] = useState(false);
     const {appState} = useGetContexts();
@@ -45,10 +45,9 @@ const DownloadPill = ({filename, setFilename, targetDataJSONStr}) => {
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="mt-2 px-2" onClick={e => e.stopPropagation()} >
                             <DownloadForm
+                                compID={compID}
+                                cardTitle={cardTitle}
                                 isDragging={isDragging}
-                                filename={filename}
-                                setFilename={setFilename}
-                                // isCheckedFileType={isCheckedFileType}
                                 // handleCheckboxChange={handleCheckboxChange}
                                 targetDataJSONStr={targetDataJSONStr}
                             />

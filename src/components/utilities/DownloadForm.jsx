@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form } from "react-bootstrap";
 import Checkboxes from "./Checkboxes";
 import useDownloadData from "../../custom-hooks/useDownloadData";
 import useGetContexts from "../../custom-hooks/useGetContexts";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 
-const DownloadForm = ({isDragging, filename, setFilename, handleCustomCheckboxChange=false, includeDownloadBtn=true, targetDataJSONStr}) => {
+const DownloadForm = ({compID, cardTitle, isDragging, handleCustomCheckboxChange=false, includeDownloadBtn=true, targetDataJSONStr}) => {
 
-    const {downloadData, updateCheckedFileTypes, isCheckedFileType} = useDownloadData();
+    const {downloadData, fileName, updateFileName, isCheckedFileType, updateCheckedFileTypes} = useDownloadData(compID);
     const {dispatch} = useGetContexts();
+
+
+    // Update default download fileName on first render if there is no fileName
+    useEffect(() => {
+        fileName && updateFileName(`${compID}-${cardTitle}`);
+    }, []);
 
     function handleOnClick() {
         if (isDragging) return;
@@ -16,12 +22,7 @@ const DownloadForm = ({isDragging, filename, setFilename, handleCustomCheckboxCh
     }
 
     function handleDownload() {
-        downloadData(targetDataJSONStr, filename);
-    }
-
-    function handleCheckboxChange(label, isChecked) {
-        if (handleCustomCheckboxChange) handleCustomCheckboxChange(label, isChecked);
-        else updateCheckedFileTypes(label, isChecked);
+        downloadData(targetDataJSONStr);
     }
 
     function handleOnMouseOver() {
@@ -46,8 +47,8 @@ const DownloadForm = ({isDragging, filename, setFilename, handleCustomCheckboxCh
                     </div>
                     <Form.Control
                         type="text"
-                        value={filename}
-                        onChange={e => setFilename(e.target.value)}
+                        value={fileName}
+                        onChange={e => updateFileName(e.target.value)}
                         onMouseOver={handleOnMouseOver}
                         onTouchStart={handleOnTouchStart}
                         onMouseOut={handleOnMouseOut}
@@ -58,7 +59,7 @@ const DownloadForm = ({isDragging, filename, setFilename, handleCustomCheckboxCh
             <div className="mt-2">
                 <Checkboxes
                     checkboxes={isCheckedFileType}
-                    onChange={handleCheckboxChange}
+                    onChange={updateCheckedFileTypes}
                 />
             </div>
         </div>

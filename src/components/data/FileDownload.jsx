@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // import custom hooks
 import useGetContexts from '../../custom-hooks/useGetContexts';
@@ -14,27 +14,13 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
     const {appState} = useGetContexts();
     const {isDragging} = appState;
 
-    const {downloadData, updateCheckedFileTypes, isCheckedFileType} = useDownloadData();
+    const {downloadData} = useDownloadData(compID);
 
-    // const sourceData = components.get(compID).sourceComponents.size ? components.get([...components.get(compID).sourceComponents][0]).data : null;
     const sourceData = useGetComponentSourceData(compID);
-
-    // Filename to use for downloaded file
-    const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
-
-    /**
-     * Updates the isCheckedFileType state by updatding the checked state of the file type name that was passed
-     * 
-     * @param {string} colName 
-     * @param {boolean} isChecked 
-     */
-    function handleCheckboxChange(label, isChecked) {
-        updateCheckedFileTypes(label, isChecked);
-    }
 
     function handleIconClick() {
         if (isDragging) return;
-        downloadData(sourceData, filename);
+        downloadData(sourceData);
     }
 
     return (
@@ -47,10 +33,9 @@ const FileDownload = ({compID, cardTitle, iconClassNames}) => {
         canHaveDownloadPill={false}
        >
             <DownloadForm
+                compID={compID}
+                cardTitle={cardTitle}
                 isDragging={isDragging}
-                filename={filename}
-                setFilename={setFilename}
-                handleCustomCheckboxChange={handleCheckboxChange}
                 targetDataJSONStr={sourceData}
                 includeDownloadBtn={false}
             />

@@ -77,8 +77,6 @@ const DataComponentWrapper = ({
         };
     }, [targetDataJSONStr]);
 
-    // Filename to use for downloaded file
-    const [filename, setFilename] = useState(`${compID}-${cardTitle}`);
 
     return (
         <DataComponentDragWrapper compID={compID} coordinates={thisComponent.coordinates}>
@@ -102,8 +100,6 @@ const DataComponentWrapper = ({
                         <DownloadPill
                             compID={compID}
                             cardTitle={cardTitle}
-                            filename={filename}
-                            setFilename={setFilename} 
                             targetDataJSONStr={targetDataJSONStr}
                         />
                     }

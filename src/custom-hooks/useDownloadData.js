@@ -1,21 +1,17 @@
 import { useState } from 'react';
+import APP_ACTION_TYPES from '../action-types/appActionTypes';
 import useGetContexts from './useGetContexts';
+import useGetDataComponentLocalState from './useGetDataComponentLocalState';
 import { utils, writeFileXLSX } from 'xlsx';
 import df_to_output from '../python_code_js_modules/df_to_output';
 import { createObjectURL } from '../js/functions';
 
-const useDownloadData = () => {
+const useDownloadData = (compID) => {
     
     const {pyodide, isPyodideLoaded} = useGetContexts();
-
-    // Keeps track of which download file type checkboxes are clicked
-    const [isCheckedFileType, setIsCheckedFileType] = useState([
-        {label: "csv", isChecked: false},
-        {label: "xlsx", isChecked: false},
-        {label: "txt", isChecked: false},
-        {label: "json (split)", isChecked: false},
-        {label: "json (records)", isChecked: false},
-    ]);
+    const {localState, updateLocalState} = useGetDataComponentLocalState(compID);
+    const {downloadProps} = localState;
+    const {fileName, isCheckedFileType} = downloadProps;
 
     /**
      * Updates the isCheckedFileType state by updatding the checked state of the file type name that was passed
@@ -24,12 +20,24 @@ const useDownloadData = () => {
      * @param {boolean} isChecked 
      */
     function updateCheckedFileTypes(label, isChecked) {
-        setIsCheckedFileType(prevState => prevState.map(fType => fType.label === label ? ({label: label, isChecked: isChecked}) : fType));
+        const temp = isCheckedFileType.map(fType => fType.label === label ? ({label: label, isChecked: isChecked}) : fType)
+        updateLocalState({downloadProps: {...downloadProps, isCheckedFileType: [...temp]}});
     }
 
-    function downloadData(targetDataJSONStr, filename) {
+    /**
+     * 
+     * Updates the fileName of the files that will be downloaded
+     * 
+     * @param {string} fileName 
+     */
+    function updateFileName(fileName) {
+        updateLocalState({downloadProps: {...downloadProps, fileName: fileName}})
+    }
+
+    function downloadData(targetDataJSONStr) {
         
         const fileTypes = isCheckedFileType.filter(obj => obj.isChecked).map(obj => obj.label);
+        if (!isPyodideLoaded) return;
         pyodide.runPython(df_to_output);
         const dataJSONStrings = JSON.parse(pyodide.globals.get('df_to_output')(targetDataJSONStr, fileTypes))
         const downloadCsv = fileTypes.includes('csv');
@@ -45,12 +53,12 @@ const useDownloadData = () => {
             a.href = createObjectURL(blob);
 
             if (downloadCsv) {
-                a.setAttribute('download', `${filename}.csv`);
+                a.setAttribute('download', `${fileName}.csv`);
                 a.click();
             }
 
             if (downloadTxt) {
-                a.setAttribute('download', `${filename}.txt`);
+                a.setAttribute('download', `${fileName}.txt`);
                 a.click();
             }
 
@@ -62,7 +70,7 @@ const useDownloadData = () => {
             const blob = new Blob([JSON.stringify(JSON.parse(targetDataJSONStr), null, 4)], {type: 'application/json'});
             const a = document.createElement('a');
             a.href = createObjectURL(blob);
-            a.setAttribute('download', `${filename}-split.json`);
+            a.setAttribute('download', `${fileName}-split.json`);
             a.click();
             a.remove();
         }
@@ -76,7 +84,7 @@ const useDownloadData = () => {
                 const workbook = utils.book_new();
                 const worksheet = utils.json_to_sheet(jSONData);
                 utils.book_append_sheet(workbook, worksheet, 'data');
-                writeFileXLSX(workbook, `${filename}.xlsx`)
+                writeFileXLSX(workbook, `${fileName}.xlsx`)
             }
 
             // Handle downloads for json (records) files
@@ -85,14 +93,14 @@ const useDownloadData = () => {
                 const blob = new Blob([dataStr], {type: 'application/json'});
                 const a = document.createElement('a');
                 a.href = createObjectURL(blob);
-                a.setAttribute('download', `${filename}-records.json`);
+                a.setAttribute('download', `${fileName}-records.json`);
                 a.click();
                 a.remove();
             }
         } 
     }
 
-    return {downloadData, updateCheckedFileTypes, isCheckedFileType}
+    return {downloadData, fileName, updateFileName, isCheckedFileType, updateCheckedFileTypes}
 }
 
 export default useDownloadData;
