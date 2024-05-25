@@ -76,7 +76,6 @@ const PipelineUpload = ({pipelineUploadFormId}) => {
         dispatch({
             type: APP_ACTION_TYPES.LOAD_INITIAL_STATE,
             payload: {
-                ...state,
                 ...stateObj
             }
         });
