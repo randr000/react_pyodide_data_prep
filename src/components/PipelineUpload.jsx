@@ -1,28 +1,20 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Form } from 'react-bootstrap';
 import AppDataContext from "../context/AppDataContext";
 import APP_ACTION_TYPES from "../action-types/appActionTypes";
 
 const PipelineUpload = ({pipelineUploadFormId}) => {
 
-    const {appState, dispatch} = useContext(AppDataContext);
-    const {isLoadingInitialState} = appState;
+    const {dispatch} = useContext(AppDataContext);
 
     const [inputTextColor, setInputTextColor] = useState('');
-    const [file, setFile] = useState(null);
-
-
-    useEffect(() => {
-       if(isLoadingInitialState) processUploadedFile(file);
-    }, [file]);
 
     /**
      * Handles when file is uploaded through browsing insted of drag and drop
      * @param {event} event - DOM event
      */
     function handleChange(event) {
-        setFile(event.target.files[0]);
-        dispatch({type: APP_ACTION_TYPES.IS_LOADING_INITIAL_STATE, payload: true});
+        processUploadedFile(event.target.files[0]);
     }
 
     /**
@@ -30,8 +22,7 @@ const PipelineUpload = ({pipelineUploadFormId}) => {
      * @param {event} event - DOM event
      */
     function handleDrop(event) {
-        setFile(event.dataTransfer.files[0]);
-        dispatch({type: APP_ACTION_TYPES.IS_LOADING_INITIAL_STATE, payload: true});
+        processUploadedFile(event.dataTransfer.files[0]);
     }
 
     /**
@@ -73,21 +64,14 @@ const PipelineUpload = ({pipelineUploadFormId}) => {
 
         const stateObj = {
             ...state,
-            isLoadingInitialState: false,
             connectComponents: false,
             defaultX: 0,
             defaultY: 0,
             components: new Map(state.components),
             arrows: new Map(state.arrows)
         };
-
-
-        dispatch({
-            type: APP_ACTION_TYPES.LOAD_INITIAL_STATE,
-            payload: {
-                ...stateObj
-            }
-        });
+        
+        dispatch({type: APP_ACTION_TYPES.LOAD_INITIAL_STATE, payload: {...stateObj}});
     }
 
     return (

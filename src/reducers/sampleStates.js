@@ -2,7 +2,6 @@ import DATA_COMPONENT_TYPES from "../js/dataComponentTypes";
 
 const sampleStates = {
     a: {
-        isLoadingInitialState: false,
         isDragging: false,
         isDraggingDisabled: false,
         nextID: 0,
