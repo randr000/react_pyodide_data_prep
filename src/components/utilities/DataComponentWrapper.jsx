@@ -28,35 +28,23 @@ const DataComponentWrapper = ({
 }) => {
 
     const {appState, dispatch, pyodide, isPyodideLoaded} = useGetContexts();
-    const {isLoadingInitialState, components} = appState;
+    const {components} = appState;
 
     const [showTable, setShowTable] = useState(true);
 
     // A reference to this components properties in the components global state variable
     const thisComponent = components.get(compID);
-    // console.log(`data before: ${JSON.stringify(thisComponent, null, 4)}`);
 
-    // A JSON formatted string containing the source data
-    const [sourceDataJSONStr, setSourceDataJSONStr] = useState(null);
+    // This components source data
+    const sourceDataJSONStr = useGetComponentSourceData(compID) || file;
 
     // A JSON formatted string that can be used to create a pandas dataframe
-    // const [targetDataJSONStr, setTargetDataJSONStr] = useState(sourceDataJSONStr);
-
     const [
         targetDataJSONStr,
         setTargetDataJSONStr
     ] = useState(thisComponent.hasOwnProperty('data') ? thisComponent.data : sourceDataJSONStr);
 
-
-    // This components source data
-    const sourceData = useGetComponentSourceData(compID);
-    
-    useEffect(() => {
-        // If this component can have a source component, then it loads the source component's JSON data as a string, else null
-        if (canHaveSources) setSourceDataJSONStr(sourceData);
-    });
-
-    // Actions to take when source data changes
+    // Actions to take when source data or uploaded file changes
     useEffect(() => {
         updateTargetData
         ? canHaveSources
@@ -67,7 +55,7 @@ const DataComponentWrapper = ({
 
     // Actions to take when target data needs to change due to user changing the varaibles used to transform the source data
     useEffect(() => {
-        transformTargetData &&  targetDataDeps.length && transformTargetData(sourceDataJSONStr, setTargetDataJSONStr, pyodide, isPyodideLoaded);
+        transformTargetData && targetDataDeps.length && transformTargetData(sourceDataJSONStr, setTargetDataJSONStr, pyodide, isPyodideLoaded);
     }, targetDataDeps);
 
     // Update component output data anytime target data is modified

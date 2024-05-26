@@ -20,7 +20,7 @@ const FilterCols = ({compID, cardTitle, iconClassNames}) => {
     const sourceData = useGetComponentSourceData(compID);
     const targetData = useGetComponentTargetData(compID);
 
-    // When loading state from memory, prevent filtered out columns from appearing downstream in local state checkboxes
+    // Prevent filtered out columns from appearing downstream in local state checkboxes
     useEffect(() => {
         if (!sourceData) return;
         const jsonObj = JSON.parse(sourceData);

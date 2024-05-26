@@ -13,16 +13,8 @@ const PipelineUpload = ({pipelineUploadFormId}) => {
 
 
     useEffect(() => {
-       if(isLoadingInitialState) {
-            processUploadedFile(file);
-            // dispatch({type: APP_ACTION_TYPES.IS_LOADING_INITIAL_STATE, payload: false});
-       }
-    // }, [isLoadingInitialState]);
+       if(isLoadingInitialState) processUploadedFile(file);
     }, [file]);
-
-    useEffect(() => {
-        console.log(`isLoadingInitialState: ${isLoadingInitialState}`)
-    }, [isLoadingInitialState])
 
     /**
      * Handles when file is uploaded through browsing insted of drag and drop
