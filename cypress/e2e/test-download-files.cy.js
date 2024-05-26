@@ -107,9 +107,9 @@ describe('Downloading files and verifying contents', () => {
         cy.connectDataComponents(0, 2, {force: true});
         cy.connectDataComponents(1, 2, {force: true});
 
-        cy.get('.bi-filetype-py').click();
+        cy.get('.bi-filetype-py').click({force: true});
         cy.get('#python-script-2').clear().type(pythonScripts.concatByIndex, {parseSpecialCharSequences: false});
-        cy.contains('button', 'Save Changes').click();
+        cy.contains('button', 'Save Changes').click({force: true});
 
         cy.validateDownload('Script', 2, 'script-test', ['csv', 'xlsx']);
 

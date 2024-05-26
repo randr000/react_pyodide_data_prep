@@ -64,6 +64,10 @@ const PipelineUpload = ({pipelineUploadFormId}) => {
 
         const stateObj = {
             ...state,
+            isDragging: false,
+            isDraggingDisabled: false,
+            showAllTables: false,
+            hideAllTables: false,
             connectComponents: false,
             defaultX: 0,
             defaultY: 0,

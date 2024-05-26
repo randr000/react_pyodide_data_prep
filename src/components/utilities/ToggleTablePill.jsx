@@ -1,15 +1,39 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import useGetContexts from '../../custom-hooks/useGetContexts';
-// import AppDataContext from '../../context/AppDataContext';
+import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
-const ToggleTablePill = ({id, showTable, toggleTable}) => {
+const ToggleTablePill = ({compID, showTable}) => {
 
-    const {appState} = useGetContexts();
-    const {isDragging} = appState;
+    const {appState, dispatch} = useGetContexts();
+    const {isDragging, showAllTables, hideAllTables} = appState;
+
+    // When Show All Tables button is clicked, show this table
+    useEffect(() => {
+        if (showAllTables) {
+            dispatch({
+                type: APP_ACTION_TYPES.TOGGLE_COMPONENT_SHOW_TABLE,
+                payload: {compID: compID, showTable: true, showAllTables: true, hideAllTables: false}
+            });
+        }
+    }, [showAllTables])
+
+    // When Hide All Tables button is clicked, hide this table
+    useEffect(() => {
+        if (hideAllTables) {
+            dispatch({
+                type: APP_ACTION_TYPES.TOGGLE_COMPONENT_SHOW_TABLE,
+                payload: {compID: compID, showTable: false, showAllTables: false, hideAllTables: true}
+            });
+        }
+    }, [hideAllTables])
 
     function handleOnClick() {
         if (isDragging) return;
-        toggleTable(prev => !prev);
+        // Set show and hide all tables to false because at least this component's table will be hidden or shown
+        dispatch({
+            type: APP_ACTION_TYPES.TOGGLE_COMPONENT_SHOW_TABLE,
+            payload: {compID: compID, showTable: !showTable, showAllTables: false, hideAllTables: false}
+        });
     }
 
     return (
@@ -18,7 +42,7 @@ const ToggleTablePill = ({id, showTable, toggleTable}) => {
             onClick={handleOnClick} style={{zIndex: 10}}
         >
             <span
-                id={id}
+                id={`${compID}-table-pill`}
                 className={`
                     mt-4
                     bg-white

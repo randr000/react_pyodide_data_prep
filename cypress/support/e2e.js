@@ -33,7 +33,7 @@ beforeEach(() => {
     cy.task('deleteDownloads');
 
     // Adjust viewport size
-    cy.viewport(1600, 898);
+    cy.viewport(2000, 1000);
 });
 
 afterEach(() => {

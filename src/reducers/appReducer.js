@@ -5,6 +5,8 @@ function resetState() {
     return {
         isDragging: false,
         isDraggingDisabled: false,
+        showAllTables: false,
+        hideAllTables: false,
         nextID: 0,
         connectComponents: false,
         components: new Map(),
@@ -75,5 +77,16 @@ export const appReducer = (state, action) => {
             return {...state, ...payload};
         case APP_ACTION_TYPES.UPDATE_COMPONENT_LAST_COORDINATES:
             return {...state, components: new Map([...components, [payload.compID, {...components.get(payload.compID), coordinates: {...payload.coords}}]])};
+        case APP_ACTION_TYPES.SHOW_ALL_TABLES:
+            return {...state, showAllTables: true, hideAllTables: false};
+        case APP_ACTION_TYPES.HIDE_ALL_TABLES:
+            return {...state, showAllTables: false, hideAllTables: true};
+        case APP_ACTION_TYPES.TOGGLE_COMPONENT_SHOW_TABLE:
+            return {
+                ...state,
+                components: new Map([...components, [payload.compID, {...components.get(payload.compID), showTable: payload.showTable}]]),
+                showAllTables: payload.showAllTables,
+                hideAllTables: payload.hideAllTables
+            };
     }
 };

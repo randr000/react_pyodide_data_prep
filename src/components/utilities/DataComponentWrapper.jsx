@@ -30,10 +30,11 @@ const DataComponentWrapper = ({
     const {appState, dispatch, pyodide, isPyodideLoaded} = useGetContexts();
     const {components} = appState;
 
-    const [showTable, setShowTable] = useState(true);
-
     // A reference to this components properties in the components global state variable
     const thisComponent = components.get(compID);
+
+    // A reference to this component's showTable property
+    const showTable = thisComponent.showTable;
 
     // This components source data
     const sourceDataJSONStr = useGetComponentSourceData(compID) || file;
@@ -87,7 +88,7 @@ const DataComponentWrapper = ({
                         />
                     }
 
-                    <ToggleTablePill showTable={showTable} toggleTable={setShowTable} />
+                    <ToggleTablePill compID={compID} showTable={showTable} />
                         
                     {
                         canHaveDownloadPill && 

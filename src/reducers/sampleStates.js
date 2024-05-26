@@ -4,6 +4,8 @@ const sampleStates = {
     a: {
         isDragging: false,
         isDraggingDisabled: false,
+        showAllTables: false,
+        hideAllTables: false,
         nextID: 0,
         connectComponents: false,
         components: new Map(),

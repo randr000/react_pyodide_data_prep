@@ -6,7 +6,7 @@ it('Should show correct component after clicking on its corresponding button on 
     dataComponentTitles.forEach(title => {
       cy.clickNavBarButton(title);
       cy.contains('h5', title).should('exist');
-      cy.get('.bi-x-circle').trigger('mouseover', {force: true}).click();
+      cy.get('.bi-x-circle').trigger('mouseover', {force: true}).click({force: true});
       cy.contains('h5', title).should('not.exist');
     });
 });

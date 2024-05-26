@@ -11,33 +11,34 @@ import { createLocalState, createObjectURL } from '../js/functions';
 const NavBar = () => {
 
     const {appState, dispatch} = useContext(AppDataContext);
-    const {nextID} = appState;
+    const {nextID, hideAllTables} = appState;
     const pipelineUploadFormId = 'pipeline-upload-form';
 
     function handleOnClick(compType, hasSourceComps=true) {
         const payload = {
             type: compType,
             compID: nextID,
+            showTable: hideAllTables ? false : true,
+            coordinates: {x: 0, y: 0},
             localState: createLocalState(compType),
-            outputComponents: new Set([]),
-            coordinates: {x: 0, y: 0}
         };
 
         dispatch({
             type: APP_ACTION_TYPES.ADD_DATA_COMPONENT,
-            payload: hasSourceComps ? {...payload, sourceComponents: new Set([])}: payload
+            payload: hasSourceComps ? {...payload, sourceComponents: new Set([]), outputComponents: new Set([])} : {...payload, outputComponents: new Set([])}
         });
     }
 
-    function handleOnClickRemoveAll() {
-        dispatch({type: APP_ACTION_TYPES.REMOVE_ALL});
-        document.getElementById(pipelineUploadFormId).reset();
+    function handleOnClickShowAllTables() {
+        dispatch({type: APP_ACTION_TYPES.SHOW_ALL_TABLES});
+    }
+
+    function handleOnClickHideAllTables() {
+        dispatch({type: APP_ACTION_TYPES.HIDE_ALL_TABLES});
     }
 
     function handleOnClickDownloadState() {
         const downloadState = JSON.stringify({
-            isDragging: appState.isDragging,
-            isDraggingDisabled: appState.isDraggingDisabled,
             nextID: appState.nextID,
             components: [...appState.components].map(comp => {
                 let compData = comp[1];
@@ -68,6 +69,11 @@ const NavBar = () => {
         return;
     }
 
+    function handleOnClickRemoveAll() {
+        dispatch({type: APP_ACTION_TYPES.REMOVE_ALL});
+        document.getElementById(pipelineUploadFormId).reset();
+    }
+
     return (
         <div className="fixed-top">
             <nav className="navbar bg-light">
@@ -87,6 +93,8 @@ const NavBar = () => {
                 </div>
                 <PipelineUpload pipelineUploadFormId={pipelineUploadFormId} />
                 <div className="d-flex justify-content-end">
+                    <Button variant="success" className="mx-1" onClick={handleOnClickShowAllTables}>Show All Tables</Button>
+                    <Button variant="danger" className="mx-1" onClick={handleOnClickHideAllTables}>Hide All Tables</Button>
                     <Button variant="info" className="mx-1" onClick={handleOnClickDownloadState}>Download State</Button>
                     <Button variant="danger" className="mx-1" onClick={handleOnClickRemoveAll}>Remove All</Button>
                 </div>

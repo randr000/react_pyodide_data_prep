@@ -7,7 +7,7 @@ it('Should connect two data components with an arrow and then delete it', () => 
     cy.clickNavBarButton('Download');
 
     cy.contains('h5', 'Download')
-      .trigger('mousedown').trigger('mousemove', {clientX: 200, clientY: 200}).trigger('mouseup');
+      .trigger('mousedown').trigger('mousemove', {clientX: 800, clientY: 800}).trigger('mouseup');
 
     cy.connectDataComponents(0, 1);
     
