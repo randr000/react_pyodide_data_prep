@@ -54,7 +54,7 @@ export const appReducer = (state, action) => {
         case APP_ACTION_TYPES.ADD_DATA_COMPONENT:
             return {...state, nextID: nextID + 1, components: new Map([...components, [nextID, payload]])};
         case APP_ACTION_TYPES.REMOVE_DATA_COMPONENT:
-            return {...state, components: payload.components, arrows: payload.arrows};
+            return {...state, components: payload.components, arrows: payload.arrows, isDraggingDisabled: false};
         case APP_ACTION_TYPES.OPEN_CONNECT_COMPONENTS:
             return {...state, connectComponents: payload};
         case APP_ACTION_TYPES.CLOSE_CONNECT_COMPONENTS:
