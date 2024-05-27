@@ -53,13 +53,14 @@ const FilterRows = ({compID, cardTitle, iconClassNames}) => {
         }
         else {
             const columns = JSON.parse(sourceData).columns;
-            updateLocalState({columns: columns, col: columns[0]});
+            const updateCol = columns.includes(col) ? col : columns[0];
+            updateLocalState({columns: columns, col: updateCol});
 
             // Load Python function
             if (isPyodideLoaded) pyodide.runPython(filter_rows);
             else return;
 
-            updateTargetState(pyodide.globals.get('filter_rows')(sourceData, columns[0], operator, prepareColValue(colValue)));
+            updateTargetState(pyodide.globals.get('filter_rows')(sourceData, updateCol, operator, prepareColValue(colValue)));
         }
     }
 
