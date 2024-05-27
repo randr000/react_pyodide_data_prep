@@ -79,7 +79,7 @@ const PipelineUpload = ({pipelineUploadFormId}) => {
     }
 
     return (
-        <Form id={pipelineUploadFormId} onReset={() => setInputTextColor('')}>
+        <Form id={pipelineUploadFormId} data-testid={'pipeline-upload'} onReset={() => setInputTextColor('')}>
             <Form.Group>
                 <Form.Label className="fs-5 fw-bold" htmlFor="pipeline-upload">Upload Saved Data Pipeline (Drag or Click):</Form.Label>
                 <Form.Control className={`${inputTextColor} fw-bold`} id="pipeline-upload" type="file" onChange={handleChange} onDrop={handleDrop} />

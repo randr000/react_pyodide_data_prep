@@ -112,3 +112,29 @@ Cypress.Commands.add('validateDownload', (compTitle, compId, fName, fExts) => {
     cy.readFile(`cypress/downloads/${fName}${jsonType}.${ext}`).should('exist');
   });
 });
+
+// Assert if table is visible or not
+Cypress.Commands.add('assertTableVisible', (compID, visible) => {
+  cy.get(`[data-testid="table-${compID}"]`).should(visible ? 'be.visible' : 'not.be.visible');
+});
+
+// Toggle table for specific component
+Cypress.Commands.add('toggleTable', (compID) => {
+  cy.get(`#${compID}-table-pill`).click({force: true});
+});
+
+// Toggle table and then assert if visible or not
+Cypress.Commands.add('toggleTableAndAssertVisible', (compID, visible) => {
+  cy.toggleTable(compID);
+  cy.assertTableVisible(compID, visible);
+});
+
+// Show all tables
+Cypress.Commands.add('showAllTables', () => {
+  cy.contains('button', 'Show All Tables').click();
+});
+
+// Hide all tables
+Cypress.Commands.add('hideAllTables', () => {
+  cy.contains('button', 'Hide All Tables').click();
+});
