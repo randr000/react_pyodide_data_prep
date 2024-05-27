@@ -1,4 +1,4 @@
-describe('Dragging components should work', () => {
+describe('test-component-dragging', () => {
   it('Should drag a data component', () => {
 
       cy.clickNavBarButton('Upload');
@@ -40,5 +40,5 @@ describe('Dragging components should work', () => {
           expect(newCoords.y).to.be.greaterThan(coords.y);
         });
       });
-});
+  });
 });

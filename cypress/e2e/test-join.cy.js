@@ -1,4 +1,4 @@
-describe('Join Component', () => {
+describe('test-join', () => {
 
     it('Should join the data correctly (Connect components then upload data)', () => {
         cy.clickNavBarButton('Upload');

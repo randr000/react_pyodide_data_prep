@@ -4,7 +4,7 @@ const {capitalizeColumns, applyStateUppercase, multiplyPopByTwo, concatByIndex} 
 const connectFirst = '(Connect components then upload data)';
 const uploadFirst = '(Upload data then connect components)';
 
-describe('Script Component', () => {
+describe('test-script', () => {
 
     let testName = 'Should capitalize columns';
     it(`${testName} ${connectFirst}`, () => {

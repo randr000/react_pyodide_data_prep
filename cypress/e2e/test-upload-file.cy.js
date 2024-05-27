@@ -1,4 +1,4 @@
-describe('Should upload file and alert if it is a valid filetype or not', () => {
+describe('test-upload-file', () => {
     it('Should upload csv file', () => {
         cy.clickNavBarButton('Upload');
         cy.assertValidUpload('city-populations.csv');

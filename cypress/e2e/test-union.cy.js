@@ -1,5 +1,4 @@
-describe('Union component', () => {
-
+describe('test-union', () => {
 
     it('Should combine the data and display correctly when using the union data component (Connect components then upload data)', () => {
         cy.clickNavBarButton('Upload');

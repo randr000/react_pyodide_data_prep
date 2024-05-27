@@ -1,6 +1,6 @@
 import { pythonScripts } from "./cy-constants";
 
-describe('Downloading files and verifying contents', () => {
+describe('test-download-files', () => {
     it('Should download files from Upload component', () => {
         cy.clickNavBarButton('Upload');
         cy.uploadFile('state-populations-all.xlsx');
