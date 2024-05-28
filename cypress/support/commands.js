@@ -138,3 +138,12 @@ Cypress.Commands.add('showAllTables', () => {
 Cypress.Commands.add('hideAllTables', () => {
   cy.contains('button', 'Hide All Tables').click();
 });
+
+// Drag a data component
+Cypress.Commands.add('dragDataComponent', (compTitle, compID, clientX, clientY) => {
+  const dataTestId = `[data-testid="h5-${compTitle}-${compID}"]`;
+  cy.get(dataTestId)
+    .trigger('mousedown')
+    .trigger('mousemove', {clientX: clientX, clientY: clientY})
+    .trigger('mouseup');
+});

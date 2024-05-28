@@ -98,7 +98,7 @@ const DataComponentWrapper = ({
                             targetDataJSONStr={targetDataJSONStr}
                         />
                     }
-                    <CardSummary cardTitle={cardTitle} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
+                    <CardSummary cardTitle={cardTitle} compID={compID} iconClassNames={iconClassNames} iconOnClick={iconOnClick} />
                     {children}
                     {canHaveTargets && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
                 </div>

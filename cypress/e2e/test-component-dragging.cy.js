@@ -6,10 +6,7 @@ describe('test-component-dragging', () => {
         .then(target => {
           const coords = target[0].getBoundingClientRect();
           
-          cy.contains('h5', 'Upload')
-            .trigger('mousedown')
-            .trigger('mousemove', {clientX: 500, clientY: 500})
-            .trigger('mouseup');
+          cy.dragDataComponent('Upload', 0, 500, 500);
 
           cy.contains('h5', 'Upload').then(target => {
             const newCoords = target[0].getBoundingClientRect();
@@ -28,11 +25,8 @@ describe('test-component-dragging', () => {
     cy.contains('h5', 'Upload')
       .then(target => {
         const coords = target[0].getBoundingClientRect();
-        
-        cy.contains('h5', 'Upload')
-          .trigger('mousedown')
-          .trigger('mousemove', {clientX: 500, clientY: 500})
-          .trigger('mouseup');
+
+        cy.dragDataComponent('Upload', 1, 500, 500);
 
         cy.contains('h5', 'Upload').then(target => {
           const newCoords = target[0].getBoundingClientRect();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import DataComponentWrapper from '../utilities/DataComponentWrapper';
 import { utils, read } from 'xlsx';
 
