@@ -70,8 +70,15 @@ Cypress.Commands.add('assertPyodideIsLoaded', () => {
     cy.get('[data-testid=pyodide-loading-spinner]', {timeout: timeout}).should('not.exist');
 });
 
+
+// Click buttons on the NavBar
 Cypress.Commands.add('clickNavBarButton', (title, options={}) => {
     cy.get('nav').contains('button', title).click(options=options);
+});
+
+// Real click the Download State button to show the file picker
+Cypress.Commands.add('clickDownloadState', () => {
+  cy.get('nav').contains('button', 'Download State').realClick();
 });
 
 // Connect two data components by passing their component IDs
@@ -143,7 +150,7 @@ Cypress.Commands.add('hideAllTables', () => {
 Cypress.Commands.add('dragDataComponent', (compTitle, compID, clientX, clientY) => {
   const dataTestId = `[data-testid="h5-${compTitle}-${compID}"]`;
   cy.get(dataTestId)
-    .trigger('mousedown')
-    .trigger('mousemove', {clientX: clientX, clientY: clientY})
-    .trigger('mouseup');
+    .trigger('mousedown', {force: true})
+    .trigger('mousemove', {clientX: clientX, clientY: clientY, force: true})
+    .trigger('mouseup', {force: true});
 });
