@@ -147,10 +147,19 @@ Cypress.Commands.add('hideAllTables', () => {
 });
 
 // Drag a data component
-Cypress.Commands.add('dragDataComponent', (compTitle, compID, clientX, clientY) => {
+Cypress.Commands.add('dragDataComponent', (compTitle, compID, clientX, clientY, options=false) => {
   const dataTestId = `[data-testid="h5-${compTitle}-${compID}"]`;
-  cy.get(dataTestId)
-    .trigger('mousedown', {force: true})
-    .trigger('mousemove', {clientX: clientX, clientY: clientY, force: true})
-    .trigger('mouseup', {force: true});
+
+  if (options) {
+    cy.get(dataTestId)
+    .trigger('mousedown', options)
+    .trigger('mousemove', {clientX: clientX, clientY: clientY, ...options})
+    .trigger('mouseup', options);
+  } else {
+    cy.get(dataTestId)
+    .trigger('mousedown')
+    .trigger('mousemove', {clientX: clientX, clientY: clientY})
+    .trigger('mouseup');
+  }
+
 });

@@ -1,0 +1,253 @@
+{
+    "nextID": 4,
+    "components": [
+        [
+            0,
+            {
+                "type": "FILE_UPLOAD",
+                "compID": 0,
+                "showTable": true,
+                "coordinates": {
+                    "x": 2,
+                    "y": 32
+                },
+                "localState": {
+                    "downloadProps": {
+                        "fileName": "",
+                        "isCheckedFileType": [
+                            {
+                                "label": "csv",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "xlsx",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "txt",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (split)",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (records)",
+                                "isChecked": false
+                            }
+                        ]
+                    },
+                    "uploadStyles": {
+                        "borderWidth": "3px",
+                        "borderStyle": "solid",
+                        "borderColor": "#28a745"
+                    },
+                    "fileMetaData": {
+                        "name": "city-populations.csv"
+                    },
+                    "isInvalidFile": false,
+                    "invalidFileMsg": ""
+                },
+                "outputComponents": [
+                    1
+                ],
+                "data": "{\"columns\":[\"state\",\"city\",\"population\"],\"index\":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],\"data\":[[\"California\",\"Los Angeles\",3850000],[\"California\",\"San Diego\",1400000],[\"California\",\"San Jose\",986300],[\"California\",\"San Francisco\",815201],[\"Texas\",\"Houston\",2296253],[\"Texas\",\"San Antonio\",1445662],[\"Texas\",\"Dallas\",1300642],[\"Texas\",\"Austin\",958202],[\"Florida\",\"Jacksonville\",990931],[\"Florida\",\"Miami\",456229],[\"Florida\",\"Tampa\",408438],[\"Florida\",\"Orlando\",324429],[\"New York\",\"New York City\",7931147],[\"New York\",\"Buffalo\",275352],[\"New York\",\"Rochester\",207537],[\"New York\",\"Yonkers\",205253]]}"
+            }
+        ],
+        [
+            1,
+            {
+                "type": "FILTER_COLS",
+                "compID": 1,
+                "showTable": true,
+                "coordinates": {
+                    "x": 1404,
+                    "y": 215
+                },
+                "localState": {
+                    "downloadProps": {
+                        "fileName": "filtercols",
+                        "isCheckedFileType": [
+                            {
+                                "label": "csv",
+                                "isChecked": true
+                            },
+                            {
+                                "label": "xlsx",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "txt",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (split)",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (records)",
+                                "isChecked": false
+                            }
+                        ]
+                    },
+                    "filteredCols": [
+                        {
+                            "label": "state",
+                            "isChecked": true
+                        },
+                        {
+                            "label": "city",
+                            "isChecked": true
+                        },
+                        {
+                            "label": "population",
+                            "isChecked": true
+                        }
+                    ]
+                },
+                "sourceComponents": [
+                    0
+                ],
+                "outputComponents": [
+                    2
+                ],
+                "data": "{\"columns\":[\"state\",\"city\",\"population\"],\"index\":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],\"data\":[[\"California\",\"Los Angeles\",3850000],[\"California\",\"San Diego\",1400000],[\"California\",\"San Jose\",986300],[\"California\",\"San Francisco\",815201],[\"Texas\",\"Houston\",2296253],[\"Texas\",\"San Antonio\",1445662],[\"Texas\",\"Dallas\",1300642],[\"Texas\",\"Austin\",958202],[\"Florida\",\"Jacksonville\",990931],[\"Florida\",\"Miami\",456229],[\"Florida\",\"Tampa\",408438],[\"Florida\",\"Orlando\",324429],[\"New York\",\"New York City\",7931147],[\"New York\",\"Buffalo\",275352],[\"New York\",\"Rochester\",207537],[\"New York\",\"Yonkers\",205253]]}"
+            }
+        ],
+        [
+            2,
+            {
+                "type": "FILTER_ROWS",
+                "compID": 2,
+                "showTable": true,
+                "coordinates": {
+                    "x": 2,
+                    "y": 414
+                },
+                "localState": {
+                    "downloadProps": {
+                        "fileName": "",
+                        "isCheckedFileType": [
+                            {
+                                "label": "csv",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "xlsx",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "txt",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (split)",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (records)",
+                                "isChecked": false
+                            }
+                        ]
+                    },
+                    "columns": [
+                        "state",
+                        "city",
+                        "population"
+                    ],
+                    "col": "state",
+                    "operator": "",
+                    "colValue": ""
+                },
+                "sourceComponents": [
+                    1
+                ],
+                "outputComponents": [
+                    3
+                ],
+                "data": "{\"columns\":[\"state\",\"city\",\"population\"],\"index\":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],\"data\":[[\"California\",\"Los Angeles\",3850000],[\"California\",\"San Diego\",1400000],[\"California\",\"San Jose\",986300],[\"California\",\"San Francisco\",815201],[\"Texas\",\"Houston\",2296253],[\"Texas\",\"San Antonio\",1445662],[\"Texas\",\"Dallas\",1300642],[\"Texas\",\"Austin\",958202],[\"Florida\",\"Jacksonville\",990931],[\"Florida\",\"Miami\",456229],[\"Florida\",\"Tampa\",408438],[\"Florida\",\"Orlando\",324429],[\"New York\",\"New York City\",7931147],[\"New York\",\"Buffalo\",275352],[\"New York\",\"Rochester\",207537],[\"New York\",\"Yonkers\",205253]]}"
+            }
+        ],
+        [
+            3,
+            {
+                "type": "FILE_DOWNLOAD",
+                "compID": 3,
+                "showTable": true,
+                "coordinates": {
+                    "x": 2,
+                    "y": 250
+                },
+                "localState": {
+                    "downloadProps": {
+                        "fileName": "3-Download",
+                        "isCheckedFileType": [
+                            {
+                                "label": "csv",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "xlsx",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "txt",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (split)",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (records)",
+                                "isChecked": false
+                            }
+                        ]
+                    }
+                },
+                "sourceComponents": [
+                    2
+                ],
+                "outputComponents": []
+            }
+        ]
+    ],
+    "arrows": [
+        [
+            "0-btm_1-top",
+            {
+                "arrowID": "0-btm_1-top",
+                "start": "0-btm",
+                "end": "1-top",
+                "compIDs": [
+                    0,
+                    1
+                ]
+            }
+        ],
+        [
+            "1-btm_2-top",
+            {
+                "arrowID": "1-btm_2-top",
+                "start": "1-btm",
+                "end": "2-top",
+                "compIDs": [
+                    1,
+                    2
+                ]
+            }
+        ],
+        [
+            "2-btm_3-top",
+            {
+                "arrowID": "2-btm_3-top",
+                "start": "2-btm",
+                "end": "3-top",
+                "compIDs": [
+                    2,
+                    3
+                ]
+            }
+        ]
+    ]
+}

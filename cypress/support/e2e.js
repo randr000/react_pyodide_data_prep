@@ -37,11 +37,11 @@ beforeEach(() => {
     cy.viewport(2000, 1000);
 });
 
-// afterEach(() => {
-//     cy.clickNavBarButton('Remove All');
-// });
+afterEach(() => {
+    cy.clickNavBarButton('Remove All');
+});
 
-// after(() => {
-//     // Delete downloads directory and then recreate it
-//     cy.task('deleteDownloads');
-// });
+after(() => {
+    // Delete downloads directory and then recreate it
+    cy.task('deleteDownloads');
+});

@@ -12,3 +12,4 @@ import './test-union.cy';
 import './test-script.cy';
 import './test-download-files.cy';
 import './test-show-hide-all-tables.cy';
+import './test-download-upload-state.cy';

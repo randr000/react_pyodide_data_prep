@@ -5,7 +5,6 @@ describe('test-component-dragging', () => {
       cy.contains('h5', 'Upload')
         .then(target => {
           const coords = target[0].getBoundingClientRect();
-          
           cy.dragDataComponent('Upload', 0, 500, 500);
 
           cy.contains('h5', 'Upload').then(target => {
