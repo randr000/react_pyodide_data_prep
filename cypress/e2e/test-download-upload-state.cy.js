@@ -1,6 +1,6 @@
 describe('test-download-upload-state', () => {
 
-    it.only('Should download app state and then reupload same state', () => {
+    it.only('Should call showSaveFilePicker when Download State button is clicked', () => {
         cy.clickNavBarButton('Upload'); // 0
         cy.clickNavBarButton('Filter Columns'); // 1
         cy.clickNavBarButton('Filter Rows'); // 2
@@ -17,7 +17,16 @@ describe('test-download-upload-state', () => {
         cy.dragDataComponent('Upload', 0, 100, 250);
         cy.dragDataComponent('Filter Columns', 1, 1500, 250);
 
+        cy.window().then(win => {
+            cy.stub(win, 'showSaveFilePicker').as('showSaveFilePicker').returns({createWritable: () => {
+                return {
+                    write: () => {},
+                    close: () => {}
+                }
+            }});
+        });
         cy.clickDownloadState();
+        cy.get('@showSaveFilePicker').should('have.been.calledOnce');
     });
 
 });
