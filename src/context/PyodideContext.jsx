@@ -15,10 +15,12 @@ export const PyodideContextWrapper = ({children, toLoadPyodide=true}) => {
                 indexURL : "https://cdn.jsdelivr.net/pyodide/v0.21.3/full/"
               });
             await pyodideRef.current.loadPackage('pandas');
+            await pyodideRef.current.loadPackage('numpy');
+            await pyodideRef.current.loadPackage('matplotlib');
             setIsPyodideLoaded(true);
             return pyodideRef.current.runPythonAsync('2 * 3');
             
-        })().then(res => console.log(`Python result: ${res}`));
+        })().then(res => res === 6 ? console.log("Pyodide has loaded") : console.log("Something wrong appears to have happended when loading Pyodide"));
 
     }, [pyodideRef]);
     
