@@ -1,13 +1,10 @@
 import React, { useRef } from "react";
 import Draggable from "react-draggable";
-import { useXarrow } from "react-xarrows";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import useGetContexts from "../../custom-hooks/useGetContexts";
 import CONSTANTS from "../../js/app-constants";
 
 const DataComponentDragWrapper = ({children, compID, coordinates}) => {
-
-    const updateXarrow = useXarrow();
 
     const {appState, dispatch} = useGetContexts();
     const {isDraggingDisabled, defaultX, defaultY} = appState;
@@ -28,12 +25,10 @@ const DataComponentDragWrapper = ({children, compID, coordinates}) => {
     const nodeRef = useRef(null);
 
     function handleOnDrag() {
-        updateXarrow();
         dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING, payload: true});
     }
 
     function handleOnStop() {
-        updateXarrow();
         // Allows click event to be effectively canceled when data component is done being dragged
         setTimeout(() => {
             dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING, payload: false});

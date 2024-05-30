@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import AppDataContext from '../context/AppDataContext';
 import { dataComponentMaker } from '../js/functions';
-import Xarrow, { useXarrow } from 'react-xarrows';
+import Xarrow from 'react-xarrows';
 import DeleteArrow from './utilities/DeleteArrow';
 import APP_ACTION_TYPES from '../action-types/appActionTypes';
 
@@ -9,12 +9,6 @@ const ContextTestComponentWrapper = () => {
 
     const {appState, dispatch} = useContext(AppDataContext);
     const {components, arrows} = appState;
-    const updateXarrow = useXarrow();
-
-    useEffect(() => {
-        updateXarrow();
-        // console.log(`components: ${JSON.stringify(Object.fromEntries([...appState.components]),null,4)}`);
-    }, [appState]);
     
     /**
      * Adjust the default x and y coordinates for a new data component when the user scrolls the page.

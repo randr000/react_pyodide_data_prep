@@ -1,15 +1,9 @@
-import React, { useEffect } from 'react'
-import { useXarrow } from 'react-xarrows';
+import React from 'react'
 
 const Table = ({tableData, show, compID}) => {
 
     const tableDataJSON = JSON.parse(tableData);
     const {columns, data} = tableDataJSON;
-    const updateXarrow = useXarrow();
-
-    useEffect(() => {
-        updateXarrow();
-    });
 
     return (
           
