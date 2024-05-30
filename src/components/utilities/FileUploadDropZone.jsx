@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import useGetContexts from '../../custom-hooks/useGetContexts';
-import useGetDataComponentLocalState from '../../custom-hooks/useGetDataComponentLocalState';
 
 const FileUploadDropZone = ({
     file,
