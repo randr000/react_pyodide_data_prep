@@ -8,7 +8,7 @@ import DataFlowPill from "./DataFlowPill";
 import ToggleTablePill from "./ToggleTablePill";
 import DownloadPill from "./DownloadPill";
 import CardSummary from "./CardSummary";
-import Table from "./Table";
+import DataOutput from "./DataOutput";
 import CONSTANTS from "../../js/app-constants";
 
 const DataComponentWrapper = ({
@@ -24,7 +24,9 @@ const DataComponentWrapper = ({
     updateTargetData = false,
     transformTargetData = false,
     targetDataDeps = [],
-    canHaveDownloadPill = true
+    canHaveDownloadPill = true,
+    dataOutputType = 'table',
+    plotScript = ''
 }) => {
 
     const {appState, dispatch, pyodide, isPyodideLoaded} = useGetContexts();
@@ -103,10 +105,11 @@ const DataComponentWrapper = ({
                     {canHaveTargets && <DataFlowPill isOnTop={false} id={`${compID}-btm`} />}
                 </div>
             </div>
-            {
-                targetDataJSONStr
-                && targetDataJSONStr.length > CONSTANTS.BLANK_TABLE_DATA_STR.length
-                && <Table tableData={targetDataJSONStr} show={showTable} compID={compID} />
+            {   
+                true
+                // targetDataJSONStr
+                // && targetDataJSONStr.length > CONSTANTS.BLANK_TABLE_DATA_STR.length
+                && <DataOutput tableData={targetDataJSONStr} show={showTable} compID={compID} dataOutputType={dataOutputType} plotScript={plotScript} />
             }
         </DataComponentDragWrapper>
     );

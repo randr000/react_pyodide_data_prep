@@ -17,6 +17,11 @@
   scroll-snap-type: y mandatory;
 }
 
+.plot-container {
+  max-width: 20rem;
+  max-height: 20rem;
+}
+
 .data-th {
   position: sticky;
   top: 0;

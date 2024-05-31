@@ -29,20 +29,31 @@ const ScriptPlot = ({compID, cardTitle, iconClassNames}) => {
 
     const prefix = [
     'import pandas as pd',
+    'import numpy as np',
+    'import matplotlib.pyplot as plt',
+    'import matplotlib',
+    'matplotlib.use("module://matplotlib.backends.html5_canvas_backend")',
     'from io import StringIO',
-    'import json',
-    'df_list = [pd.read_json(path_or_buf=StringIO(json.dumps(data)), orient="split") for data in json.loads(jsonStr)]',
-    'df = df_list[0]',
+    'import json'
     ];
+    // 'df_list = [pd.read_json(path_or_buf=StringIO(json.dumps(data)), orient="split") for data in json.loads(jsonStr)]',
+    // 'df = df_list[0]',
+    // ];
 
-    const postfix = ['df = df.reset_index(drop=True).to_json(orient="split")']
+    const postfix = ['']
 
     // The combined full script
-    const [pyScript, setPyScript] = useState(`${prefix.join('\n')}\n${body}\n${postfix.join('\n')}`);
+    const [pyScript, setPyScript] = useState(
+    `${prefix.join('\n')}
+        ${body}
+    `);
 
     // Create the full python script whenever body changes
     useEffect(() => {
-        setPyScript(`${prefix.join('\n')}\n${body}\n${postfix.join('\n')}`);
+        setPyScript(
+        `${prefix.join('\n')}
+            ${body}
+        `);
     }, [body]);
 
     /**
@@ -100,11 +111,10 @@ const ScriptPlot = ({compID, cardTitle, iconClassNames}) => {
                 pyodide.runPython(pyScript, {globals: myNamespace});
                 updateTargetState(myNamespace.get('df'));
                 setPythonError(false);
-                // console.log(`pyScript:\n${pyScript}`);
+
             } catch (error) {
                 updateTargetState(sourceData.charAt(0) === '{' ? sourceData : JSON.parse(sourceData)[0]);
                 setPythonError(error);
-                // console.log(`pyScript:\n${pyScript}`);
             }
             
         }
@@ -120,6 +130,8 @@ const ScriptPlot = ({compID, cardTitle, iconClassNames}) => {
             iconOnClick={() => !isDragging && setShowScriptModal(true)}
             targetDataDeps={[pyScript]}
             maxSources={Infinity}
+            dataOutputType="plot"
+            plotScript={pyScript}
         >   
             {pythonError && <Button variant="danger" className="my-2" onClick={() => setShowPythonErrModal(true)}>See Python Error</Button>}
             <ScriptInputModal
