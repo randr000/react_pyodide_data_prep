@@ -106,9 +106,7 @@ const DataComponentWrapper = ({
                 </div>
             </div>
             {   
-                true
-                // targetDataJSONStr
-                // && targetDataJSONStr.length > CONSTANTS.BLANK_TABLE_DATA_STR.length
+                ((targetDataJSONStr && targetDataJSONStr.length > CONSTANTS.BLANK_TABLE_DATA_STR.length) || dataOutputType === 'plot')
                 && <DataOutput tableData={targetDataJSONStr} show={showTable} compID={compID} dataOutputType={dataOutputType} plotScript={plotScript} />
             }
         </DataComponentDragWrapper>
