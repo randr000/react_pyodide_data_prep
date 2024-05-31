@@ -100,11 +100,9 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
                 pyodide.runPython(pyScript, {globals: myNamespace});
                 updateTargetState(myNamespace.get('df'));
                 setPythonError(false);
-                // console.log(`pyScript:\n${pyScript}`);
             } catch (error) {
                 updateTargetState(sourceData.charAt(0) === '{' ? sourceData : JSON.parse(sourceData)[0]);
                 setPythonError(error);
-                // console.log(`pyScript:\n${pyScript}`);
             }
             
         }

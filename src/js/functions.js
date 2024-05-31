@@ -6,7 +6,7 @@ import FilterRows from "../components/data/FilterRows";
 import Join from "../components/data/Join";
 import Union from "../components/data/Union";
 import Script from "../components/data/Script";
-import { upload } from "@testing-library/user-event/dist/upload";
+import ScriptPlot from "../components/data/ScriptPlot";
 
 /**
  * Creates a URL string pointing to the file passed as the argument 
@@ -80,6 +80,12 @@ export function dataComponentMaker(obj) {
                 cardTitle={"Script"}
                 iconClassNames={"bi bi-filetype-py cursor-pointer"}
             />;
+        case DATA_COMPONENT_TYPES.SCRIPT_PLOT:
+            return <ScriptPlot
+                compID={compID}
+                cardTitle={"Plotting Script"}
+                iconClassNames={"bi bi-file-bar-graph cursor-pointer"}
+            />;
     }
 }
 
@@ -149,7 +155,11 @@ export function createLocalState(type) {
                 downloadProps: {...defaultDownloadValues},
                 body: ''
             };
-        
+        case DATA_COMPONENT_TYPES.SCRIPT_PLOT:
+            return {
+                downloadProps: {...defaultDownloadValues},
+                body: ''
+            };
         
     }
 }
