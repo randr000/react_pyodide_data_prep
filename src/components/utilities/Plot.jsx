@@ -41,7 +41,7 @@ const Plot = ({show, compID, plotScript}) => {
     }, [plotScript])
 
     return (
-        <div title="plot-container" className="plot-container">
+        <div title="plot-container" className="plot-container ms-4">
             <div className="d-flex flex-column-reverse" id="this-plot" ref={plotRef} data-testid={`plot-${compID}`} style={{zIndex: 1000}}>
             </div>
         </div>
