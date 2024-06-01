@@ -55,7 +55,7 @@ const Plot = ({show, compID, plotScript}) => {
 
     return (
         <div title="plot-container" className="plot-container ms-4" onMouseOver={handleOnMouseOver} onMouseOut={handleOnMouseOut}>
-            <div className="d-flex flex-column-reverse" id="this-plot" ref={plotRef} data-testid={`plot-${compID}`} style={{zIndex: 1000}}>
+            <div className={`d-flex flex-column-reverse ${!show && "d-none"}`} id="this-plot" ref={plotRef} data-testid={`plot-${compID}`} style={{zIndex: 1000}}>
             </div>
         </div>
     );

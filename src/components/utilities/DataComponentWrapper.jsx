@@ -90,7 +90,7 @@ const DataComponentWrapper = ({
                         />
                     }
 
-                    <ToggleTablePill compID={compID} showTable={showTable} />
+                    <ToggleTablePill compID={compID} showTable={showTable} dataOutputType={dataOutputType}/>
                         
                     {
                         canHaveDownloadPill && 

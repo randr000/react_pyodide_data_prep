@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import useGetContexts from '../../custom-hooks/useGetContexts';
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
-const ToggleTablePill = ({compID, showTable}) => {
+const ToggleTablePill = ({compID, showTable, dataOutputType}) => {
 
     const {appState, dispatch} = useGetContexts();
     const {isDragging, showAllTables, hideAllTables} = appState;
@@ -53,7 +53,11 @@ const ToggleTablePill = ({compID, showTable}) => {
                     ${showTable ? "text-danger" : "text-success"}
                     btn
                 `}>
-                <i className="bi bi-table"></i>
+                {
+                    dataOutputType === 'plot'
+                    ? <i class="fa-solid fa-chart-simple"></i>
+                    : <i className="bi bi-table"></i>
+                }
             </span>
         </div>
   );
