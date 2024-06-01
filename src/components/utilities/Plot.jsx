@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import useGetContexts from "../../custom-hooks/useGetContexts";
+import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 
 const Plot = ({show, compID, plotScript}) => {
 
-    const {pyodide, isPyodideLoaded} = useGetContexts();
+    const {dispatch, pyodide, isPyodideLoaded} = useGetContexts();
 
     const plotRef = useRef(null);
     
@@ -39,13 +40,21 @@ const Plot = ({show, compID, plotScript}) => {
         }
     }
 
+    function handleOnMouseOver() {
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: true});
+    }
+
+    function handleOnMouseOut() {
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: false});
+    }
+
     // Updates plots anytime script changes
     useEffect(() => {
         plot();
     }, [plotScript])
 
     return (
-        <div title="plot-container" className="plot-container ms-4">
+        <div title="plot-container" className="plot-container ms-4" onMouseOver={handleOnMouseOver} onMouseOut={handleOnMouseOut}>
             <div className="d-flex flex-column-reverse" id="this-plot" ref={plotRef} data-testid={`plot-${compID}`} style={{zIndex: 1000}}>
             </div>
         </div>
