@@ -6,32 +6,28 @@ const Plot = ({show, compID, plotScript}) => {
     const {pyodide, isPyodideLoaded} = useGetContexts();
 
     const plotRef = useRef(null);
-    // const [run, setRun] = useState(false);
-    const [plots, setPlots] = useState([]);
     
+    /**
+     * Renders the plots everytime plt.show() is called in the script
+     */
     function plot() {
         if (isPyodideLoaded && document.body.childElementCount > 2) {
             try {
-    
+                // Remove all old plots
                 while (plotRef.current.firstChild) {
                     plotRef.current.removeChild(plotRef.current.firstChild);
                 }
+
                 pyodide.runPython(plotScript);
 
+                // plt.show causes the plots to be appended to body, this moves them to div specified
+                // First four elements are noscript, react app, 2 other modal elements that have not yet been removed from
+                //  the DOM when the script modal is edited and saved. CSS is used to display plots in the order plt.show()
+                //  was called.
                 while (document.body.childElementCount > 4) {
                     const lastChild = document.body.lastElementChild;
-
-                    
-
                     /^matplotlib_.*/.test(lastChild.id) && plotRef.current.appendChild(lastChild);
-                    console.log(`count ${document.body.childElementCount}`);
-
                 }
-
-                // for (let i = 0; i < document.body.childElementCount; i++) {
-                //     /^matplotlib_.*/.test(document.body.children[i].id) && plotRef.current.appendChild(document.body.children[i]);
-                // }
-
 
             } catch (error) {
                 console.log(error);
@@ -39,21 +35,9 @@ const Plot = ({show, compID, plotScript}) => {
         }
     }
 
-    // const [myPlot, setMyPlot] = useState(null);
-
+    // Updates plots anytime script changes
     useEffect(() => {
-        // document.pyodideMplTarget = plotRef.current;
-        // document.thispy = plotRef.current;
-    }, [])
-
-    useEffect(() => {
-        // document.pyodideMplTarget = plotRef.current;
-        // document.pyodideMplTarget = document.getElementById('this-plot');
         plot();
-
-        // console.log(document.pyodideMplTarget);
-
-        // console.log(document.thispy)
     }, [plotScript])
 
     return (
