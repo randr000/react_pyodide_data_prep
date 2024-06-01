@@ -29,6 +29,10 @@ const Plot = ({show, compID, plotScript}) => {
                     /^matplotlib_.*/.test(lastChild.id) && plotRef.current.appendChild(lastChild);
                 }
 
+                // Each plot is plotted with the text 'Figure' followed by its figure number on top of the plot. ex "Figure 3"
+                // This removes it from each plot.
+                document.querySelectorAll('[id^="matplotlib_"][id$="top"]').forEach(e => e.remove())
+
             } catch (error) {
                 console.log(error);
             }
