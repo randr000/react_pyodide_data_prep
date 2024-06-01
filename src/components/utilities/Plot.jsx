@@ -13,19 +13,23 @@ const Plot = ({show, compID, plotScript}) => {
         if (isPyodideLoaded && document.body.childElementCount > 2) {
             try {
     
-                // while (plotRef.current.firstChild) {
-                //     plotRef.current.removeChild(plotRef.current.firstChild);
-                // }
-                // pyodide.runPython(plotScript);
+                while (plotRef.current.firstChild) {
+                    plotRef.current.removeChild(plotRef.current.firstChild);
+                }
+                pyodide.runPython(plotScript);
 
-                // while (document.body.childElementCount > 4) {
-                //     const lastChild = document.body.lastElementChild;
+                while (document.body.childElementCount > 4) {
+                    const lastChild = document.body.lastElementChild;
 
                     
 
-                //     /^matplotlib_.*/.test(lastChild.id) && plotRef.current.appendChild(lastChild);
-                //     console.log(`count ${document.body.childElementCount}`);
+                    /^matplotlib_.*/.test(lastChild.id) && plotRef.current.appendChild(lastChild);
+                    console.log(`count ${document.body.childElementCount}`);
 
+                }
+
+                // for (let i = 0; i < document.body.childElementCount; i++) {
+                //     /^matplotlib_.*/.test(document.body.children[i].id) && plotRef.current.appendChild(document.body.children[i]);
                 // }
 
 
@@ -54,8 +58,7 @@ const Plot = ({show, compID, plotScript}) => {
 
     return (
         <div title="plot-container" className="plot-container">
-            <div id="this-plot" ref={plotRef} data-testid={`plot-${compID}`} style={{zIndex: 1000}}>
-                {plots.map((plot, idx) => (<div key={idx}>{plot}</div>))}
+            <div className="d-flex flex-column-reverse" id="this-plot" ref={plotRef} data-testid={`plot-${compID}`} style={{zIndex: 1000}}>
             </div>
         </div>
     );
