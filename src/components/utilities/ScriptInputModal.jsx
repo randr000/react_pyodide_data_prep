@@ -3,7 +3,7 @@ import useGetContexts from "../../custom-hooks/useGetContexts";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import { Modal, Button, Form } from "react-bootstrap";
 
-const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal}) => {
+const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal, allowPlotting=false, setScriptingError}) => {
 
     const {dispatch} = useGetContexts();
 
@@ -20,7 +20,9 @@ const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal}) =
     }
 
     function handleSaveChanges() {
-        updateBody(pythonCode);
+        if (!allowPlotting && /^import matplotlib.*/.test(pythonCode)) {
+            setScriptingError('An attempt to import matplotlib was detected. Plotting is not allowed while using this component. Please remove all matplotib references before continuing.');
+        } else updateBody(pythonCode);
         handleClose();
     }
 

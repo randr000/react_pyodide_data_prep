@@ -35,6 +35,7 @@ const Plot = ({show, compID, plotScript, setScriptingError}) => {
                 // Each plot is plotted with the text 'Figure' followed by its figure number on top of the plot. ex "Figure 3"
                 // This removes it from each plot.
                 document.querySelectorAll('[id^="matplotlib_"][id$="top"]').forEach(e => e.remove())
+                setScriptingError(false);
 
             } catch (error) {
                 console.log(error);
@@ -45,6 +46,7 @@ const Plot = ({show, compID, plotScript, setScriptingError}) => {
             while (plotRef.current.firstChild) {
                 plotRef.current.removeChild(plotRef.current.firstChild);
             }
+            setScriptingError(false);
         }
     }
 
