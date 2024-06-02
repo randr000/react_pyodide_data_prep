@@ -38,3 +38,14 @@ plt.xlabel("Courses offered")
 plt.ylabel("No. of students enrolled")
 plt.title("Students enrolled in different courses")
 plt.show()
+
+
+fig = plt.figure()
+
+plt.bar(df['state'], df['population'], color ='maroon', 
+        width = 0.4)
+ 
+plt.xlabel("States")
+plt.ylabel("Population")
+plt.title("State Populations")
+plt.show()

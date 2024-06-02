@@ -29,6 +29,7 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
 
     const prefix = [
     'import pandas as pd',
+    'import numpy as np',
     'from io import StringIO',
     'import json',
     'df_list = [pd.read_json(path_or_buf=StringIO(json.dumps(data)), orient="split") for data in json.loads(jsonStr)]',
@@ -71,7 +72,6 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
             } catch (error) {
                 updateTargetState(sourceData.charAt(0) === '{' ? sourceData : JSON.parse(sourceData)[0]);
                 setPythonError(error);
-                
             }
         }
     }

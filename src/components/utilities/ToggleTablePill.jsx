@@ -55,7 +55,7 @@ const ToggleTablePill = ({compID, showTable, dataOutputType}) => {
                 `}>
                 {
                     dataOutputType === 'plot'
-                    ? <i class="fa-solid fa-chart-simple"></i>
+                    ? <i className="fa-solid fa-chart-simple"></i>
                     : <i className="bi bi-table"></i>
                 }
             </span>

@@ -26,7 +26,8 @@ const DataComponentWrapper = ({
     targetDataDeps = [],
     canHaveDownloadPill = true,
     dataOutputType = 'table',
-    plotScript = ''
+    plotScript = '',
+    setScriptingError = false
 }) => {
 
     const {appState, dispatch, pyodide, isPyodideLoaded} = useGetContexts();
@@ -107,7 +108,14 @@ const DataComponentWrapper = ({
             </div>
             {   
                 ((targetDataJSONStr && targetDataJSONStr.length > CONSTANTS.BLANK_TABLE_DATA_STR.length) || dataOutputType === 'plot')
-                && <DataOutput tableData={targetDataJSONStr} show={showTable} compID={compID} dataOutputType={dataOutputType} plotScript={plotScript} />
+                && <DataOutput
+                    tableData={targetDataJSONStr}
+                    show={showTable}
+                    compID={compID}
+                    dataOutputType={dataOutputType}
+                    plotScript={plotScript}
+                    setScriptingError={setScriptingError}
+                    />
             }
         </DataComponentDragWrapper>
     );

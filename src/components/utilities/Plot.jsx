@@ -1,33 +1,35 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import useGetContexts from "../../custom-hooks/useGetContexts";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
+import useGetComponentSourceData from "../../custom-hooks/useGetComponentSourceData";
 
-const Plot = ({show, compID, plotScript}) => {
+const Plot = ({show, compID, plotScript, setScriptingError}) => {
 
     const {dispatch, pyodide, isPyodideLoaded} = useGetContexts();
 
     const plotRef = useRef(null);
+
+    const sourceData = useGetComponentSourceData(compID);
     
     /**
      * Renders the plots everytime plt.show() is called in the script
      */
     function plot() {
-        if (isPyodideLoaded && document.body.childElementCount > 2) {
+        // if (isPyodideLoaded && document.body.childElementCount > 2) {
+        if (isPyodideLoaded && sourceData) {
             try {
                 // Remove all old plots
                 while (plotRef.current.firstChild) {
                     plotRef.current.removeChild(plotRef.current.firstChild);
                 }
 
-                pyodide.runPython(plotScript);
+                // Pass source data to python script
+                let myNamespace = pyodide.toPy({jsonStr: sourceData.charAt(0) === '{' ? `[${sourceData}]` : sourceData});
+                pyodide.runPython(plotScript, {globals: myNamespace});
 
-                // plt.show causes the plots to be appended to body, this moves them to div specified
-                // First four elements are noscript, react app, 2 other modal elements that have not yet been removed from
-                //  the DOM when the script modal is edited and saved. CSS is used to display plots in the order plt.show()
-                //  was called.
-                while (document.body.childElementCount > 4) {
-                    const lastChild = document.body.lastElementChild;
-                    /^matplotlib_.*/.test(lastChild.id) && plotRef.current.appendChild(lastChild);
+                // Append only the plots
+                for(let i = document.body.childElementCount - 1; i >= 0; i--) {
+                    if (/^matplotlib_.*/.test(document.body.children[i].id)) plotRef.current.appendChild(document.body.children[i]);
                 }
 
                 // Each plot is plotted with the text 'Figure' followed by its figure number on top of the plot. ex "Figure 3"
@@ -36,6 +38,12 @@ const Plot = ({show, compID, plotScript}) => {
 
             } catch (error) {
                 console.log(error);
+                setScriptingError(error);
+            }
+        } else {
+            // Remove all old plots if source data is removed
+            while (plotRef.current.firstChild) {
+                plotRef.current.removeChild(plotRef.current.firstChild);
             }
         }
     }
@@ -48,10 +56,10 @@ const Plot = ({show, compID, plotScript}) => {
         dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: false});
     }
 
-    // Updates plots anytime script changes
+    // Updates plots anytime script or source data changes
     useEffect(() => {
         plot();
-    }, [plotScript])
+    }, [plotScript, sourceData]);
 
     return (
         <div title="plot-container" className="plot-container ms-4" onMouseOver={handleOnMouseOver} onMouseOut={handleOnMouseOut}>
