@@ -130,6 +130,8 @@ const ScriptPlot = ({compID, cardTitle, iconClassNames}) => {
             iconOnClick={() => !isDragging && setShowScriptModal(true)}
             targetDataDeps={[pyScript]}
             maxSources={Infinity}
+            canHaveTargets={false}
+            canHaveDownloadPill={false}
             dataOutputType="plot"
             plotScript={pyScript}
         >   
