@@ -112,7 +112,7 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
         <DataComponentWrapper
             compID={compID}
             cardTitle={cardTitle}
-            iconClassNames={!pyScript || body === '' ? iconClassNames : pythonError ? `${iconClassNames} text-danger` : `${iconClassNames} text-success`}
+            iconClassNames={(!pyScript || body === '') && !pythonError ? iconClassNames : pythonError ? `${iconClassNames} text-danger` : `${iconClassNames} text-success`}
             updateTargetData={updateTargetData}
             transformTargetData={transformTargetData}
             iconOnClick={() => !isDragging && setShowScriptModal(true)}

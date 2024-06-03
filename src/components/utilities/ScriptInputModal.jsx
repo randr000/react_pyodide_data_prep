@@ -22,6 +22,7 @@ const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal, al
     function handleSaveChanges() {
         if (!allowPlotting && /^import matplotlib.*/.test(pythonCode)) {
             setScriptingError('An attempt to import matplotlib was detected. Plotting is not allowed while using this component. Please remove all matplotib references before continuing.');
+            // updateBody(' ');
         } else updateBody(pythonCode);
         handleClose();
     }

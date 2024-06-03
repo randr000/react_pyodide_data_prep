@@ -35,7 +35,7 @@ describe('test-plotting', () => {
         cy.get('body').children().should('have.length', 2);
     });
 
-    it.only('Should render plot when source data changes', () => {
+    it('Should render plot when source data changes', () => {
         cy.clickNavBarButton('Upload');
         cy.clickNavBarButton('Plotting Script');
         cy.connectDataComponents(0, 1, {force: true});
@@ -78,9 +78,18 @@ describe('test-plotting', () => {
         cy.get('body').children().should('have.length', 2);
     });
 
-    // it('Should not render a plot when trying to plot using the Script component', () => {
-
-    // });
+    it('Should not render a plot when trying to plot using the Script component', () => {
+        cy.clickNavBarButton('Upload');
+        cy.clickNavBarButton('Script');
+        cy.connectDataComponents(0, 1, {force: true});
+        cy.uploadFile('city-populations.xlsx', 'Upload-0');
+        cy.get('.bi-filetype-py').click({force: true});
+        cy.get('#python-script-1').clear().type('import matplotlib', {parseSpecialCharSequences: false});
+        cy.contains('button', 'Save Changes').click({force: true});
+        cy.get('.bi-filetype-py.text-danger').should('exist');
+        cy.contains('button', 'See Python Error').click({force: true});
+        cy.contains('button', 'Close').click({force: true});
+    });
 
     it('Should render plot when state is uploaded from memory', () => {
         cy.uploadFile('test-download-plotting-state.json', 'pipeline-upload');
