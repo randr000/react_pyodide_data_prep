@@ -1,0 +1,116 @@
+{
+    "nextID": 4,
+    "components": [
+        [
+            2,
+            {
+                "type": "FILE_UPLOAD",
+                "compID": 2,
+                "showTable": true,
+                "coordinates": {
+                    "x": 117.00000762939453,
+                    "y": 241
+                },
+                "localState": {
+                    "downloadProps": {
+                        "fileName": "",
+                        "isCheckedFileType": [
+                            {
+                                "label": "csv",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "xlsx",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "txt",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (split)",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (records)",
+                                "isChecked": false
+                            }
+                        ]
+                    },
+                    "uploadStyles": {
+                        "borderWidth": "3px",
+                        "borderStyle": "solid",
+                        "borderColor": "#28a745"
+                    },
+                    "fileMetaData": {
+                        "name": "city_populations.csv"
+                    },
+                    "isInvalidFile": false,
+                    "invalidFileMsg": ""
+                },
+                "outputComponents": [
+                    3
+                ],
+                "data": "{\"columns\":[\"state\",\"city\",\"population\"],\"index\":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],\"data\":[[\"California\",\"Los Angeles\",3850000],[\"California\",\"San Diego\",1400000],[\"California\",\"San Jose\",986300],[\"California\",\"San Francisco\",815201],[\"Texas\",\"Houston\",2296253],[\"Texas\",\"San Antonio\",1445662],[\"Texas\",\"Dallas\",1300642],[\"Texas\",\"Austin\",958202],[\"Florida\",\"Jacksonville\",990931],[\"Florida\",\"Miami\",456229],[\"Florida\",\"Tampa\",408438],[\"Florida\",\"Orlando\",324429],[\"New York\",\"New York City\",7931147],[\"New York\",\"Buffalo\",275352],[\"New York\",\"Rochester\",207537],[\"New York\",\"Yonkers\",205253]]}"
+            }
+        ],
+        [
+            3,
+            {
+                "type": "SCRIPT_PLOT",
+                "compID": 3,
+                "showTable": true,
+                "coordinates": {
+                    "x": 856.0000610351562,
+                    "y": 275
+                },
+                "localState": {
+                    "downloadProps": {
+                        "fileName": "",
+                        "isCheckedFileType": [
+                            {
+                                "label": "csv",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "xlsx",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "txt",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (split)",
+                                "isChecked": false
+                            },
+                            {
+                                "label": "json (records)",
+                                "isChecked": false
+                            }
+                        ]
+                    },
+                    "body": "fig = plt.figure()\n\nplt.bar(df['state'], df['population'], color ='maroon', width = 0.4)\n \nplt.xlabel(\"States\")\nplt.ylabel(\"Population\")\nplt.title(\"State Populations\")\nplt.show()"
+                },
+                "sourceComponents": [
+                    2
+                ],
+                "outputComponents": []
+            }
+        ]
+    ],
+    "arrows": [
+        [
+            "2-btm_3-top",
+            {
+                "arrowID": "2-btm_3-top",
+                "start": "2-btm",
+                "end": "3-top",
+                "compIDs": [
+                    2,
+                    3
+                ]
+            }
+        ]
+    ]
+}

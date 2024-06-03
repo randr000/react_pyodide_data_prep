@@ -42,8 +42,7 @@ plt.show()
 
 fig = plt.figure()
 
-plt.bar(df['state'], df['population'], color ='maroon', 
-        width = 0.4)
+plt.bar(df['state'], df['population'], color ='maroon', width = 0.4)
  
 plt.xlabel("States")
 plt.ylabel("Population")

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import useGetContexts from "../../custom-hooks/useGetContexts";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import useGetComponentSourceData from "../../custom-hooks/useGetComponentSourceData";
+import CONSTANTS from "../../js/app-constants";
 
 const Plot = ({show, compID, plotScript, setScriptingError}) => {
 
@@ -15,8 +16,7 @@ const Plot = ({show, compID, plotScript, setScriptingError}) => {
      * Renders the plots everytime plt.show() is called in the script
      */
     function plot() {
-        // if (isPyodideLoaded && document.body.childElementCount > 2) {
-        if (isPyodideLoaded && sourceData) {
+        if (isPyodideLoaded && plotScript.trim()) {
             try {
                 // Remove all old plots
                 while (plotRef.current.firstChild) {
@@ -24,8 +24,13 @@ const Plot = ({show, compID, plotScript, setScriptingError}) => {
                 }
 
                 // Pass source data to python script
-                let myNamespace = pyodide.toPy({jsonStr: sourceData.charAt(0) === '{' ? `[${sourceData}]` : sourceData});
-                pyodide.runPython(plotScript, {globals: myNamespace});
+                if (sourceData) {
+                    let myNamespace = pyodide.toPy({jsonStr: sourceData.charAt(0) === '{' ? `[${sourceData}]` : sourceData});
+                    pyodide.runPython(plotScript, {globals: myNamespace});
+                } else  {
+                    let myNamespace = pyodide.toPy({jsonStr: `[${CONSTANTS.BLANK_TABLE_DATA_STR}]`});
+                    pyodide.runPython(plotScript, {globals: myNamespace});
+                }
 
                 // Append only the plots
                 for(let i = document.body.childElementCount - 1; i >= 0; i--) {
@@ -65,7 +70,7 @@ const Plot = ({show, compID, plotScript, setScriptingError}) => {
 
     return (
         <div title="plot-container" className="plot-container ms-4" onMouseOver={handleOnMouseOver} onMouseOut={handleOnMouseOut}>
-            <div className={`d-flex flex-column-reverse ${!show && "d-none"}`} id="this-plot" ref={plotRef} data-testid={`plot-${compID}`} style={{zIndex: 1000}}>
+            <div className={`d-flex flex-column-reverse ${!show && "d-none"}`} id={`plot-${compID}`} ref={plotRef} data-testid={`plot-${compID}`} style={{zIndex: 1000}}>
             </div>
         </div>
     );
