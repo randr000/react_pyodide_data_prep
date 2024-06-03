@@ -108,7 +108,7 @@ describe('test-download-files', () => {
         cy.connectDataComponents(1, 2, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
-        cy.get('#python-script-2').clear().type(pythonScripts.concatByIndex, {parseSpecialCharSequences: false});
+        cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(pythonScripts.concatByIndex, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
         cy.validateDownload('Script', 2, 'script-test', ['csv', 'xlsx']);

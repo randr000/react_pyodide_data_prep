@@ -3,7 +3,7 @@ export const navbarComponentBtns = ['Upload', 'Download', 'Filter Columns', 'Fil
 export const navbarUtilityBtns = ['Remove All'];
 export const pythonScripts = {
     capitalizeColumns: 'df = df.rename(columns={k: v.capitalize() for (k,v) in zip(df.columns, df.columns)})',
-    applyStateUppercase: 'def upper(s):\n\treturn s.upper()\ndf["state"] = df["state"].apply(upper)',
+    applyStateUppercase: ['def upper(s):\nreturn s.upper()\n', 'df["state"] = df["state"].apply(upper)'],
     multiplyPopByTwo: 'df["population"] = df["population"].apply(lambda x: x * 2)',
     concatByIndex: [
         'df_list[0] = df_list[0].rename(columns={k: f"{v}-1" for (k,v) in zip(df_list[0].columns, df_list[0].columns)})\n',
@@ -14,7 +14,7 @@ export const pythonScripts = {
 export const plottingScripts = {
     colorMap: [
         'import matplotlib.cm as cm\n',
-        'delta = 0.025\n',
+        '\ndelta = 0.025\n',
         'x = y = np.arange(-3.0, 3.0, delta)\n',
         'X, Y = np.meshgrid(x, y)\n',
         'Z1 = np.exp(-(X**2) - Y**2)\n',

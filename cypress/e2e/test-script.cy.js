@@ -15,7 +15,7 @@ describe('test-script', () => {
         cy.uploadFile('city-populations.xlsx', 'Upload-0');
 
         cy.get('.bi-filetype-py').click({force: true});
-        cy.get('#python-script-1').clear().type(capitalizeColumns, {parseSpecialCharSequences: false});
+        cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(capitalizeColumns, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
         cy.assertTable('script-column-capitalized-split.json', '[data-testid=table-1]');
@@ -29,7 +29,7 @@ describe('test-script', () => {
         cy.connectDataComponents(0, 1, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
-        cy.get('#python-script-1').clear().type(capitalizeColumns, {parseSpecialCharSequences: false});
+        cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(capitalizeColumns, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
         cy.assertTable('script-column-capitalized-split.json', '[data-testid=table-1]');        
@@ -44,7 +44,10 @@ describe('test-script', () => {
         cy.uploadFile('city-populations.xlsx', 'Upload-0');
 
         cy.get('.bi-filetype-py').click({force: true});
-        cy.get('#python-script-1').clear().type(applyStateUppercase, {parseSpecialCharSequences: false});
+        cy.get('.monaco-editor textarea').click({force: true})
+            .type('{ctrl}a', {force: true}).type(applyStateUppercase[0], {parseSpecialCharSequences: false, force: true})
+            .type('{home}', {force: true})
+            .type(applyStateUppercase[1], {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
         cy.assertTable('script-state-uppercase-split.json', '[data-testid=table-1]');
@@ -58,7 +61,10 @@ describe('test-script', () => {
         cy.connectDataComponents(0, 1, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
-        cy.get('#python-script-1').clear().type(applyStateUppercase, {parseSpecialCharSequences: false});
+        cy.get('.monaco-editor textarea').click({force: true})
+            .type('{ctrl}a', {force: true}).type(applyStateUppercase[0], {parseSpecialCharSequences: false, force: true})
+            .type('{home}', {force: true})
+            .type(applyStateUppercase[1], {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
         cy.assertTable('script-state-uppercase-split.json', '[data-testid=table-1]');        
@@ -73,7 +79,7 @@ describe('test-script', () => {
         cy.uploadFile('city-populations.xlsx', 'Upload-0');
 
         cy.get('.bi-filetype-py').click({force: true});
-        cy.get('#python-script-1').clear().type(multiplyPopByTwo, {parseSpecialCharSequences: false});
+        cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(multiplyPopByTwo, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
         cy.assertTable('script-pop-mult2-split.json', '[data-testid=table-1]');
@@ -87,13 +93,13 @@ describe('test-script', () => {
         cy.connectDataComponents(0, 1, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
-        cy.get('#python-script-1').clear().type(multiplyPopByTwo, {parseSpecialCharSequences: false});
+        cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(multiplyPopByTwo, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
         cy.assertTable('script-pop-mult2-split.json', '[data-testid=table-1]');        
     });
 
-    testName = 'Should cconcatenate two dataframes by their index';
+    testName = 'Should concatenate two dataframes by their index';
     it(`${testName} ${connectFirst}`, () => {
         cy.clickNavBarButton('Upload');
         cy.clickNavBarButton('Upload');
@@ -105,7 +111,7 @@ describe('test-script', () => {
         cy.uploadFile('state-populations-3.xlsx', 'Upload-1');
 
         cy.get('.bi-filetype-py').click({force: true});
-        cy.get('#python-script-2').clear().type(concatByIndex, {parseSpecialCharSequences: false});
+        cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(concatByIndex, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
         cy.assertTable('script-state-pop-concat-split.json', '[data-testid=table-2]');
@@ -122,7 +128,7 @@ describe('test-script', () => {
         cy.connectDataComponents(1, 2, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
-        cy.get('#python-script-2').clear().type(concatByIndex, {parseSpecialCharSequences: false});
+        cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(concatByIndex, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
         cy.assertTable('script-state-pop-concat-split.json', '[data-testid=table-2]');       
@@ -137,7 +143,7 @@ describe('test-script', () => {
         cy.connectDataComponents(0, 1, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
-        cy.get('#python-script-1').clear().type('df=;', {parseSpecialCharSequences: false});
+        cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type('df=;', {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
         cy.get('.bi-filetype-py.text-danger').should('exist');
@@ -147,7 +153,7 @@ describe('test-script', () => {
         cy.assertTable('city-populations-split.json', '[data-testid=table-1]');
         
         cy.get('.bi-filetype-py').click({force: true});
-        cy.get('#python-script-1').clear().type('df=df', {parseSpecialCharSequences: false});
+        cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type('df=df', {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
         cy.get('.bi-filetype-py.text-success').should('exist');

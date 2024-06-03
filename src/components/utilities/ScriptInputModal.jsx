@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useGetContexts from "../../custom-hooks/useGetContexts";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import { Modal, Button, Form } from "react-bootstrap";
+import { Editor } from "@monaco-editor/react";
 
 const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal, allowPlotting=false, setScriptingError}) => {
 
@@ -22,7 +23,6 @@ const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal, al
     function handleSaveChanges() {
         if (!allowPlotting && /^import matplotlib.*/.test(pythonCode)) {
             setScriptingError('An attempt to import matplotlib was detected. Plotting is not allowed while using this component. Please remove all matplotib references before continuing.');
-            // updateBody(' ');
         } else updateBody(pythonCode);
         handleClose();
     }
@@ -32,30 +32,21 @@ const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal, al
         handleClose();
     }
 
-    function handleOnKeyDown(event) {
-        if (event.key === 'Tab') {
-            event.preventDefault();
-            setPythonCode(prev => `${prev}\t`);
-        }
-    }
-
     return (
-        <div id={`script-modal-${compID}`} className="modal show" style={{display: "block", position: "initial"}}>
+        <div id={`script-modal-${compID}`} className="modal show" style={{display: "block", position: "initial"}} onMouseOver={handleOnMouseOver} onMouseOut={handleOnMouseOut}>
             <Modal show={showModal} onHide={handleDiscardChanges} size="xl">
                 <Modal.Body>
                     <div className="d-flex mt-2">
                         <Form.Label className="align-self-start" htmlFor={`python-script-${compID}`}>Enter Python Code:</Form.Label>
                     </div>
-                    <Form.Control   
-                        as="textarea"
-                        rows="25"
+                    <Editor
                         id={`python-script-${compID}`}
-                        value={pythonCode}
-                        onChange={e => setPythonCode(e.target.value)}
-                        onMouseOver={handleOnMouseOver}
-                        onMouseOut={handleOnMouseOut}
-                        onKeyDown={handleOnKeyDown}
-                        spellCheck={false}
+                        height="80vh"
+                        defaultLanguage="python"
+                        value={pythonCode ? pythonCode : ""}
+                        defaultValue={pythonCode}
+                        theme="vs-dark"
+                        onChange={value => setPythonCode(value)}
                     />
                 </Modal.Body>
                 <Modal.Footer>
