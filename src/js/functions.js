@@ -91,7 +91,7 @@ export function dataComponentMaker(obj) {
             return <LinearRegression
                 compID={compID}
                 cardTitle={"Linear Regression"}
-                iconClassNames={"fa-solid fa-chart-line"}
+                iconClassNames={"fa-solid fa-chart-line cursor-pointer"}
             />;
     }
 }
