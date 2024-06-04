@@ -91,6 +91,7 @@ const NavBar = () => {
                     <NavBarComponentButton btnText="Union" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.UNION)}/>
                     <NavBarComponentButton btnText="Script" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.SCRIPT)}/>
                     <NavBarComponentButton btnText="Plotting Script" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.SCRIPT_PLOT)}/>
+                    <NavBarComponentButton btnText="Linear Regression" onClick={() => handleOnClick(DATA_COMPONENT_TYPES.LINEAR_REGRESSION)}/>
                 </div>
                 <PipelineUpload pipelineUploadFormId={pipelineUploadFormId} />
                 <div className="d-flex justify-content-end">

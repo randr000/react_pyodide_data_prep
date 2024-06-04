@@ -7,6 +7,7 @@ import Join from "../components/data/Join";
 import Union from "../components/data/Union";
 import Script from "../components/data/Script";
 import ScriptPlot from "../components/data/ScriptPlot";
+import LinearRegression from "../components/data/LinearRegression";
 
 /**
  * Creates a URL string pointing to the file passed as the argument 
@@ -86,6 +87,12 @@ export function dataComponentMaker(obj) {
                 cardTitle={"Plotting Script"}
                 iconClassNames={"bi bi-file-bar-graph cursor-pointer"}
             />;
+        case DATA_COMPONENT_TYPES.LINEAR_REGRESSION:
+            return <LinearRegression
+                compID={compID}
+                cardTitle={"Linear Regression"}
+                iconClassNames={"fa-solid fa-chart-line"}
+            />;
     }
 }
 
@@ -160,7 +167,18 @@ export function createLocalState(type) {
                 downloadProps: {...defaultDownloadValues},
                 body: ''
             };
-        
+        case DATA_COMPONENT_TYPES.LINEAR_REGRESSION:
+            return {
+                toTrainModel: false,
+                x: [],
+                y: '',
+                test_size: .2,
+                random_state: 1,
+                mae: null,
+                mse: null,
+                r2: null,
+                pickledModel: null
+            }
     }
 }
 

@@ -13,10 +13,11 @@ export const PyodideContextWrapper = ({children, toLoadPyodide=true}) => {
         (async function () {
             pyodideRef.current = await loadPyodide({
                 indexURL : "https://cdn.jsdelivr.net/pyodide/v0.21.3/full/"
-              });
-            await pyodideRef.current.loadPackage('pandas');
-            await pyodideRef.current.loadPackage('numpy');
-            await pyodideRef.current.loadPackage('matplotlib');
+            });
+
+            // Load python packages
+            ['pandas', 'numpy', 'matplotlib', 'scikit-learn', 'cloudpickle'].forEach(async pkg => await pyodideRef.current.loadPackage(pkg));
+    
             setIsPyodideLoaded(true);
             return pyodideRef.current.runPythonAsync('2 * 3');
             

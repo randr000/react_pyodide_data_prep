@@ -47,6 +47,7 @@ const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal, al
                         defaultValue={pythonCode}
                         theme="vs-dark"
                         onChange={value => setPythonCode(value)}
+                        options={{lineNumbers: n => n + 6}}
                     />
                 </Modal.Body>
                 <Modal.Footer>
