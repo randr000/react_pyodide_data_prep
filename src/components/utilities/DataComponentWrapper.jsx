@@ -25,6 +25,7 @@ const DataComponentWrapper = ({
     transformTargetData = false,
     targetDataDeps = [],
     canHaveDownloadPill = true,
+    canHaveTablePill = true,
     dataOutputType = 'table',
     plotScript = '',
     setScriptingError = false
@@ -91,7 +92,7 @@ const DataComponentWrapper = ({
                         />
                     }
 
-                    <ToggleTablePill compID={compID} showTable={showTable} dataOutputType={dataOutputType}/>
+                    {canHaveTablePill && <ToggleTablePill compID={compID} showTable={showTable} dataOutputType={dataOutputType}/>}
                         
                     {
                         canHaveDownloadPill && 

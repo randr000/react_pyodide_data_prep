@@ -169,11 +169,11 @@ export function createLocalState(type) {
             };
         case DATA_COMPONENT_TYPES.LINEAR_REGRESSION:
             return {
-                toTrainModel: false,
-                x: [],
-                y: '',
-                test_size: .2,
-                random_state: 1,
+                autoTrainModel: false,
+                xCols: [],
+                yCol: '',
+                tesSize: .2,
+                randomState: 1,
                 mae: null,
                 mse: null,
                 r2: null,
