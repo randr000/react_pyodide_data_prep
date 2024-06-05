@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 // import other utility component(s)
 import DataComponentWrapper from "../utilities/DataComponentWrapper";
+import LinearRegressionModal from "../utilities/LinearRegressionModal";
 import { Button, Form } from "react-bootstrap";
 
 // import custom hooks
@@ -21,8 +22,11 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
         console.log(`test ${test}`);
     }, [test]);
 
+    const [showModal, setShowModal] = useState(false);
+
     function handleIconOnClick() {
-        return;
+        if (isDragging) return;
+        setShowModal(true);
     }
 
     function handleTrainOnClick() {
@@ -46,7 +50,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
                     <Form.Switch id={`auto-train-switch-${compID}`} onChange={() => setTest(p => !p)}></Form.Switch>
                 </Form>
             </div>
-
+            <LinearRegressionModal compID={compID} show={showModal} setShow={setShowModal} />
         </DataComponentWrapper>
     );
 };
