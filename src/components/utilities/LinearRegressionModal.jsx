@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useGetContexts from "../../custom-hooks/useGetContexts";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import { Modal, Button, Form } from "react-bootstrap";
@@ -17,7 +17,29 @@ const LinearRegressionModal = ({compID, show, setShow}) => {
     const [pendingTestSize, setPendingTestSize] = useState(testSize)
     const [pendingRandomState, setPendingRandomState] = useState(randomState);
 
-    function handleClose() {setShow(false)}
+    // Make sure testSize is always between .1 and .9 inclusive
+    useEffect(() => {
+        if (pendingTestSize < .1) setPendingTestSize(.1);
+        else if (pendingTestSize > .9) setPendingTestSize(.9);
+    }, [pendingTestSize]);
+
+    // Make sure random state is always an int
+    useEffect(() => {
+        setPendingRandomState(prev => Math.round(prev));
+    }, [pendingRandomState]);
+
+    function handleClose() {
+        setShow(false);
+        handleOnMouseOut();
+    }
+
+    function handleOnMouseOver() {
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: true});
+    }
+
+    function handleOnMouseOut() {
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: false});
+    }
 
     function handleOnHide() {
         handleClose();
@@ -50,14 +72,14 @@ const LinearRegressionModal = ({compID, show, setShow}) => {
     }
 
     return (
-        <div id={`linear-regression-modal-${compID}`}>
+        <div id={`linear-regression-modal-${compID}`} onMouseOver={handleOnMouseOver} onMouseOut={handleOnMouseOut}>
             <Modal show={show} onHide={handleOnHide}>
                 <Modal.Body>
                     <Form>
-                        <Form.Label htmlFor={`lr-modal-test-size-${compID}`} className="mt-1 fs-5">Test Size:</Form.Label>
-                        <Form.Control id={`lr-modal-test-size-${compID}`} type="number" onChange={e => setPendingTestSize(e.target.value)}/>
+                        <Form.Label htmlFor={`lr-modal-test-size-${compID}`} className="mt-1 fs-5">Test Size (.1 - .9):</Form.Label>
+                        <Form.Control id={`lr-modal-test-size-${compID}`} type="number" onChange={e => setPendingTestSize(e.target.value)} defaultValue={pendingTestSize || .2}/>
                         <Form.Label htmlFor={`lr-modal-random-state-${compID}`} className="mt-1 fs-5">Random State:</Form.Label>
-                        <Form.Control id={`lr-modal-random-state-${compID}`} type="number" onChange={e => setPendingRandomState(e.target.value)}/>
+                        <Form.Control id={`lr-modal-random-state-${compID}`} type="number" onChange={e => setPendingRandomState(e.target.value)} defaultValue={pendingRandomState || 1}/>
                         <Form.Label className="mt-1 fs-5">X Columns:</Form.Label>
                         <Checkboxes checkboxes={pendingXCols} onChange={handleCheckBoxChange} />
                         <Form.Label htmlFor={`lr-modal-y-col-${compID}`} className="mt-1 fs-5">Y Col:</Form.Label>

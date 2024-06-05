@@ -10,7 +10,10 @@ const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal, al
 
     const [pythonCode, setPythonCode] = useState(body);
 
-    function handleClose() {setShowModal(false)}
+    function handleClose() {
+        setShowModal(false);
+        handleOnMouseOut();
+    }
 
     function handleOnMouseOver() {
         dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: true});
