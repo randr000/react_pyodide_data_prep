@@ -109,6 +109,7 @@ const DataComponentWrapper = ({
             </div>
             {   
                 ((targetDataJSONStr && targetDataJSONStr.length > CONSTANTS.BLANK_TABLE_DATA_STR.length) || dataOutputType === 'plot')
+                && canHaveTablePill
                 && <DataOutput
                     tableData={targetDataJSONStr}
                     show={showTable}
