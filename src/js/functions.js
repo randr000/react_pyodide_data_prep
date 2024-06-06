@@ -177,6 +177,7 @@ export function createLocalState(type) {
                 mae: null,
                 mse: null,
                 r2: null,
+                coef: [],
                 pickledModel: null
             }
     }

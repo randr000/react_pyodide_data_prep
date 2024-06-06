@@ -6,13 +6,14 @@ import pandas as pd
 
 sys.modules['pyodide'] = MagicMock()
 
-from test1 import mult
 from input_to_df import input_to_df
 from filter_cols import filter_cols
 from filter_rows import filter_rows
 from df_to_output import df_to_output
 from join import join
 from union import union
+from train_linear_regression import train_linear_regression
+from predict import predict
 
 def read_file(path):
         with open(path, 'r') as f:
@@ -42,11 +43,11 @@ city_populations_filtered_out_California = '../test_data/city-populations-filter
 city_populations_filtered_for_California = '../test_data/city-populations-filtered-for-California-split.json'
 city_populations_filtered_for_pop_456229 = '../test_data/city-populations-filtered-for-pop-456229-split.json'
 city_populations_filtered_out_pop_456229 = '../test_data/city-populations-filtered-out-pop-456229-split.json'
-
 city_populations_filtered_pop_lt_456229 = '../test_data/city-populations-filtered-pop-lt-456229-split.json'
 city_populations_filtered_pop_gt_456229 = '../test_data/city-populations-filtered-pop-gt-456229-split.json'
 city_populations_filtered_pop_lte_456229 = '../test_data/city-populations-filtered-pop-lte-456229-split.json'
 city_populations_filtered_pop_gte_456229 = '../test_data/city-populations-filtered-pop-gte-456229-split.json'
+home_prices_csv = '../test_data/home-prices.csv'
 
 class TestAll(unittest.TestCase):
 
@@ -221,6 +222,20 @@ class TestAll(unittest.TestCase):
         test_value = json.loads(union(json.dumps(data_list)))
         expected_value = load_json(state_populations_all)
         self.assertEqual(test_value, expected_value)
+
+    def test_train_linear_regression(self):
+        dfJsonStr = pd.read_csv(filepath_or_buffer=home_prices_csv, delimiter=',').to_json(orient='split')
+        test_value = train_linear_regression(dfJsonStr, ['bathrooms', 'bedrooms'], 'price', .2, 1)
+        # print(json.dumps(json.loads(test_value), indent=4))
+
+    def test_predict(self):
+        data = pd.DataFrame({
+            'bathrooms': [1],
+            'bedrooms': [1]
+        }).to_json(orient="split")
+
+        dfJsonStr = pd.read_csv(filepath_or_buffer=home_prices_csv, delimiter=',').to_json(orient='split')
+        print(predict(json.loads(train_linear_regression(dfJsonStr, ['bathrooms', 'bedrooms'], 'price', .2, 1))['pickledModel'], data))
 
 if __name__ == 'main':
     unittest.main()
