@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import useGetContexts from '../../custom-hooks/useGetContexts';
-import AppDataContext from '../../context/AppDataContext';
 
 const Checkbox = ({label, checkedState, onChange}) => {
 
