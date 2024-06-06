@@ -17,21 +17,11 @@ def train_linear_regression(dfJsonStr, X_cols, y_col, test_size, random_state):
     lr.fit(X_train, y_train)
     y_pred = lr.predict(X_test)
 
-    # Mean Absolute Error
-    mae = mean_absolute_error(y_test, y_pred)
-    # Mean Square Error
-    mse = mean_squared_error(y_test, y_pred)
-    # R2 score
-    r2 = r2_score(y_test, y_pred)
-    # Coefficients
-    coef = lr.coef_.tolist()[0]
-    # Pickle model
+    mae = round(mean_absolute_error(y_test, y_pred), 2)
+    mse = round(mean_squared_error(y_test, y_pred), 2)
+    r2 = round(r2_score(y_test, y_pred), 2)
+    coef = [round(c, 2) for c in lr.coef_.tolist()[0]]
     pickled_model = cp.dumps(lr)
-    print('lr predict:')
-    print(round(lr.predict(pd.DataFrame({
-        'bathrooms': [1],
-        'bedrooms': [1]
-    })).tolist()[0][0], 2))
 
     return json.dumps({
         'mae': mae,

@@ -225,8 +225,12 @@ class TestAll(unittest.TestCase):
 
     def test_train_linear_regression(self):
         dfJsonStr = pd.read_csv(filepath_or_buffer=home_prices_csv, delimiter=',').to_json(orient='split')
-        test_value = train_linear_regression(dfJsonStr, ['bathrooms', 'bedrooms'], 'price', .2, 1)
-        # print(json.dumps(json.loads(test_value), indent=4))
+        test_value = json.loads(train_linear_regression(dfJsonStr, ['bathrooms', 'bedrooms'], 'price', .2, 1))
+        self.assertEqual(test_value['mae'], 13992.52)
+        self.assertEqual(test_value['mse'], 344003543.31)
+        self.assertEqual(test_value['r2'], .99)
+        self.assertEqual(test_value['coef'], [23086.55, 107452.59])
+        self.assertEqual(test_value['pickledModel'], "b'\\x80\\x05\\x956\\x02\\x00\\x00\\x00\\x00\\x00\\x00\\x8c\\x1asklearn.linear_model._base\\x94\\x8c\\x10LinearRegression\\x94\\x93\\x94)\\x81\\x94}\\x94(\\x8c\\rfit_intercept\\x94\\x88\\x8c\\x06copy_X\\x94\\x88\\x8c\\x06n_jobs\\x94N\\x8c\\x08positive\\x94\\x89\\x8c\\x11feature_names_in_\\x94\\x8c\\x15numpy.core.multiarray\\x94\\x8c\\x0c_reconstruct\\x94\\x93\\x94\\x8c\\x05numpy\\x94\\x8c\\x07ndarray\\x94\\x93\\x94K\\x00\\x85\\x94C\\x01b\\x94\\x87\\x94R\\x94(K\\x01K\\x02\\x85\\x94h\\r\\x8c\\x05dtype\\x94\\x93\\x94\\x8c\\x02O8\\x94\\x89\\x88\\x87\\x94R\\x94(K\\x03\\x8c\\x01|\\x94NNNJ\\xff\\xff\\xff\\xffJ\\xff\\xff\\xff\\xffK?t\\x94b\\x89]\\x94(\\x8c\\tbathrooms\\x94\\x8c\\x08bedrooms\\x94et\\x94b\\x8c\\x0en_features_in_\\x94K\\x02\\x8c\\x05coef_\\x94\\x8c\\x12numpy.core.numeric\\x94\\x8c\\x0b_frombuffer\\x94\\x93\\x94(\\x96\\x10\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x8a$\\xe5\\x15\\xa3\\x8b\\xd6@l}Xa\\xc9;\\xfa@\\x94h\\x16\\x8c\\x02f8\\x94\\x89\\x88\\x87\\x94R\\x94(K\\x03\\x8c\\x01<\\x94NNNJ\\xff\\xff\\xff\\xffJ\\xff\\xff\\xff\\xffK\\x00t\\x94bK\\x01K\\x02\\x86\\x94\\x8c\\x01C\\x94t\\x94R\\x94\\x8c\\x05rank_\\x94K\\x02\\x8c\\tsingular_\\x94h$(\\x96\\x10\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x1fFt\\x86\\x13\\x92@@h2\\x91*\\xfb\\n0@\\x94h(K\\x02\\x85\\x94h,t\\x94R\\x94\\x8c\\nintercept_\\x94h$(\\x96\\x08\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x80\\x1d\\xb8eT\\xd8\\xa1@\\x94h(K\\x01\\x85\\x94h,t\\x94R\\x94\\x8c\\x10_sklearn_version\\x94\\x8c\\x051.5.0\\x94ub.'")
 
     def test_predict(self):
         data = pd.DataFrame({
@@ -235,7 +239,8 @@ class TestAll(unittest.TestCase):
         }).to_json(orient="split")
 
         dfJsonStr = pd.read_csv(filepath_or_buffer=home_prices_csv, delimiter=',').to_json(orient='split')
-        print(predict(json.loads(train_linear_regression(dfJsonStr, ['bathrooms', 'bedrooms'], 'price', .2, 1))['pickledModel'], data))
+        test_value = json.loads(predict(json.loads(train_linear_regression(dfJsonStr, ['bathrooms', 'bedrooms'], 'price', .2, 1))['pickledModel'], data))['prediction']
+        self.assertEqual(test_value, 132823.3)
 
 if __name__ == 'main':
     unittest.main()
