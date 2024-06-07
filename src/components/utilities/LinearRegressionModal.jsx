@@ -73,11 +73,11 @@ const LinearRegressionModal = ({compID, show, setShow}) => {
     }
 
     function handleCheckBoxChange(label, isChecked) {
-        const temp = pendingXCols.map(cb => {
+        const xColsUpdate = pendingXCols.map(cb => {
             if (cb.label === label) return {label: label, isChecked: isChecked};
             else return cb;
         })
-        setPendingXCols(temp);
+        setPendingXCols(xColsUpdate);
     }
 
     return (

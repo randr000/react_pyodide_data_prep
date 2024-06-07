@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import APP_ACTION_TYPES from '../../action-types/appActionTypes';
 
 // import other utility component(s)

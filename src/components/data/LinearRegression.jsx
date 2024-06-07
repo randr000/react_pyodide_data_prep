@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 
 // import other utility component(s)
 import DataComponentWrapper from "../utilities/DataComponentWrapper";
@@ -25,8 +26,16 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
     const sourceDataStr = useGetComponentSourceData(compID);
 
     const [showModal, setShowModal] = useState(false);
+    const [predictionVariables, setPredictionVariables] = useState({
+        columns: [], index: [], data: [[]]
+    });
+
+    const [prediction, setPrediction] = useState('');
+    const [isPredictionErr, setIsPredictionErr] = useState(false);
 
     function resetLocalState() {
+        setPrediction('');
+        setIsPredictionErr(false);
         return {
             autoTrainModel: false,
             xCols: [],
@@ -39,55 +48,47 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
         };
     }
 
-    function trainModel(
-        sourceData,
-        xCols,
-        yCol,
-        testSize,
-        randomState,
-        pyodide,
-        isPyodideLoaded
-    ) {
+    function trainModel(sourceData, xCols, yCol) {
         if (isPyodideLoaded) {
             // Load python function
             pyodide.runPython(train_linear_regression);
             const xColArr = xCols.map(col => col.isChecked && col.label);
             // Run Python function and update local state
             updateLocalState(JSON.parse(pyodide.globals.get('train_linear_regression')(sourceData, xColArr, yCol, testSize, randomState)));
-            console.log('Model has been trained');
         }
     }
 
-    /**
-     * 
-     * Defines the actions to take when source data changes in order to update target state
-     * Pass as prop to DataComponentWrapper if necessary
-     * If not passed to DataComponentWrapper, the default is to just update target data with source data
-     * 
-     * @param {*} sourceData - A JSON formatted string, file object, etc. Any change to this variable will trigger
-     *                              this function to run when this function is passed as a prop to DataComponentWrapper.
-     * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
-     *                                       setState function.
-     */
-    // function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
-    //     if (!sourceData) {
-    //         updateLocalState(resetLocalState());
-    //     }
-    //     else {
-    //         const sourceDataObj = JSON.parse(sourceData);
-    //         const xColsUpdate = sourceDataObj.columns.map(col => {
-    //             const columnArr = xCols.filter(colObj => colObj.label === col);
-    //             return {label: col, isChecked: columnArr.length ? columnArr[0].isChecked : false}
-    //         });
-            
-    //         const yColUpdate = sourceDataObj.columns.includes(yCol) ? yCol : sourceDataObj.columns[0];
-            
-    //         updateLocalState({xCols: xColsUpdate, yCol: yColUpdate});
-    //         console.log('source data updated')
-    //         if (autoTrainModel) trainModel(sourceData, xColsUpdate, yColUpdate, testSize, randomState, pyodide, isPyodideLoaded);
-    //     }
-    // }
+    function handleSwitchOnChange() {
+        if (isDragging) return;
+        updateLocalState({autoTrainModel: !autoTrainModel});
+    }
 
+    function handleIconOnClick() {
+        if (isDragging) return;
+        setShowModal(true);
+    }
+
+    function handleTrainOnClick() {
+        trainModel(sourceDataStr, xCols, yCol);
+    }
+
+    function handleOnMouseOver() {
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: true});
+    }
+
+    function handleOnMouseOut() {
+        dispatch({type: APP_ACTION_TYPES.TOGGLE_IS_DRAGGING_DISABLED, payload: false});
+    }
+
+    function handlePredictionVariableOnChange(event, index) {
+        setPredictionVariables(prev => {
+            const curr = {...prev};
+            curr.data[0][index] = event.target.value;
+            return curr;
+        });
+    }
+
+    // Updates local state variables when source data changes
     useEffect(() => {
         if (!sourceDataStr) {
             updateLocalState(resetLocalState());
@@ -102,24 +103,54 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
             const yColUpdate = sourceDataObj.columns.includes(yCol) ? yCol : sourceDataObj.columns[0];
             
             updateLocalState({xCols: xColsUpdate, yCol: yColUpdate});
-            console.log('source data updated')
-            if (autoTrainModel) trainModel(sourceDataStr, xColsUpdate, yColUpdate, testSize, randomState, pyodide, isPyodideLoaded);
+            if (autoTrainModel) trainModel(sourceDataStr, xColsUpdate, yColUpdate);
         }
     }, [sourceDataStr]);
 
-    function handleSwitchOnChange() {
-        if (isDragging) return;
-        updateLocalState({autoTrainModel: !autoTrainModel});
-    }
+    // Update prediction variables json string when xCols changes
+    useEffect(() => {
+        setPredictionVariables(prev => {
+            const columns = [];
+            const data = [[]];
+            xCols.forEach((col, idx) => {
+                if (col.isChecked) {
+                    columns.push(col.label);
+                    if (prev.columns.includes(col.label)) {
+                        data[0].push(prev.data[0][idx]);
+                    } else data[0].push(null); 
+                }
+            });
+            return {
+                ...prev,
+                columns: columns,
+                index: Array.from({length: columns.length}, (_, i) => i),
+                data: data
+            }
+        });
+    }, [xCols]);
 
-    function handleIconOnClick() {
-        if (isDragging) return;
-        setShowModal(true);
-    }
+    // Make prediction when prediction variables change
+    useEffect(() => {
+        try {
+            if(isPyodideLoaded && pickledModel) {
+                // Load python function
+                pyodide.runPython(predict);
+    
+                // Run python function
+                setPrediction(JSON.parse(pyodide.globals.get('predict')(pickledModel, JSON.stringify(predictionVariables))).prediction);
 
-    function handleTrainOnClick() {
-        trainModel();
-    }
+                setIsPredictionErr(false);
+            }
+        } catch (error) {
+            setIsPredictionErr(true);
+            console.log(`Prediction Error: ${error}`);
+        }
+
+    }, [predictionVariables]);
+
+    useEffect(() => {
+        console.log(`prediction vars: ${JSON.stringify(predictionVariables, null, 4)}`)
+    },[predictionVariables])
 
     return (
         <DataComponentWrapper
@@ -127,7 +158,6 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
             iconOnClick={handleIconOnClick}
-            // updateTargetData={updateTargetData}
             canHaveTargets={false}
             canHaveDownloadPill={false}
             canHaveTablePill={false}
@@ -141,11 +171,11 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
             </div>
             <div className="mt-3">
                 <h2 className="small">Mean Absolute Error:</h2>
-                <p className="small">{mae || "Train Model"}</p>
+                <p className="small">{mae ? mae.toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
                 <h2 className="small">Mean Squared Error:</h2>
-                <p className="small">{mse || "Train Model"}</p>
+                <p className="small">{mse ? mse.toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
                 <h2 className="small">R2 Score:</h2>
-                <p className="small">{r2 || "Train Model"}</p>
+                <p className="small">{r2 ? r2.toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
                 <h2 className="small">Coefficients:</h2>
                 {   
                     xCols.filter(col => col.isChecked).length ?
@@ -153,19 +183,32 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
                         if (col.isChecked) return (
                             <div key={`${col.label}-${idx}`} className="d-flex justify-content-between">
                                 <p className="small">{`${col.label}:`}</p>
-                                <p className="small">{coef[idx] || "Train Model"}</p>
+                                <p className="small">{coef[idx] ? coef[idx].toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
                             </div>
                         );
                     }) : "Train Model"
                 }
                 <Form>
-                    <Form.Label htmlFor="bedrooms">Bedrooms:</Form.Label>
-                    <Form.Control id="bedrooms" type="number"></Form.Control>
-                    <Form.Label htmlFor="bathrooms">Bathrooms:</Form.Label>
-                    <Form.Control id="bathrooms" type="number"></Form.Control>
+                    {
+                        xCols.map((col, idx) => {
+                            if (col.isChecked) return (
+                                <div key={`${col.label}-${compID}`}>
+                                    <Form.Label htmlFor={`${col.label}-${compID}`}>{`${col.label}:`}</Form.Label>
+                                    <Form.Control
+                                        id={`${col.label}-${compID}`}
+                                        type="number"
+                                        onChange={e => handlePredictionVariableOnChange(e, idx)}
+                                        onMouseOver={handleOnMouseOver}
+                                        onMouseOut={handleOnMouseOut}
+                                        defaultValue={0}
+                                    />
+                                </div>
+                            );
+                        })
+                    }
                 </Form>
                 <h2 className="small mt-2">Prediction:</h2>
-                <p className="small">test</p>
+                <p className="small">{isPredictionErr ? "Error Making Prediction" : prediction.toLocaleString(undefined, {minimumFractionDigits: 2})}</p>
             </div>
             <LinearRegressionModal compID={compID} show={showModal} setShow={setShowModal} />
         </DataComponentWrapper>
