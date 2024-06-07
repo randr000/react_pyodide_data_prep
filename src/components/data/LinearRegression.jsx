@@ -58,6 +58,23 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
         }
     }
 
+    function makePrediction() {
+        try {
+            if(isPyodideLoaded && pickledModel) {
+                // Load python function
+                pyodide.runPython(predict);
+    
+                // Run python function
+                setPrediction(JSON.parse(pyodide.globals.get('predict')(pickledModel, JSON.stringify(predictionVariables))).prediction);
+
+                setIsPredictionErr(false);
+            }
+        } catch (error) {
+            setIsPredictionErr(true);
+            console.log(`Prediction Error: ${error}`);
+        }
+    }
+
     function handleSwitchOnChange() {
         if (isDragging) return;
         updateLocalState({autoTrainModel: !autoTrainModel});
@@ -107,6 +124,11 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
         }
     }, [sourceDataStr]);
 
+    // Run training if any training parameters are changed and auto training is turned on
+    useEffect(() => {
+        if (autoTrainModel && sourceDataStr) trainModel(sourceDataStr, xCols, yCol);
+    }, [xCols, yCol, testSize, randomState, autoTrainModel]);
+
     // Update prediction variables json string when xCols changes
     useEffect(() => {
         setPredictionVariables(prev => {
@@ -129,28 +151,10 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
         });
     }, [xCols]);
 
-    // Make prediction when prediction variables change
+    // Make prediction when prediction variables change or new pickled model is created
     useEffect(() => {
-        try {
-            if(isPyodideLoaded && pickledModel) {
-                // Load python function
-                pyodide.runPython(predict);
-    
-                // Run python function
-                setPrediction(JSON.parse(pyodide.globals.get('predict')(pickledModel, JSON.stringify(predictionVariables))).prediction);
-
-                setIsPredictionErr(false);
-            }
-        } catch (error) {
-            setIsPredictionErr(true);
-            console.log(`Prediction Error: ${error}`);
-        }
-
-    }, [predictionVariables]);
-
-    useEffect(() => {
-        console.log(`prediction vars: ${JSON.stringify(predictionVariables, null, 4)}`)
-    },[predictionVariables])
+        makePrediction();
+    }, [predictionVariables, pickledModel]);
 
     return (
         <DataComponentWrapper
@@ -200,7 +204,6 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
                                         onChange={e => handlePredictionVariableOnChange(e, idx)}
                                         onMouseOver={handleOnMouseOver}
                                         onMouseOut={handleOnMouseOut}
-                                        defaultValue={0}
                                     />
                                 </div>
                             );
