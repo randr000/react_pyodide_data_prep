@@ -11,8 +11,7 @@ const LinearRegressionModal = ({compID, show, setShow}) => {
     const {localState, updateLocalState} = useGetDataComponentLocalState(compID);
     const {xCols, yCol, testSize, randomState} = localState;
 
-    // const [pendingXCols, setPendingXCols] = useState(xCols);
-    const [pendingXCols, setPendingXCols] = useState([{label: "bathrooms", isChecked: true},{label: "bedrooms", isChecked: true},{label: "price", isChecked: false}]);
+    const [pendingXCols, setPendingXCols] = useState(xCols);
     const [pendingYCol, setPendingYCol] = useState(yCol);
     const [pendingTestSize, setPendingTestSize] = useState(testSize)
     const [pendingRandomState, setPendingRandomState] = useState(randomState);
@@ -27,6 +26,16 @@ const LinearRegressionModal = ({compID, show, setShow}) => {
     useEffect(() => {
         setPendingRandomState(prev => Math.round(prev));
     }, [pendingRandomState]);
+
+    // Update pendingXCols anytime there is a change to xCols
+    useEffect(() => {
+        setPendingXCols(xCols);
+    }, [xCols]);
+
+    // Update pendingYCol anytime there is a change to yCol
+    useEffect(() => {
+        setPendingYCol(yCol);
+    }, [yCol]);
 
     function handleClose() {
         setShow(false);

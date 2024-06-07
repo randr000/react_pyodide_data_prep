@@ -8,6 +8,11 @@ import { Button, Form } from "react-bootstrap";
 // import custom hooks
 import useGetContexts from "../../custom-hooks/useGetContexts";
 import useGetDataComponentLocalState from '../../custom-hooks/useGetDataComponentLocalState';
+import useGetComponentSourceData from "../../custom-hooks/useGetComponentSourceData";
+
+// import Python function(s)
+import train_linear_regression from '../../python_code_js_modules/train_linear_regression';
+import predict from '../../python_code_js_modules/predict';
 
 const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
 
@@ -17,7 +22,41 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
     const {localState, updateLocalState} = useGetDataComponentLocalState(compID);
     const {autoTrainModel, xCols, yCol, testSize, randomState, mae, mse, r2, coef, pickledModel} = localState;
 
+    const sourceDataStr = useGetComponentSourceData(compID);
+
     const [showModal, setShowModal] = useState(false);
+
+    function resetLocalState() {
+        return {
+            autoTrainModel: false,
+            xCols: [],
+            yCol: '',
+            mae: null,
+            mse: null,
+            r2: null,
+            coef: [],
+            pickledModel: null
+        };
+    }
+
+    function trainModel(
+        sourceData,
+        xCols,
+        yCol,
+        testSize,
+        randomState,
+        pyodide,
+        isPyodideLoaded
+    ) {
+        if (isPyodideLoaded) {
+            // Load python function
+            pyodide.runPython(train_linear_regression);
+            const xColArr = xCols.map(col => col.isChecked && col.label);
+            // Run Python function and update local state
+            updateLocalState(JSON.parse(pyodide.globals.get('train_linear_regression')(sourceData, xColArr, yCol, testSize, randomState)));
+            console.log('Model has been trained');
+        }
+    }
 
     /**
      * 
@@ -30,14 +69,43 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
      * @param {Function} updateTargetState - A function to be called in order to update target state. Most likely a
      *                                       setState function.
      */
-    function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
-        if (!sourceData) {
+    // function updateTargetData(sourceData, updateTargetState, pyodide, isPyodideLoaded) {
+    //     if (!sourceData) {
+    //         updateLocalState(resetLocalState());
+    //     }
+    //     else {
+    //         const sourceDataObj = JSON.parse(sourceData);
+    //         const xColsUpdate = sourceDataObj.columns.map(col => {
+    //             const columnArr = xCols.filter(colObj => colObj.label === col);
+    //             return {label: col, isChecked: columnArr.length ? columnArr[0].isChecked : false}
+    //         });
+            
+    //         const yColUpdate = sourceDataObj.columns.includes(yCol) ? yCol : sourceDataObj.columns[0];
+            
+    //         updateLocalState({xCols: xColsUpdate, yCol: yColUpdate});
+    //         console.log('source data updated')
+    //         if (autoTrainModel) trainModel(sourceData, xColsUpdate, yColUpdate, testSize, randomState, pyodide, isPyodideLoaded);
+    //     }
+    // }
 
+    useEffect(() => {
+        if (!sourceDataStr) {
+            updateLocalState(resetLocalState());
         }
         else {
-  
+            const sourceDataObj = JSON.parse(sourceDataStr);
+            const xColsUpdate = sourceDataObj.columns.map(col => {
+                const columnArr = xCols.filter(colObj => colObj.label === col);
+                return {label: col, isChecked: columnArr.length ? columnArr[0].isChecked : false}
+            });
+            
+            const yColUpdate = sourceDataObj.columns.includes(yCol) ? yCol : sourceDataObj.columns[0];
+            
+            updateLocalState({xCols: xColsUpdate, yCol: yColUpdate});
+            console.log('source data updated')
+            if (autoTrainModel) trainModel(sourceDataStr, xColsUpdate, yColUpdate, testSize, randomState, pyodide, isPyodideLoaded);
         }
-    }
+    }, [sourceDataStr]);
 
     function handleSwitchOnChange() {
         if (isDragging) return;
@@ -50,7 +118,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
     }
 
     function handleTrainOnClick() {
-        return;
+        trainModel();
     }
 
     return (
@@ -59,7 +127,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
             cardTitle={cardTitle}
             iconClassNames={iconClassNames}
             iconOnClick={handleIconOnClick}
-            updateTargetData={updateTargetData}
+            // updateTargetData={updateTargetData}
             canHaveTargets={false}
             canHaveDownloadPill={false}
             canHaveTablePill={false}
@@ -73,20 +141,23 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
             </div>
             <div className="mt-3">
                 <h2 className="small">Mean Absolute Error:</h2>
-                <p className="small">{mae}test</p>
+                <p className="small">{mae || "Train Model"}</p>
                 <h2 className="small">Mean Squared Error:</h2>
-                <p className="small">{mse}test</p>
+                <p className="small">{mse || "Train Model"}</p>
                 <h2 className="small">R2 Score:</h2>
-                <p className="small">{r2}test</p>
+                <p className="small">{r2 || "Train Model"}</p>
                 <h2 className="small">Coefficients:</h2>
-                <div className="d-flex justify-content-between">
-                    <p className="small">bedrooms</p>
-                    <p className="small">{coef[0]}test</p>
-                </div>
-                <div className="d-flex justify-content-between">
-                    <p className="small">bathrooms</p>
-                    <p className="small">{coef[1]}test</p>
-                </div>
+                {   
+                    xCols.filter(col => col.isChecked).length ?
+                    xCols.map((col, idx) => {
+                        if (col.isChecked) return (
+                            <div key={`${col.label}-${idx}`} className="d-flex justify-content-between">
+                                <p className="small">{`${col.label}:`}</p>
+                                <p className="small">{coef[idx] || "Train Model"}</p>
+                            </div>
+                        );
+                    }) : "Train Model"
+                }
                 <Form>
                     <Form.Label htmlFor="bedrooms">Bedrooms:</Form.Label>
                     <Form.Control id="bedrooms" type="number"></Form.Control>
