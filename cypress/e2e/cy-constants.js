@@ -1,6 +1,6 @@
 export const initialRenderTestTitle = 'Should have all of the initial elements render on the screen';
 export const navbarComponentBtns = ['Upload', 'Download', 'Filter Columns', 'Filter Rows', 'Join', 'Union', 'Script'];
-export const navbarUtilityBtns = ['Remove All'];
+export const navbarUtilityBtns = ['Show All Tables', 'Hide All Tables', 'Download State', 'Remove All'];
 export const pythonScripts = {
     capitalizeColumns: 'df = df.rename(columns={k: v.capitalize() for (k,v) in zip(df.columns, df.columns)})',
     applyStateUppercase: ['def upper(s):\nreturn s.upper()\n', 'df["state"] = df["state"].apply(upper)'],

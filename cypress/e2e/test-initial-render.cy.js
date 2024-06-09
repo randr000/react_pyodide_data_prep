@@ -5,12 +5,13 @@ describe('test-initial-render', () => {
   it(initialRenderTestTitle,() => {
 
     // Test if App title shows up
-    cy.contains(CONSTANTS.APP_TITLE);
+    cy.contains(CONSTANTS.APP_TITLE).should('exist');
 
     const elements = [...navbarComponentBtns, ...navbarUtilityBtns];
     elements.forEach(name => cy.get('nav').contains('button', name).should('exist'));
 
-    // cy.assertPyodideIsLoaded();
-
+    // Test if file upload exists
+    cy.contains('Upload Saved Data Pipeline (Drag or Click):').should('exist');
+    cy.get('#pipeline-upload').should('exist');
   });
 });
