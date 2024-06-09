@@ -7,7 +7,7 @@ describe('test-multiple-sources-data-component', () => {
         cy.clickNavBarButton('Upload');
         cy.get('[data-testid=Upload-2]').trigger('mousedown').trigger('mousemove', {clientX: 100, clientY: 300}).trigger('mouseup');
         cy.clickNavBarButton('Union');
-        cy.get('[data-testid=Union-3]').trigger('mousedown').trigger('mousemove', {clientX: 350, clientY: 2000}).trigger('mouseup');
+        cy.get('[data-testid=Union-3]').trigger('mousedown').trigger('mousemove', {clientX: 350, clientY: 400}).trigger('mouseup');
 
         cy.connectDataComponents(0, 3, {force: true});
         cy.connectDataComponents(0, 3, {force: true});

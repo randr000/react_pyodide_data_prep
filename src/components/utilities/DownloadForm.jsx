@@ -5,7 +5,7 @@ import useDownloadData from "../../custom-hooks/useDownloadData";
 import useGetContexts from "../../custom-hooks/useGetContexts";
 import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 
-const DownloadForm = ({compID, cardTitle, isDragging, handleCustomCheckboxChange=false, includeDownloadBtn=true, targetDataJSONStr}) => {
+const DownloadForm = ({compID, cardTitle, isDragging, includeDownloadBtn=true, targetDataJSONStr}) => {
 
     const {downloadData, fileName, updateFileName, isCheckedFileType, updateCheckedFileTypes} = useDownloadData(compID);
     const {dispatch} = useGetContexts();

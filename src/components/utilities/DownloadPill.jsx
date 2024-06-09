@@ -48,7 +48,6 @@ const DownloadPill = ({compID, cardTitle, targetDataJSONStr}) => {
                                 compID={compID}
                                 cardTitle={cardTitle}
                                 isDragging={isDragging}
-                                // handleCheckboxChange={handleCheckboxChange}
                                 targetDataJSONStr={targetDataJSONStr}
                             />
                         </Dropdown.Menu>

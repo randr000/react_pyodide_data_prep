@@ -14,12 +14,12 @@ describe('test-download-upload-state', () => {
 
         cy.dragDataComponent('Download', 3, 1500, 700, {force: true});
         cy.dragDataComponent('Filter Rows', 2, 100, 700, {force: true});
-        cy.dragDataComponent('Upload', 0, 100, 250, {force: true});
         cy.dragDataComponent('Filter Columns', 1, 1500, 250, {force: true});
+        cy.dragDataComponent('Upload', 0, 100, 250, {force: true});
 
         const dataTestId = '[data-testid="Filter Columns-1"]';
         cy.get(dataTestId).find('.bi-file-earmark-arrow-down').click({force: true});
-        cy.get(dataTestId).find('input[type=text]').clear().type('filtercols');
+        cy.get(dataTestId).find('input[type=text]').clear({force: true}).type('filtercols', {force: true});
         cy.get(dataTestId).find('.download-pill').find('input[type=checkbox]').check('csv', {force: true});
 
         cy.window().then(win => {

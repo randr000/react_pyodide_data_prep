@@ -30,6 +30,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
         columns: [], index: [], data: [[]]
     });
 
+    const [isTrainingErr, setIsTrainingErr] = useState(false);
     const [prediction, setPrediction] = useState('');
     const [isPredictionErr, setIsPredictionErr] = useState(false);
 
@@ -49,13 +50,20 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
     }
 
     function trainModel(sourceData, xCols, yCol) {
-        if (isPyodideLoaded) {
+        try {
+            if (isPyodideLoaded) {
             // Load python function
             pyodide.runPython(train_linear_regression);
             const xColArr = xCols.map(col => col.isChecked && col.label);
             // Run Python function and update local state
             updateLocalState(JSON.parse(pyodide.globals.get('train_linear_regression')(sourceData, xColArr, yCol, testSize, randomState)));
+            }
+            setIsTrainingErr(false);
+        } catch (error) {
+            console.log(error);
+            setIsTrainingErr(true);
         }
+
     }
 
     function makePrediction() {
@@ -86,6 +94,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
     }
 
     function handleTrainOnClick() {
+        if (isDragging) return;
         trainModel(sourceDataStr, xCols, yCol);
     }
 
@@ -160,7 +169,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
         <DataComponentWrapper
             compID={compID}
             cardTitle={cardTitle}
-            iconClassNames={iconClassNames}
+            iconClassNames={`${iconClassNames} ${pickledModel && !isTrainingErr ? "text-success" : isTrainingErr ? "text-danger" : ""}`}
             iconOnClick={handleIconOnClick}
             canHaveTargets={false}
             canHaveDownloadPill={false}
@@ -211,7 +220,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
                     }
                 </Form>
                 <h2 className="small mt-2">Prediction:</h2>
-                <p className="small">{isPredictionErr ? "Error Making Prediction" : prediction.toLocaleString(undefined, {minimumFractionDigits: 2})}</p>
+                <p className={`small ${isPredictionErr ? "text-danger fw-bold" : ""}`}>{isPredictionErr ? "Error Making Prediction" : prediction.toLocaleString(undefined, {minimumFractionDigits: 2})}</p>
             </div>
             <LinearRegressionModal compID={compID} show={showModal} setShow={setShowModal} />
         </DataComponentWrapper>

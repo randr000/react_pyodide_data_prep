@@ -1,8 +1,10 @@
 describe('test-filter-columns', () => {
     it('Should filter data columns correctly', () => {
         cy.clickNavBarButton('Upload');
+        cy.dragDataComponent('Upload', 0, 500, 500);
         cy.uploadFile('city-populations.xlsx');
         cy.clickNavBarButton('Filter Columns');
+        cy.dragDataComponent('Filter Columns', 1, 1000, 1000);
         cy.connectDataComponents(0, 1, {force: true});
 
         cy.get('input[type=checkbox]').uncheck('state', {force: true});

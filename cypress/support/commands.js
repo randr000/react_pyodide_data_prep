@@ -63,6 +63,9 @@ Cypress.Commands.add('assertValidUpload', (fName, isValid=true, dataTestId='Uplo
 Cypress.Commands.add('assertPyodideIsLoaded', () => {
     const timeout = 30_000;
 
+    cy.contains('Pyodide is Loading', {timeout: timeout}).should('exist');
+    cy.get('[data-testid=pyodide-loading-spinner]', {timeout: timeout}).should('exist');
+
     // Pyodide is Loading disappears
     cy.contains('Pyodide is Loading', {timeout: timeout}).should('not.exist');
 
@@ -98,7 +101,7 @@ Cypress.Commands.add('validateDownload', (compTitle, compId, fName, fExts) => {
   extMap.set('json-records', 'json (records)');
 
   if (compTitle === 'Download') {
-    cy.get(dataTestId).find('input[type=text]').clear().type(fName);
+    cy.get(dataTestId).find('input[type=text]').clear({force: true}).type(fName, {force: true});
     fExts.forEach(fExt => {
       cy.get(dataTestId).find('input[type=checkbox]').check(extMap.get(fExt), {force: true});
     });
@@ -106,7 +109,7 @@ Cypress.Commands.add('validateDownload', (compTitle, compId, fName, fExts) => {
 
   } else {
     cy.get(dataTestId).find('.bi-file-earmark-arrow-down').click({force: true});
-    cy.get(dataTestId).find('.download-pill').find('input[type=text]').clear().type(fName);
+    cy.get(dataTestId).find('.download-pill').find('input[type=text]').clear({force: true}).type(fName, {force: true});
     fExts.forEach(fExt => {
       cy.get(dataTestId).find('.download-pill').find('input[type=checkbox]').check(extMap.get(fExt), {force: true});
     });
@@ -147,19 +150,7 @@ Cypress.Commands.add('hideAllTables', () => {
 });
 
 // Drag a data component
-Cypress.Commands.add('dragDataComponent', (compTitle, compID, clientX, clientY, options=false) => {
+Cypress.Commands.add('dragDataComponent', (compTitle, compID, clientX, clientY, options={}) => {
   const dataTestId = `[data-testid="h5-${compTitle}-${compID}"]`;
-
-  if (options) {
-    cy.get(dataTestId)
-    .trigger('mousedown', options)
-    .trigger('mousemove', {clientX: clientX, clientY: clientY, ...options})
-    .trigger('mouseup', options);
-  } else {
-    cy.get(dataTestId)
-    .trigger('mousedown')
-    .trigger('mousemove', {clientX: clientX, clientY: clientY})
-    .trigger('mouseup');
-  }
-
+  cy.get(dataTestId).realMouseDown(options).realMouseMove(clientX, clientY, options).realMouseUp(options);
 });

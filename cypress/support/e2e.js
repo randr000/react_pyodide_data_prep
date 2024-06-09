@@ -24,12 +24,16 @@ import { initialRenderTestTitle } from '../e2e/cy-constants';
 
 before(() => {
     cy.visit('/');
-    if (Cypress.currentTest.title !== initialRenderTestTitle) {
-        cy.assertPyodideIsLoaded();
-    }
+    // if (Cypress.currentTest.title !== initialRenderTestTitle) {
+    //     cy.assertPyodideIsLoaded();
+    // }
+    cy.assertPyodideIsLoaded();
+    cy.wait(30000);
 });
 
 beforeEach(() => {
+    cy.clickNavBarButton('Remove All');
+
     // Delete downloads directory and then recreate it
     cy.task('deleteDownloads');
 
@@ -37,11 +41,8 @@ beforeEach(() => {
     cy.viewport(2000, 1000);
 });
 
-afterEach(() => {
-    cy.clickNavBarButton('Remove All');
-});
-
 after(() => {
     // Delete downloads directory and then recreate it
     cy.task('deleteDownloads');
+    cy.clickNavBarButton('Remove All');
 });
