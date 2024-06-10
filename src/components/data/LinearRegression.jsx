@@ -37,6 +37,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
     function resetLocalState() {
         setPrediction('');
         setIsPredictionErr(false);
+        setIsTrainingErr(false);
         return {
             autoTrainModel: false,
             xCols: [],
@@ -68,7 +69,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
 
     function makePrediction() {
         try {
-            if(isPyodideLoaded && pickledModel) {
+            if(isPyodideLoaded && pickledModel && !predictionVariables.data[0].filter(v => !v && v !== 0).length) {
                 // Load python function
                 pyodide.runPython(predict);
     
@@ -184,11 +185,11 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
             </div>
             <div className="mt-3">
                 <h2 className="small">Mean Absolute Error:</h2>
-                <p className="small">{mae ? mae.toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
+                <p className="small">{mae || mae === 0 ? mae.toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
                 <h2 className="small">Mean Squared Error:</h2>
-                <p className="small">{mse ? mse.toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
+                <p className="small">{mse || mse === 0 ? mse.toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
                 <h2 className="small">R2 Score:</h2>
-                <p className="small">{r2 ? r2.toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
+                <p className="small">{r2 || r2 === 0 ? r2.toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
                 <h2 className="small">Coefficients:</h2>
                 {   
                     xCols.filter(col => col.isChecked).length ?
@@ -196,7 +197,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
                         if (col.isChecked) return (
                             <div key={`${col.label}-${idx}`} className="d-flex justify-content-between">
                                 <p className="small">{`${col.label}:`}</p>
-                                <p className="small">{coef[idx] ? coef[idx].toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
+                                <p className="small">{coef[idx] || coef[idx] === 0 ? coef[idx].toLocaleString(undefined, {minimumFractionDigits: 2}) : "Train Model"}</p>
                             </div>
                         );
                     }) : "Train Model"
@@ -213,6 +214,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
                                         onChange={e => handlePredictionVariableOnChange(e, idx)}
                                         onMouseOver={handleOnMouseOver}
                                         onMouseOut={handleOnMouseOut}
+                                        defaultValue={null}
                                     />
                                 </div>
                             );
@@ -220,7 +222,7 @@ const LinearRegression = ({compID, cardTitle, iconClassNames}) => {
                     }
                 </Form>
                 <h2 className="small mt-2">Prediction:</h2>
-                <p className={`small ${isPredictionErr ? "text-danger fw-bold" : ""}`}>{isPredictionErr ? "Error Making Prediction" : prediction.toLocaleString(undefined, {minimumFractionDigits: 2})}</p>
+                <p className={`small ${isPredictionErr ? "text-danger fw-bold" : ""}`}>{isPredictionErr ? "Error making prediction" : prediction.toLocaleString(undefined, {minimumFractionDigits: 2})}</p>
             </div>
             <LinearRegressionModal compID={compID} show={showModal} setShow={setShowModal} />
         </DataComponentWrapper>

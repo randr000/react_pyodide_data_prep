@@ -7,7 +7,7 @@ import useGetDataComponentLocalState from "../../custom-hooks/useGetDataComponen
 
 const LinearRegressionModal = ({compID, show, setShow}) => {
 
-    const {appState, dispatch} = useGetContexts();
+    const {dispatch} = useGetContexts();
     const {localState, updateLocalState} = useGetDataComponentLocalState(compID);
     const {xCols, yCol, testSize, randomState} = localState;
 
@@ -86,9 +86,9 @@ const LinearRegressionModal = ({compID, show, setShow}) => {
                 <Modal.Body>
                     <Form>
                         <Form.Label htmlFor={`lr-modal-test-size-${compID}`} className="mt-1 fs-5">Test Size (.1 - .9):</Form.Label>
-                        <Form.Control id={`lr-modal-test-size-${compID}`} type="number" onChange={e => setPendingTestSize(e.target.value)} defaultValue={pendingTestSize || .2}/>
+                        <Form.Control id={`lr-modal-test-size-${compID}`} type="number" onChange={e => setPendingTestSize(Number(e.target.value))} defaultValue={pendingTestSize || .2}/>
                         <Form.Label htmlFor={`lr-modal-random-state-${compID}`} className="mt-1 fs-5">Random State:</Form.Label>
-                        <Form.Control id={`lr-modal-random-state-${compID}`} type="number" onChange={e => setPendingRandomState(e.target.value)} defaultValue={pendingRandomState || 1}/>
+                        <Form.Control id={`lr-modal-random-state-${compID}`} type="number" onChange={e => setPendingRandomState(Number(e.target.value))} defaultValue={pendingRandomState || 1}/>
                         <Form.Label className="mt-1 fs-5">X Columns:</Form.Label>
                         <Checkboxes checkboxes={pendingXCols} onChange={handleCheckBoxChange} />
                         <Form.Label htmlFor={`lr-modal-y-col-${compID}`} className="mt-1 fs-5">Y Col:</Form.Label>
