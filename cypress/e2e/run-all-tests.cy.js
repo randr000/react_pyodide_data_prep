@@ -14,3 +14,4 @@ import './test-download-files.cy';
 import './test-show-hide-all-tables.cy';
 import './test-download-upload-state.cy';
 import './test-plotting.cy';
+import './test-linear-regression.cy';

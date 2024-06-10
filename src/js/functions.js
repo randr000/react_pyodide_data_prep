@@ -182,5 +182,3 @@ export function createLocalState(type) {
             }
     }
 }
-
-// function dispatchLocalStateUpdate()
