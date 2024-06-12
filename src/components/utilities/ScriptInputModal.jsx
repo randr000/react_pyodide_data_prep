@@ -4,7 +4,7 @@ import APP_ACTION_TYPES from "../../action-types/appActionTypes";
 import { Modal, Button, Form } from "react-bootstrap";
 import { Editor } from "@monaco-editor/react";
 
-const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal, allowPlotting=false, setScriptingError}) => {
+const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal, allowPlotting=false, setScriptingError, lineNumOffset=0}) => {
 
     const {dispatch} = useGetContexts();
 
@@ -50,7 +50,7 @@ const ScriptInputModal = ({compID, body, updateBody, showModal, setShowModal, al
                         defaultValue={pythonCode}
                         theme="vs-dark"
                         onChange={value => setPythonCode(value)}
-                        options={{lineNumbers: n => n + 6}}
+                        options={{lineNumbers: n => n + lineNumOffset}}
                     />
                 </Modal.Body>
                 <Modal.Footer>

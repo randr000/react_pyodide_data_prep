@@ -70,6 +70,7 @@ const ScriptPlot = ({compID, cardTitle, iconClassNames}) => {
                 setShowModal={setShowScriptModal}
                 allowPlotting={true}
                 setScriptingError={setPythonError}
+                lineNumOffset={prefix.length}
             />
             <PythonErrorModal
                 compID={compID}

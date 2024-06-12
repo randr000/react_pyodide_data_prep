@@ -127,6 +127,7 @@ const Script = ({compID, cardTitle, iconClassNames}) => {
                 showModal={showScriptModal}
                 setShowModal={setShowScriptModal}
                 setScriptingError={setPythonError}
+                lineNumOffset={prefix.length}
             />
             <PythonErrorModal
                 compID={compID}
