@@ -75,7 +75,7 @@ const NavBar = () => {
     }
 
     return (
-        <div className="fixed-top">
+        <div className="fixed-top zoom-75">
             <nav className="navbar bg-light">
                 <div className="container-fluid">
                     <h1 className="navbar-brand">{CONSTANTS.APP_TITLE}</h1>

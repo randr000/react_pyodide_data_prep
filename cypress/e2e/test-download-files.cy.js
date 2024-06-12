@@ -42,9 +42,9 @@ describe('test-download-files', () => {
         cy.clickNavBarButton('Filter Rows');
         cy.connectDataComponents(0, 1, {force: true});
         cy.uploadFile('city-populations.csv');
-        cy.get('#filter-row-col-sel-1').select('state');
-        cy.get('#filter-row-op-sel-1').select('!=');
-        cy.get('#filter-row-value-1').clear().type('California');
+        cy.get('#filter-row-col-sel-1').select('state', {force: true});
+        cy.get('#filter-row-op-sel-1').select('!=', {force: true});
+        cy.get('#filter-row-value-1').clear({force: true}).type('California');
         cy.validateDownload('Filter Rows', 1, 'city-pop', ['csv', 'xlsx', 'json-split']);
         cy.clickNavBarButton('Remove All');
         cy.clickNavBarButton('Upload', {force: true});
@@ -108,6 +108,7 @@ describe('test-download-files', () => {
         cy.connectDataComponents(1, 2, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
+        cy.get('.view-line').click({force: true});
         cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(pythonScripts.concatByIndex, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 

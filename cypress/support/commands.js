@@ -76,18 +76,18 @@ Cypress.Commands.add('assertPyodideIsLoaded', () => {
 
 // Click buttons on the NavBar
 Cypress.Commands.add('clickNavBarButton', (title, options={}) => {
-    cy.get('nav').contains('button', title).click(options=options);
+    cy.get('nav').contains('button', title).click(options={force: true, ...options});
 });
 
 // Real click the Download State button to show the file picker
 Cypress.Commands.add('clickDownloadState', () => {
-  cy.get('nav').contains('button', 'Download State').realClick();
+  cy.get('nav').contains('button', 'Download State').click({force: true});
 });
 
 // Connect two data components by passing their component IDs
 Cypress.Commands.add('connectDataComponents', (btm, top, options={}) => {
-  cy.get(`#${btm}-btm`).click(options);
-  cy.get(`#${top}-top`).click(options);
+  cy.get(`#${btm}-btm`).click({force: true, ...options});
+  cy.get(`#${top}-top`).click({force: true, ...options});
 });
 
 // Validate download
@@ -141,12 +141,12 @@ Cypress.Commands.add('toggleTableAndAssertVisible', (compID, visible) => {
 
 // Show all tables
 Cypress.Commands.add('showAllTables', () => {
-  cy.contains('button', 'Show All Tables').click();
+  cy.contains('button', 'Show All Tables').click({force: true});
 });
 
 // Hide all tables
 Cypress.Commands.add('hideAllTables', () => {
-  cy.contains('button', 'Hide All Tables').click();
+  cy.contains('button', 'Hide All Tables').click({force: true});
 });
 
 // Drag a data component

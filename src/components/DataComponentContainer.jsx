@@ -29,7 +29,7 @@ const DataComponentContainer = () => {
     }, []);
 
     return (
-        <div id="data-components-container">
+        <div id="data-components-container" className="zoom-75">
             {Array.from(components.values()).map(c => <div key={c.compID}>{dataComponentMaker({type: c.type, compID: c.compID})}</div>)}
             {Array.from(arrows.values()).map(a => <Xarrow 
                 key={a.arrowID}

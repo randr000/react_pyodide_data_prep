@@ -3,17 +3,17 @@ describe('test-connect-two-data-components', () => {
       cy.clickNavBarButton('Upload');
 
       cy.contains('h5', 'Upload')
-        .trigger('mousedown').trigger('mousemove', {clientX: 500, clientY: 500}).trigger('mouseup');
+        .trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 500, clientY: 500, force: true}).trigger('mouseup', {force: true});
 
       cy.clickNavBarButton('Download');
 
       cy.contains('h5', 'Download')
-        .trigger('mousedown').trigger('mousemove', {clientX: 800, clientY: 800}).trigger('mouseup');
+        .trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 800, clientY: 800, force: true}).trigger('mouseup', {force: true});
 
       cy.connectDataComponents(0, 1);
       
       cy.get('#del-0-btm_1-top').should('exist');
-      cy.get('#del-0-btm_1-top').trigger('mouseover', {force: true}).click();
+      cy.get('#del-0-btm_1-top > .bi').trigger('mouseover', {force: true}).click({force: true});
       cy.get('#del-0-btm_1-top').should('not.exist');
   });
 });

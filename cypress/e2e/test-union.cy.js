@@ -1,14 +1,13 @@
 describe('test-union', () => {
-
     it('Should combine the data and display correctly when using the union data component (Connect components then upload data)', () => {
         cy.clickNavBarButton('Upload');
-        cy.get('[data-testid=Upload-0]').trigger('mousedown').trigger('mousemove', {clientX: 600, clientY: 300}).trigger('mouseup');
+        cy.get('[data-testid=Upload-0]').trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 600, clientY: 300, force: true}).trigger('mouseup', {force: true});
         
         cy.clickNavBarButton('Upload');
-        cy.get('[data-testid=Upload-1]').trigger('mousedown').trigger('mousemove', {clientX: 350, clientY: 300}).trigger('mouseup');
+        cy.get('[data-testid=Upload-1]').trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 350, clientY: 300, force: true}).trigger('mouseup', {force: true});
         
         cy.clickNavBarButton('Upload');
-        cy.get('[data-testid=Upload-2]').trigger('mousedown').trigger('mousemove', {clientX: 100, clientY: 300}).trigger('mouseup');
+        cy.get('[data-testid=Upload-2]').trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 100, clientY: 300, force: true}).trigger('mouseup', {force: true});
         
         cy.clickNavBarButton('Union');
 
@@ -30,13 +29,13 @@ describe('test-union', () => {
 
     it('Should combine the data and display correctly when using the union data component (Upload data then connect components)', () => {
         cy.clickNavBarButton('Upload');
-        cy.get('[data-testid=Upload-0]').trigger('mousedown').trigger('mousemove', {clientX: 600, clientY: 300}).trigger('mouseup');
+        cy.get('[data-testid=Upload-0]').trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 600, clientY: 300, force: true}).trigger('mouseup', {force: true});
         
         cy.clickNavBarButton('Upload');
-        cy.get('[data-testid=Upload-1]').trigger('mousedown').trigger('mousemove', {clientX: 350, clientY: 300}).trigger('mouseup');
+        cy.get('[data-testid=Upload-1]').trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 350, clientY: 300, force: true}).trigger('mouseup', {force: true});
         
         cy.clickNavBarButton('Upload');
-        cy.get('[data-testid=Upload-2]').trigger('mousedown').trigger('mousemove', {clientX: 100, clientY: 300}).trigger('mouseup');
+        cy.get('[data-testid=Upload-2]').trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 100, clientY: 300, force: true}).trigger('mouseup', {force: true});
         
         cy.clickNavBarButton('Union');
 

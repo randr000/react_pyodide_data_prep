@@ -13,13 +13,13 @@ describe('test-join', () => {
         cy.uploadFile('state-populations-all.txt', 'Upload-1');
 
         cy.assertTable('city-state-inner-split.json', '[data-testid=table-2]');
-        cy.get('#join-type-select-2').select('Outer');
+        cy.get('#join-type-select-2').select('Outer', {force: true});
         cy.assertTable('city-state-inner-split.json', '[data-testid=table-2]');
-        cy.get('#join-type-select-2').select('Left');
+        cy.get('#join-type-select-2').select('Left', {force: true});
         cy.assertTable('city-state-left-split.json', '[data-testid=table-2]');
-        cy.get('#join-type-select-2').select('Right');
+        cy.get('#join-type-select-2').select('Right', {force: true});
         cy.assertTable('city-state-right-split.json', '[data-testid=table-2]');
-        cy.get('#join-type-select-2').select('Cross');
+        cy.get('#join-type-select-2').select('Cross', {force: true});
         cy.assertTable('city-state-cross-split.json', '[data-testid=table-2]');
     });
 
@@ -36,13 +36,13 @@ describe('test-join', () => {
         cy.connectDataComponents(1, 2, {force: true});
 
         cy.assertTable('city-state-inner-split.json', '[data-testid=table-2]');
-        cy.get('#join-type-select-2').select('Outer');
+        cy.get('#join-type-select-2').select('Outer', {force: true});
         cy.assertTable('city-state-inner-split.json', '[data-testid=table-2]');
-        cy.get('#join-type-select-2').select('Left');
+        cy.get('#join-type-select-2').select('Left', {force: true});
         cy.assertTable('city-state-left-split.json', '[data-testid=table-2]');
-        cy.get('#join-type-select-2').select('Right');
+        cy.get('#join-type-select-2').select('Right', {force: true});
         cy.assertTable('city-state-right-split.json', '[data-testid=table-2]');
-        cy.get('#join-type-select-2').select('Cross');
+        cy.get('#join-type-select-2').select('Cross', {force: true});
         cy.assertTable('city-state-cross-split.json', '[data-testid=table-2]');
     });
 });

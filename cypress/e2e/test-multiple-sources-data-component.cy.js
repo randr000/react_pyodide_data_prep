@@ -1,13 +1,13 @@
 describe('test-multiple-sources-data-component', () => {
     it('Should connect multiple arrows to a component allowing multiple sources without producing duplicate arrows', () => {
         cy.clickNavBarButton('Upload');
-        cy.get('[data-testid=Upload-0]').trigger('mousedown').trigger('mousemove', {clientX: 600, clientY: 300}).trigger('mouseup');
+        cy.get('[data-testid=Upload-0]').trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 600, clientY: 300, force: true}).trigger('mouseup', {force: true});
         cy.clickNavBarButton('Upload');
-        cy.get('[data-testid=Upload-1]').trigger('mousedown').trigger('mousemove', {clientX: 350, clientY: 300}).trigger('mouseup');
+        cy.get('[data-testid=Upload-1]').trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 350, clientY: 300, force: true}).trigger('mouseup', {force: true});
         cy.clickNavBarButton('Upload');
-        cy.get('[data-testid=Upload-2]').trigger('mousedown').trigger('mousemove', {clientX: 100, clientY: 300}).trigger('mouseup');
+        cy.get('[data-testid=Upload-2]').trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 100, clientY: 300, force: true}).trigger('mouseup', {force: true});
         cy.clickNavBarButton('Union');
-        cy.get('[data-testid=Union-3]').trigger('mousedown').trigger('mousemove', {clientX: 350, clientY: 400}).trigger('mouseup');
+        cy.get('[data-testid=Union-3]').trigger('mousedown', {force: true}).trigger('mousemove', {clientX: 350, clientY: 400, force: true}).trigger('mouseup', {force: true});
 
         cy.connectDataComponents(0, 3, {force: true});
         cy.connectDataComponents(0, 3, {force: true});
@@ -19,13 +19,13 @@ describe('test-multiple-sources-data-component', () => {
         cy.get('#del-1-btm_3-top').should('exist');
         cy.get('#del-2-btm_3-top').should('exist');
 
-        cy.get('#del-0-btm_3-top').trigger('mouseover', {force: true}).click();
+        cy.get('#del-0-btm_3-top > .bi').trigger('mouseover', {force: true}).click({force: true});
         cy.get('#del-0-btm_3-top').should('not.exist');
 
-        cy.get('#del-1-btm_3-top').trigger('mouseover', {force: true}).click();
+        cy.get('#del-1-btm_3-top > .bi').trigger('mouseover', {force: true}).click({force: true});
         cy.get('#del-1-btm_3-top').should('not.exist');
 
-        cy.get('#del-2-btm_3-top').trigger('mouseover', {force: true}).click();
+        cy.get('#del-2-btm_3-top > .bi').trigger('mouseover', {force: true}).click({force: true});
         cy.get('#del-2-btm_3-top').should('not.exist');
     });
 });

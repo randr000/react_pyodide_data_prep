@@ -20,13 +20,8 @@ import 'cypress-real-events';
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-import { initialRenderTestTitle } from '../e2e/cy-constants';
-
 before(() => {
     cy.visit('/');
-    // if (Cypress.currentTest.title !== initialRenderTestTitle) {
-    //     cy.assertPyodideIsLoaded();
-    // }
     cy.assertPyodideIsLoaded();
     cy.wait(30000);
 });

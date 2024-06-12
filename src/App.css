@@ -30,3 +30,11 @@
 .data-tr {
   scroll-snap-align: end;
 }
+
+.zoom-75 {
+  zoom: 75%;
+}
+
+.zoom-100 {
+  zoom: 100%;
+}

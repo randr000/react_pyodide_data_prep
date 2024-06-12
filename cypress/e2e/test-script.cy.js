@@ -15,6 +15,7 @@ describe('test-script', () => {
         cy.uploadFile('city-populations.xlsx', 'Upload-0');
 
         cy.get('.bi-filetype-py').click({force: true});
+        cy.get('.view-line').click({force: true});
         cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(capitalizeColumns, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
@@ -29,6 +30,7 @@ describe('test-script', () => {
         cy.connectDataComponents(0, 1, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
+        cy.get('.view-line').click({force: true});
         cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(capitalizeColumns, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
@@ -44,6 +46,7 @@ describe('test-script', () => {
         cy.uploadFile('city-populations.xlsx', 'Upload-0');
 
         cy.get('.bi-filetype-py').click({force: true});
+        cy.get('.view-line').click({force: true});
         cy.get('.monaco-editor textarea').click({force: true})
             .type('{ctrl}a', {force: true}).type(applyStateUppercase[0], {parseSpecialCharSequences: false, force: true})
             .type('{home}', {force: true})
@@ -61,6 +64,7 @@ describe('test-script', () => {
         cy.connectDataComponents(0, 1, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
+        cy.get('.view-line').click({force: true});
         cy.get('.monaco-editor textarea').click({force: true})
             .type('{ctrl}a', {force: true}).type(applyStateUppercase[0], {parseSpecialCharSequences: false, force: true})
             .type('{home}', {force: true})
@@ -79,6 +83,7 @@ describe('test-script', () => {
         cy.uploadFile('city-populations.xlsx', 'Upload-0');
 
         cy.get('.bi-filetype-py').click({force: true});
+        cy.get('.view-line').click({force: true});
         cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(multiplyPopByTwo, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
@@ -93,6 +98,7 @@ describe('test-script', () => {
         cy.connectDataComponents(0, 1, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
+        cy.get('.view-line').click({force: true});
         cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(multiplyPopByTwo, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
@@ -111,6 +117,7 @@ describe('test-script', () => {
         cy.uploadFile('state-populations-3.xlsx', 'Upload-1');
 
         cy.get('.bi-filetype-py').click({force: true});
+        cy.get('.view-line').click({force: true});
         cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(concatByIndex, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
@@ -128,6 +135,7 @@ describe('test-script', () => {
         cy.connectDataComponents(1, 2, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
+        cy.get('.view-line').click({force: true});
         cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type(concatByIndex, {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
@@ -143,6 +151,7 @@ describe('test-script', () => {
         cy.connectDataComponents(0, 1, {force: true});
 
         cy.get('.bi-filetype-py').click({force: true});
+        cy.get('.view-line').click({force: true});
         cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type('df=;', {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
@@ -153,6 +162,7 @@ describe('test-script', () => {
         cy.assertTable('city-populations-split.json', '[data-testid=table-1]');
         
         cy.get('.bi-filetype-py').click({force: true});
+        cy.get('.view-line').click({force: true});
         cy.get('.monaco-editor textarea').click({force: true}).type('{ctrl}a', {force: true}).type('df=df', {parseSpecialCharSequences: false, force: true});
         cy.contains('button', 'Save Changes').click({force: true});
 
