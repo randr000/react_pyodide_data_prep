@@ -1,6 +1,7 @@
 {
   "name": "pyodide-react-app",
   "version": "0.1.0",
+  "homepage": "https://randr000.github.io/react_pyodide_data_prep",
   "private": true,
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
