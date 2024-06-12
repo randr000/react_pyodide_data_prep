@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/react_pyodide_data_prep/static/css/main.090aa451.css",
+    "main.css": "/react_pyodide_data_prep/static/css/main.cf57ac74.css",
     "main.js": "/react_pyodide_data_prep/static/js/main.4b48027a.js",
     "static/js/787.7c6104b5.chunk.js": "/react_pyodide_data_prep/static/js/787.7c6104b5.chunk.js",
     "static/media/bootstrap-icons.woff?": "/react_pyodide_data_prep/static/media/bootstrap-icons.6959d0d983ee318f8880.woff",
     "static/media/bootstrap-icons.woff2?": "/react_pyodide_data_prep/static/media/bootstrap-icons.b2e5aab643c6f0fd2da6.woff2",
     "index.html": "/react_pyodide_data_prep/index.html",
-    "main.090aa451.css.map": "/react_pyodide_data_prep/static/css/main.090aa451.css.map",
+    "main.cf57ac74.css.map": "/react_pyodide_data_prep/static/css/main.cf57ac74.css.map",
     "main.4b48027a.js.map": "/react_pyodide_data_prep/static/js/main.4b48027a.js.map",
     "787.7c6104b5.chunk.js.map": "/react_pyodide_data_prep/static/js/787.7c6104b5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.090aa451.css",
+    "static/css/main.cf57ac74.css",
     "static/js/main.4b48027a.js"
   ]
 }
