@@ -5,7 +5,7 @@ import Xarrow from 'react-xarrows';
 import DeleteArrow from './utilities/DeleteArrow';
 import APP_ACTION_TYPES from '../action-types/appActionTypes';
 
-const ContextTestComponentWrapper = () => {
+const DataComponentContainer = () => {
 
     const {appState, dispatch} = useContext(AppDataContext);
     const {components, arrows} = appState;
@@ -43,4 +43,4 @@ const ContextTestComponentWrapper = () => {
     );
 };
 
-export default ContextTestComponentWrapper;
+export default DataComponentContainer;

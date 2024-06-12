@@ -3,7 +3,7 @@ import { loadPyodide } from 'pyodide/pyodide.js';
 
 export const PyodideContext = React.createContext(null);
 
-export const PyodideContextWrapper = ({children, toLoadPyodide=true}) => {
+export const PyodideContextProvider = ({children, toLoadPyodide=true}) => {
 
     const [isPyodideLoaded, setIsPyodideLoaded] = useState(!toLoadPyodide);
     const pyodideRef = useRef(null);
