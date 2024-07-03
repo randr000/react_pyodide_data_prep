@@ -202,7 +202,7 @@ The application state is managed using React's built-in Context API.
 
 Default State:
 
-```json
+```js
 {
     isDragging: false,
     isDraggingDisabled: false,
