@@ -83,15 +83,15 @@ All source data is is stored in the variable df_list as a list of pandas datafra
 While multiple dataframes can be passed to the script component, only one dataframe will be outputed. Do not use the return statement to output a dataframe. Instead, just store it in the df variable.
 
 Do not do this:
-```
+```py
 return df
 ```
 Do this instead:
-```
+```py
 df = <df modifications>
 ```
 These are the first six lines of the script that are preloaded:
-```
+```py
 1 import pandas as pd
 2 import numpy as np
 3 from io import StringIO
@@ -114,7 +114,7 @@ The code editor starts with line 7 in order to make it easier to determine what 
 The plotting script component allows a user to plot data using matplotlib and by writing a custom script.
 
 These are the first nine lines of the script that are preloaded:
-```
+```py
 1 import pandas as pd
 2 import numpy as np
 3 import matplotlib.pyplot as plt
@@ -202,7 +202,7 @@ The application state is managed using React's built-in Context API.
 
 Default State:
 
-```
+```json
 {
     isDragging: false,
     isDraggingDisabled: false,
@@ -251,7 +251,7 @@ All data components are wrapped with the DataComponentWrapper component.
 
 These are its default prop values:
 
-```
+```js
 const DataComponentWrapper = ({
     children,
     compID,
@@ -347,12 +347,12 @@ setScriptingError - (bool) True when there is an error in the Python script for 
 
 All python code that is used by the data components, except for the script components, is stored in individual python scripts located in the project's python_code directory. Once a python script is complete and has been tested, it is converted into a string and stored in a javascript file located in the src/python_code_js_modules directory by running the following in the terminal:
 
-```
+```bash
 node py-to-js-mods.js
 ```
 
 Python Script:
-```
+```py
 import pandas as pd
 from io import StringIO
 
@@ -363,7 +363,7 @@ def filter_cols(jsonStr, cols):
 ```
 
 Javascript String:
-```
+```js
 const filter_cols = `
 
 import pandas as pd
